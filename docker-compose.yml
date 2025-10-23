@@ -1,0 +1,6 @@
+services:
+  pike13-mcp:
+    build: .
+    ports:
+      - "9292:9292"
+    restart: unless-stopped
