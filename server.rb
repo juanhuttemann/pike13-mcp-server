@@ -46,8 +46,9 @@ mcp_app = FastMcp.rack_middleware(
     Pike13FrontListEvents, Pike13FrontGetEvent, Pike13DeskListEvents, Pike13DeskGetEvent,
     # Event Occurrences
     Pike13FrontListEventOccurrences, Pike13FrontGetEventOccurrence, Pike13DeskListEventOccurrences, Pike13DeskGetEventOccurrence,
-    # Appointments
-    Pike13FrontListAppointments, Pike13FrontGetAppointment, Pike13DeskListAppointments, Pike13DeskGetAppointment,
+    # Appointment Availability
+    Pike13FrontFindAvailableAppointmentSlots, Pike13FrontGetAppointmentAvailabilitySummary,
+    Pike13DeskFindAvailableAppointmentSlots, Pike13DeskGetAppointmentAvailabilitySummary,
     # Visits
     Pike13FrontListVisits, Pike13FrontGetVisit, Pike13DeskListVisits, Pike13DeskGetVisit,
     # Locations
