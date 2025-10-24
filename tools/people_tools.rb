@@ -3,10 +3,10 @@
 require_relative 'base_tool'
 
 class Pike13AccountGetMe < Pike13BaseTool
-  description '[ACCOUNT] Get current authenticated account user. Returns account-level person object with email, name, and associated person IDs across businesses. Use to identify the current user at account level before accessing business-specific data.'
+  description '[ACCOUNT] Get current authenticated account. Returns account object with ID, email, name, and associated person IDs across businesses. Use to identify the current user at account level before accessing business-specific data.'
 
   def call
-    client.account.people.me.to_json
+    client.account.me.to_json
   end
 end
 
