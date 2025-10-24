@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13DeskGetPunch < Pike13BaseTool
+class DeskGetPunch < Pike13BaseTool
   description '[STAFF ONLY] Get individual punch (class credit) by ID. Returns punch with pack reference, usage date, visit associated, and status. Use to verify punch usage, resolve billing disputes, or track pack consumption. Punches are single credits from class packs used for visits.'
 
   arguments do

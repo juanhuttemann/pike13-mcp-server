@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13AccountGetMe < Pike13BaseTool
+class AccountGetMe < Pike13BaseTool
   description '[ACCOUNT] Get current authenticated account. Returns account object with ID, email, name, and associated person IDs across businesses. Use to identify the current user at account level before accessing business-specific data.'
 
   def call
@@ -10,7 +10,7 @@ class Pike13AccountGetMe < Pike13BaseTool
   end
 end
 
-class Pike13FrontGetMe < Pike13BaseTool
+class FrontGetMe < Pike13BaseTool
   description '[CLIENT] Get authenticated customer profile. Returns client-visible person details: name, email, phone, emergency contacts, profile photo, and active memberships. Use for customer self-service features like profile viewing/editing.'
 
   def call
@@ -18,7 +18,7 @@ class Pike13FrontGetMe < Pike13BaseTool
   end
 end
 
-class Pike13DeskListPeople < Pike13BaseTool
+class DeskListPeople < Pike13BaseTool
   description '[STAFF] List all people (clients/customers) in the business. Returns paginated array of person objects with contact info, status, membership details, and custom fields. Use for staff directories, bulk operations, or reporting. Warning: may return large datasets.'
 
   def call
@@ -26,7 +26,7 @@ class Pike13DeskListPeople < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetPerson < Pike13BaseTool
+class DeskGetPerson < Pike13BaseTool
   description '[STAFF] Get detailed person profile by ID. Returns complete person record: contact details, emergency contacts, memberships, billing info, custom fields, notes, and activity history. Use when you have a person_id and need full profile data.'
 
   arguments do
@@ -38,7 +38,7 @@ class Pike13DeskGetPerson < Pike13BaseTool
   end
 end
 
-class Pike13DeskSearchPeople < Pike13BaseTool
+class DeskSearchPeople < Pike13BaseTool
   description '[STAFF] Search for people by name, email, or phone. Returns matching person objects with relevance ranking. Use when you have partial user info (like "John Smith" or "john@example.com") and need to find their person_id or profile.'
 
   arguments do
@@ -50,7 +50,7 @@ class Pike13DeskSearchPeople < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetMe < Pike13BaseTool
+class DeskGetMe < Pike13BaseTool
   description '[STAFF] Get authenticated staff member profile. Returns staff person object with employment details, permissions, schedule access, and full profile. Use for staff self-service features or identifying current staff member context.'
 
   def call

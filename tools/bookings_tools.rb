@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontGetBooking < Pike13BaseTool
+class FrontGetBooking < Pike13BaseTool
   description '[CLIENT] Get customer event registration by ID. Returns booking (reservation for event occurrence) with registration status, waitlist position, payment info, and cancellation terms. Use to show booking confirmation or status. Bookings are reservations, visits are actual attendance.'
 
   arguments do
@@ -14,7 +14,7 @@ class Pike13FrontGetBooking < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetBooking < Pike13BaseTool
+class DeskGetBooking < Pike13BaseTool
   description '[STAFF] Get event registration details by ID. Returns complete booking with customer, event occurrence, registration time, payment status, cancellation status, and modifications. Use for registration management or resolving booking issues. Bookings are reservations for events.'
 
   arguments do

@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontGetWaitlistEntry < Pike13BaseTool
+class FrontGetWaitlistEntry < Pike13BaseTool
   description '[CLIENT] Get customer waitlist entry by ID. Returns waitlist status for full event occurrence with position, event details, and notification preferences. Use to show customers their waitlist position or manage waitlist entries. Only returns entries for authenticated customer.'
 
   arguments do
@@ -14,7 +14,7 @@ class Pike13FrontGetWaitlistEntry < Pike13BaseTool
   end
 end
 
-class Pike13DeskListWaitlistEntries < Pike13BaseTool
+class DeskListWaitlistEntries < Pike13BaseTool
   description '[STAFF] List all waitlist entries. Returns waitlist entries with customer, event occurrence, position, join date, and notification status. Use for waitlist management, filling open spots, or understanding demand for full classes.'
 
   def call

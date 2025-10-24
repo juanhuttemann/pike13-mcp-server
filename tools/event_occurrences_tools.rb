@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontListEventOccurrences < Pike13BaseTool
+class FrontListEventOccurrences < Pike13BaseTool
   description '[CLIENT] List scheduled class instances within date range. Returns specific occurrences with start/end times, instructor, location, available spots, and booking status. Use for displaying class schedules or finding bookable classes. This is what customers see on the schedule.'
 
   arguments do
@@ -15,7 +15,7 @@ class Pike13FrontListEventOccurrences < Pike13BaseTool
   end
 end
 
-class Pike13FrontGetEventOccurrence < Pike13BaseTool
+class FrontGetEventOccurrence < Pike13BaseTool
   description '[CLIENT] Get specific scheduled class instance by ID. Returns occurrence with exact time, instructor, location, capacity, spots remaining, and current registrations. Use to show class details before booking or to check availability.'
 
   arguments do
@@ -27,7 +27,7 @@ class Pike13FrontGetEventOccurrence < Pike13BaseTool
   end
 end
 
-class Pike13DeskListEventOccurrences < Pike13BaseTool
+class DeskListEventOccurrences < Pike13BaseTool
   description '[STAFF] List scheduled class instances with admin data for date range. Returns occurrences with attendance, registrations, revenue, instructor assignments, and status. Use for staff schedule view, attendance tracking, or reporting. Required for most schedule operations.'
 
   arguments do
@@ -40,7 +40,7 @@ class Pike13DeskListEventOccurrences < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetEventOccurrence < Pike13BaseTool
+class DeskGetEventOccurrence < Pike13BaseTool
   description '[STAFF] Get complete scheduled class instance by ID. Returns full occurrence data: roster, attendance, revenue, notes, instructor, location, and all admin details. Use for attendance management, roster viewing, or occurrence-specific reporting.'
 
   arguments do

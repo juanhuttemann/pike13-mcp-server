@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontFindAvailableAppointmentSlots < Pike13BaseTool
+class FrontFindAvailableAppointmentSlots < Pike13BaseTool
   description '[CLIENT] Find available appointment time slots for a service. Returns array of available times with start times, duration, and staff member. Use to show customers when they can book appointments for a specific service.'
 
   arguments do
@@ -21,7 +21,7 @@ class Pike13FrontFindAvailableAppointmentSlots < Pike13BaseTool
   end
 end
 
-class Pike13FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
+class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
   description '[CLIENT] Get appointment availability heat map for date range. Returns availability scores (0-1) for each day showing relative availability. Use to display calendar heat map or find days with most availability. Limited to 90-day range.'
 
   arguments do
@@ -41,7 +41,7 @@ class Pike13FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
   end
 end
 
-class Pike13DeskFindAvailableAppointmentSlots < Pike13BaseTool
+class DeskFindAvailableAppointmentSlots < Pike13BaseTool
   description '[STAFF] Find available appointment time slots for a service. Returns array of available times with start times, duration, staff member, and pricing. Use for staff to check appointment availability when booking for clients.'
 
   arguments do
@@ -60,7 +60,7 @@ class Pike13DeskFindAvailableAppointmentSlots < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
+class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
   description '[STAFF] Get appointment availability heat map for date range. Returns availability scores (0-1) for each day showing relative availability with admin details. Use for staff scheduling analysis or capacity planning. Limited to 90-day range.'
 
   arguments do

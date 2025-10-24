@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontGetInvoice < Pike13BaseTool
+class FrontGetInvoice < Pike13BaseTool
   description '[CLIENT] Get customer invoice by ID. Returns invoice with line items, amounts, taxes, payment status, and due date. Use to show customers their bills or payment history. Only returns invoices for authenticated customer.'
 
   arguments do
@@ -14,7 +14,7 @@ class Pike13FrontGetInvoice < Pike13BaseTool
   end
 end
 
-class Pike13DeskListInvoices < Pike13BaseTool
+class DeskListInvoices < Pike13BaseTool
   description '[STAFF] List all invoices across business. Returns invoices with customer, line items, totals, taxes, payment status, and dates. Use for financial reporting, accounts receivable, or payment tracking. May return large datasets.'
 
   def call

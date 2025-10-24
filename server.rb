@@ -10,7 +10,7 @@ require 'rack'
 Dir[File.join(__dir__, 'tools', '*_tools.rb')].each { |file| require file }
 
 # Middleware to pass Rack env to thread for header access
-class Pike13EnvMiddleware
+class EnvMiddleware
   def initialize(app)
     @app = app
   end
@@ -39,46 +39,46 @@ mcp_app = FastMcp.rack_middleware(
   # Register all Pike13 tools
   server.register_tools(
     # Business
-    Pike13AccountListBusinesses, Pike13FrontGetBusiness, Pike13FrontGetBranding, Pike13DeskGetBusiness,
+    AccountListBusinesses, FrontGetBusiness, FrontGetBranding, DeskGetBusiness,
     # People
-    Pike13AccountGetMe, Pike13FrontGetMe, Pike13DeskListPeople, Pike13DeskGetPerson, Pike13DeskSearchPeople, Pike13DeskGetMe,
+    AccountGetMe, FrontGetMe, DeskListPeople, DeskGetPerson, DeskSearchPeople, DeskGetMe,
     # Events
-    Pike13FrontListEvents, Pike13FrontGetEvent, Pike13DeskListEvents, Pike13DeskGetEvent,
+    FrontListEvents, FrontGetEvent, DeskListEvents, DeskGetEvent,
     # Event Occurrences
-    Pike13FrontListEventOccurrences, Pike13FrontGetEventOccurrence, Pike13DeskListEventOccurrences, Pike13DeskGetEventOccurrence,
+    FrontListEventOccurrences, FrontGetEventOccurrence, DeskListEventOccurrences, DeskGetEventOccurrence,
     # Appointment Availability
-    Pike13FrontFindAvailableAppointmentSlots, Pike13FrontGetAppointmentAvailabilitySummary,
-    Pike13DeskFindAvailableAppointmentSlots, Pike13DeskGetAppointmentAvailabilitySummary,
+    FrontFindAvailableAppointmentSlots, FrontGetAppointmentAvailabilitySummary,
+    DeskFindAvailableAppointmentSlots, DeskGetAppointmentAvailabilitySummary,
     # Visits
-    Pike13FrontListVisits, Pike13FrontGetVisit, Pike13DeskListVisits, Pike13DeskGetVisit,
+    FrontListVisits, FrontGetVisit, DeskListVisits, DeskGetVisit,
     # Locations
-    Pike13FrontListLocations, Pike13DeskListLocations,
+    FrontListLocations, DeskListLocations,
     # Services
-    Pike13FrontListServices, Pike13DeskListServices,
+    FrontListServices, DeskListServices,
     # Staff Members
-    Pike13FrontListStaffMembers, Pike13DeskListStaffMembers,
+    FrontListStaffMembers, DeskListStaffMembers,
     # Plans
-    Pike13FrontListPlans, Pike13DeskListPlans,
+    FrontListPlans, DeskListPlans,
     # Plan Products
-    Pike13FrontListPlanProducts, Pike13DeskListPlanProducts,
+    FrontListPlanProducts, DeskListPlanProducts,
     # Pack Products
-    Pike13DeskListPackProducts,
+    DeskListPackProducts,
     # Invoices
-    Pike13FrontGetInvoice, Pike13DeskListInvoices,
+    FrontGetInvoice, DeskListInvoices,
     # Revenue Categories
-    Pike13DeskListRevenueCategories,
+    DeskListRevenueCategories,
     # Sales Taxes
-    Pike13DeskListSalesTaxes,
+    DeskListSalesTaxes,
     # Custom Fields
-    Pike13DeskListCustomFields,
+    DeskListCustomFields,
     # Waitlist Entries
-    Pike13FrontGetWaitlistEntry, Pike13DeskListWaitlistEntries,
+    FrontGetWaitlistEntry, DeskListWaitlistEntries,
     # Bookings
-    Pike13FrontGetBooking, Pike13DeskGetBooking,
+    FrontGetBooking, DeskGetBooking,
     # Packs
-    Pike13DeskGetPack,
+    DeskGetPack,
     # Punches
-    Pike13DeskGetPunch
+    DeskGetPunch
   )
 end
 
@@ -95,7 +95,7 @@ require 'puma/configuration'
 require 'puma/launcher'
 
 app = Rack::Builder.new do
-  use Pike13EnvMiddleware
+  use EnvMiddleware
   run mcp_app
 end
 config = Puma::Configuration.new do |user_config|

@@ -2,7 +2,7 @@
 
 require_relative 'base_tool'
 
-class Pike13FrontListVisits < Pike13BaseTool
+class FrontListVisits < Pike13BaseTool
   description '[CLIENT] List authenticated customer attendance records. Returns visits (attendance at events or appointments) with date, service, instructor, status (completed/missed/late), and usage from passes. Use to show customer their attendance history.'
 
   def call
@@ -10,7 +10,7 @@ class Pike13FrontListVisits < Pike13BaseTool
   end
 end
 
-class Pike13FrontGetVisit < Pike13BaseTool
+class FrontGetVisit < Pike13BaseTool
   description '[CLIENT] Get customer visit (attendance record) by ID. Returns visit details: event/appointment attended, date/time, instructor, check-in status, payment method used. Use to show specific attendance details to customer.'
 
   arguments do
@@ -22,7 +22,7 @@ class Pike13FrontGetVisit < Pike13BaseTool
   end
 end
 
-class Pike13DeskListVisits < Pike13BaseTool
+class DeskListVisits < Pike13BaseTool
   description '[STAFF] List attendance records with optional person filter. Returns visits with client, event/appointment, time, status, payment, and punch usage. Use for attendance tracking, reporting, or viewing person history. Visits are attendance records, not bookings.'
 
   arguments do
@@ -35,7 +35,7 @@ class Pike13DeskListVisits < Pike13BaseTool
   end
 end
 
-class Pike13DeskGetVisit < Pike13BaseTool
+class DeskGetVisit < Pike13BaseTool
   description '[STAFF] Get complete visit (attendance) record by ID. Returns full visit data: person, event/appointment, check-in time, status, payment method, punch used, notes, and modifications. Use for attendance verification or dispute resolution.'
 
   arguments do
