@@ -53,11 +53,12 @@ class DeskSearchPeople < Pike13BaseTool
   description '[STAFF] STEP 1: Find client by name/email/phone. Returns: [{person_id, name, email}]. Use FIRST when you need to find someone. Workflow: DeskSearchPeople → DeskGetPerson for full details. AVOID DeskListPeople for searches.'
 
   arguments do
-    required(:query).filled(:string).description('Search term: name, email, or phone number')
+    required(:query).filled(:string).description('Search term: name, email, or phone number (digits only for phone)')
+    optional(:fields).maybe(:string).description('Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.')
   end
 
-  def call(query:)
-    Pike13::Desk::Person.search(query).to_json
+  def call(query:, fields: nil)
+    Pike13::Desk::Person.search(query, fields: fields).to_json
   end
 end
 

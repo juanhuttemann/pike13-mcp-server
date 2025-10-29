@@ -52,7 +52,7 @@ class FrontGetServiceEnrollmentEligibilities < Pike13BaseTool
     params[:location_id] = location_id if location_id
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
     params[:start_at] = start_at if start_at
-    Pike13::Front::Service.find(service_id).enrollment_eligibilities(params).to_json
+    Pike13::Front::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
   end
 end
 
@@ -78,11 +78,7 @@ class DeskListServices < Pike13BaseTool
   def call(include_hidden: nil)
     params = {}
     params[:include_hidden] = include_hidden unless include_hidden.nil?
-    if params.empty?
-      Pike13::Desk::Service.all.to_json
-    else
-      Pike13::Desk::Service.all(params).to_json
-    end
+    Pike13::Desk::Service.all(**params).to_json
   end
 end
 
@@ -135,6 +131,6 @@ class DeskGetServiceEnrollmentEligibilities < Pike13BaseTool
     params[:location_id] = location_id if location_id
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
     params[:start_at] = start_at if start_at
-    Pike13::Desk::Service.find(service_id).enrollment_eligibilities(params).to_json
+    Pike13::Desk::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
   end
 end

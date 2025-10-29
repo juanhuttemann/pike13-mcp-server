@@ -24,7 +24,7 @@ class FrontListPlanProducts < Pike13BaseTool
     params = {}
     params[:location_ids] = location_ids if location_ids
     params[:service_ids] = service_ids if service_ids
-    Pike13::Front::PlanProduct.all(params).to_json
+    Pike13::Front::PlanProduct.all(**params).to_json
   end
 end
 
@@ -71,7 +71,7 @@ class DeskListPlanProducts < Pike13BaseTool
     params = {}
     params[:location_ids] = location_ids if location_ids
     params[:service_ids] = service_ids if service_ids
-    Pike13::Desk::PlanProduct.all(params).to_json
+    Pike13::Desk::PlanProduct.all(**params).to_json
   end
 end
 

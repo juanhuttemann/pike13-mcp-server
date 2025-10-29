@@ -20,7 +20,7 @@ class DeskListPlans < Pike13BaseTool
   def call(include_holds: nil)
     params = {}
     params[:include_holds] = include_holds if include_holds
-    Pike13::Desk::Plan.all(params).to_json
+    Pike13::Desk::Plan.all(**params).to_json
   end
 end
 

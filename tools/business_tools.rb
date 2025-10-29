@@ -10,6 +10,18 @@ class AccountListBusinesses < Pike13BaseTool
   end
 end
 
+class AccountGetBusiness < Pike13BaseTool
+  description '[ACCOUNT] Get specific business details by ID. Returns business object with name, subdomain, timezone, settings. Use when user needs details about a specific business they own or administer.'
+
+  arguments do
+    required(:business_id).filled(:integer).description('Unique Pike13 business ID')
+  end
+
+  def call(business_id:)
+    Pike13::Account::Business.find(business_id).to_json
+  end
+end
+
 class FrontGetBusiness < Pike13BaseTool
   description '[CLIENT] Get business info for customers: name, hours, contact, timezone. Use for "business hours", "contact info", "location" questions. Returns basic info - for admin details use DeskGetBusiness.'
 

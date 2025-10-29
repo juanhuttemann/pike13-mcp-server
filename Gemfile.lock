@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/juanhuttemann/pike13-ruby.git
-  revision: bf1100712d04569329091a31fbf7025699227b88
+  revision: c88ca9dc35077351444a9321228d21e338bf8e45
   specs:
     pike13 (0.1.0.beta)
       httparty (~> 0.21)

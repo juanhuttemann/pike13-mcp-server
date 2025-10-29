@@ -78,7 +78,7 @@ class FrontDeleteVisit < Pike13BaseTool
   def call(visit_id:, remove_recurring_enrollment: nil)
     params = {}
     params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
-    Pike13::Front::Visit.delete(visit_id, params).to_json
+    Pike13::Front::Visit.destroy(visit_id, **params).to_json
   end
 end
 
@@ -207,6 +207,6 @@ class DeskDeleteVisit < Pike13BaseTool
     params = {}
     params[:notify_client] = notify_client unless notify_client.nil?
     params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
-    Pike13::Desk::Visit.delete(visit_id, params).to_json
+    Pike13::Desk::Visit.destroy(visit_id, **params).to_json
   end
 end
