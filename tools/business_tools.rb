@@ -3,18 +3,18 @@
 require_relative 'base_tool'
 
 class AccountListBusinesses < Pike13BaseTool
-  description '[ACCOUNT] List all Pike13 businesses accessible to the authenticated account. Returns array with business IDs, names, and URLs. Use this to discover which businesses the user can access before making business-specific API calls.'
+  description '[ACCOUNT] List businesses user owns/administers. Returns: [{id, name, url}]. Use ONLY when user asks "my businesses", "which businesses", "account businesses". NOT needed for regular operations - most users work within one business.'
 
   def call
-    client.account.businesses.all.to_json
+    Pike13::Account::Business.all.to_json
   end
 end
 
 class FrontGetBusiness < Pike13BaseTool
-  description '[CLIENT] Get public business information visible to customers. Returns business name, description, contact details, timezone, and hours. Use for customer-facing features like displaying business info on booking pages.'
+  description '[CLIENT] Get business info for customers: name, hours, contact, timezone. Use for "business hours", "contact info", "location" questions. Returns basic info - for admin details use DeskGetBusiness.'
 
   def call
-    client.front.business.find.to_json
+    Pike13::Front::Business.find.to_json
   end
 end
 
@@ -22,14 +22,14 @@ class FrontGetBranding < Pike13BaseTool
   description '[CLIENT] Get business branding assets (no auth required). Returns logo URLs, brand colors, custom CSS, and theme settings. Use to customize UI to match business brand identity or display branded content in customer apps.'
 
   def call
-    client.front.branding.find.to_json
+    Pike13::Front::Branding.find.to_json
   end
 end
 
 class DeskGetBusiness < Pike13BaseTool
-  description '[STAFF] Get comprehensive business information including admin settings. Returns full business details: contact, address, timezone, billing, enabled features, and configurations. Use for staff/admin dashboards requiring complete business context.'
+  description '[STAFF] Get admin business details: settings, billing, features, configs. Use for admin dashboards, business configuration, staff management. Contains sensitive info - NOT for customer display.'
 
   def call
-    client.desk.business.find.to_json
+    Pike13::Desk::Business.find.to_json
   end
 end

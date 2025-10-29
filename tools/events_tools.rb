@@ -3,10 +3,10 @@
 require_relative 'base_tool'
 
 class FrontListEvents < Pike13BaseTool
-  description '[CLIENT] List public recurring events (class templates). Returns event series with name, description, service type, duration, and recurrence pattern. Use to show customers available class types. Note: Events are templates; use event_occurrences to get specific scheduled instances.'
+  description '[CLIENT] STEP 1: List class/event TEMPLATES (not scheduled times). Returns: yoga class template, personal training template, etc. Use to show what types are available, then use FrontListEventOccurrences to get actual scheduled times for booking.'
 
   def call
-    client.front.events.all.to_json
+    Pike13::Front::Event.all.to_json
   end
 end
 
@@ -18,7 +18,7 @@ class FrontGetEvent < Pike13BaseTool
   end
 
   def call(event_id:)
-    client.front.events.find(event_id).to_json
+    Pike13::Front::Event.find(event_id).to_json
   end
 end
 
@@ -26,7 +26,7 @@ class DeskListEvents < Pike13BaseTool
   description '[STAFF] List all recurring events with admin details. Returns event templates including pricing, capacity, staff assignments, visibility settings, and booking rules. Use for schedule management and event configuration. Note: Events are recurring templates, not specific instances.'
 
   def call
-    client.desk.events.all.to_json
+    Pike13::Desk::Event.all.to_json
   end
 end
 
@@ -38,6 +38,6 @@ class DeskGetEvent < Pike13BaseTool
   end
 
   def call(event_id:)
-    client.desk.events.find(event_id).to_json
+    Pike13::Desk::Event.find(event_id).to_json
   end
 end

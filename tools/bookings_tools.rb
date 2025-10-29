@@ -3,14 +3,14 @@
 require_relative 'base_tool'
 
 class FrontGetBooking < Pike13BaseTool
-  description '[CLIENT] Get customer event registration by ID. Returns booking (reservation for event occurrence) with registration status, waitlist position, payment info, and cancellation terms. Use to show booking confirmation or status. Bookings are reservations, visits are actual attendance.'
+  description '[CLIENT] Get event REGISTRATION details. Returns: registration status, waitlist position, payment info. Use for "my booking", "registration status", "waitlist position" questions. Bookings = registrations reserved, Visits = actual attendance completed.'
 
   arguments do
     required(:booking_id).filled(:integer).description('Unique Pike13 booking ID (integer)')
   end
 
   def call(booking_id:)
-    client.front.bookings.find(booking_id).to_json
+    Pike13::Front::Booking.find(booking_id).to_json
   end
 end
 
@@ -22,6 +22,6 @@ class DeskGetBooking < Pike13BaseTool
   end
 
   def call(booking_id:)
-    client.desk.bookings.find(booking_id).to_json
+    Pike13::Desk::Booking.find(booking_id).to_json
   end
 end

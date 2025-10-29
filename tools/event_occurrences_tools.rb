@@ -3,7 +3,7 @@
 require_relative 'base_tool'
 
 class FrontListEventOccurrences < Pike13BaseTool
-  description '[CLIENT] List scheduled class instances within date range. Returns specific occurrences with start/end times, instructor, location, available spots, and booking status. Use for displaying class schedules or finding bookable classes. This is what customers see on the schedule.'
+  description '[CLIENT] STEP 2: List ACTUAL scheduled classes/times (not templates). Returns: Monday 9am Yoga, Tuesday 6pm Pilates, etc. Use AFTER FrontListEvents to get specific times for booking. Workflow: FrontListEvents → FrontListEventOccurrences → FrontCreateVisit to book.'
 
   arguments do
     required(:from).filled(:string).description('Start date in YYYY-MM-DD format (e.g., "2025-01-15")')
@@ -11,7 +11,7 @@ class FrontListEventOccurrences < Pike13BaseTool
   end
 
   def call(from:, to:)
-    client.front.event_occurrences.all(from: from, to: to).to_json
+    Pike13::Front::EventOccurrence.all(from: from, to: to).to_json
   end
 end
 
@@ -23,7 +23,7 @@ class FrontGetEventOccurrence < Pike13BaseTool
   end
 
   def call(occurrence_id:)
-    client.front.event_occurrences.find(occurrence_id).to_json
+    Pike13::Front::EventOccurrence.find(occurrence_id).to_json
   end
 end
 
@@ -36,7 +36,7 @@ class DeskListEventOccurrences < Pike13BaseTool
   end
 
   def call(from:, to:)
-    client.desk.event_occurrences.all(from: from, to: to).to_json
+    Pike13::Desk::EventOccurrence.all(from: from, to: to).to_json
   end
 end
 
@@ -48,6 +48,6 @@ class DeskGetEventOccurrence < Pike13BaseTool
   end
 
   def call(occurrence_id:)
-    client.desk.event_occurrences.find(occurrence_id).to_json
+    Pike13::Desk::EventOccurrence.find(occurrence_id).to_json
   end
 end

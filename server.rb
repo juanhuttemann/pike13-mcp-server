@@ -50,35 +50,41 @@ mcp_app = FastMcp.rack_middleware(
     FrontFindAvailableAppointmentSlots, FrontGetAppointmentAvailabilitySummary,
     DeskFindAvailableAppointmentSlots, DeskGetAppointmentAvailabilitySummary,
     # Visits
-    FrontListVisits, FrontGetVisit, DeskListVisits, DeskGetVisit,
+    FrontListVisits, FrontGetVisit, FrontCreateVisit, FrontDeleteVisit,
+    DeskListVisits, DeskGetVisit, DeskCreateVisit, DeskUpdateVisit, DeskDeleteVisit,
     # Locations
     FrontListLocations, DeskListLocations,
     # Services
-    FrontListServices, DeskListServices,
+    FrontListServices, FrontGetService, FrontGetServiceEnrollmentEligibilities,
+    DeskListServices, DeskGetService, DeskGetServiceEnrollmentEligibilities,
     # Staff Members
-    FrontListStaffMembers, DeskListStaffMembers,
+    FrontListStaffMembers, FrontGetStaffMember, DeskListStaffMembers, DeskGetStaffMember,
     # Plans
-    FrontListPlans, DeskListPlans,
+    DeskListPlans, DeskUpdatePlanEndDate,
     # Plan Products
-    FrontListPlanProducts, DeskListPlanProducts,
+    FrontListPlanProducts, FrontGetPlanProduct, DeskListPlanProducts, DeskGetPlanProduct,
     # Pack Products
     DeskListPackProducts,
     # Invoices
     FrontGetInvoice, DeskListInvoices,
     # Revenue Categories
-    DeskListRevenueCategories,
+    DeskListRevenueCategories, DeskGetRevenueCategory,
     # Sales Taxes
-    DeskListSalesTaxes,
+    DeskListSalesTaxes, DeskGetSalesTax,
     # Custom Fields
     DeskListCustomFields,
     # Waitlist Entries
-    FrontGetWaitlistEntry, DeskListWaitlistEntries,
+    FrontGetWaitlistEntry, FrontCreateWaitlistEntry, FrontDeleteWaitlistEntry,
+    DeskListWaitlistEntries, DeskGetWaitlistEntry, DeskCreateWaitlistEntry,
+    DeskUpdateWaitlistEntry, DeskDeleteWaitlistEntry,
     # Bookings
     FrontGetBooking, DeskGetBooking,
     # Packs
     DeskGetPack,
     # Punches
-    DeskGetPunch
+    DeskGetPunch, DeskCreatePunch, DeskDeletePunch,
+    # Refunds
+    DeskVoidRefund
   )
 end
 

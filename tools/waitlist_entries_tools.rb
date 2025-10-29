@@ -3,21 +3,173 @@
 require_relative 'base_tool'
 
 class FrontGetWaitlistEntry < Pike13BaseTool
-  description '[CLIENT] Get customer waitlist entry by ID. Returns waitlist status for full event occurrence with position, event details, and notification preferences. Use to show customers their waitlist position or manage waitlist entries. Only returns entries for authenticated customer.'
+  description <<~DESC
+    [CLIENT] Get customer waitlist entry by ID.
+
+    Returns waitlist entry details: person, event_occurrence (name/start_at/end_at/service/location),
+    and state (pending/waiting/enrolled/removed/expired).
+
+    States: pending (spot reserved during signup), waiting (default, waiting for spot),
+    enrolled (enrolled from waitlist), removed (removed from waitlist), expired (class completed while waiting).
+
+    Only returns entries for authenticated customer or dependents.
+
+    Use to show customers their waitlist status.
+  DESC
 
   arguments do
-    required(:entry_id).filled(:integer).description('Unique Pike13 waitlist entry ID (integer)')
+    required(:entry_id).filled(:integer).description('Unique Pike13 waitlist entry ID')
   end
 
   def call(entry_id:)
-    client.front.waitlist_entries.find(entry_id).to_json
+    Pike13::Front::WaitlistEntry.find(entry_id).to_json
+  end
+end
+
+class FrontCreateWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [CLIENT] Add person to waitlist for full event.
+
+    Creates waitlist entry for authenticated person or dependent.
+    Person defaults to authenticated user if not specified.
+
+    Returns created entry with person, event_occurrence, and state.
+
+    Use to allow customers to join waitlist for full classes.
+  DESC
+
+  arguments do
+    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to join waitlist for')
+    optional(:person_id).maybe(:integer).description('Optional: person ID (defaults to authenticated person)')
+  end
+
+  def call(event_occurrence_id:, person_id: nil)
+    params = { event_occurrence_id: event_occurrence_id }
+    params[:person_id] = person_id if person_id
+    Pike13::Front::WaitlistEntry.create(params).to_json
+  end
+end
+
+class FrontDeleteWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [CLIENT] Remove person from waitlist.
+
+    Deletes the waitlist entry, removing person from waitlist.
+
+    Use to allow customers to cancel their waitlist position.
+  DESC
+
+  arguments do
+    required(:entry_id).filled(:integer).description('Waitlist entry ID to delete')
+  end
+
+  def call(entry_id:)
+    Pike13::Front::WaitlistEntry.delete(entry_id).to_json
   end
 end
 
 class DeskListWaitlistEntries < Pike13BaseTool
-  description '[STAFF] List all waitlist entries. Returns waitlist entries with customer, event occurrence, position, join date, and notification status. Use for waitlist management, filling open spots, or understanding demand for full classes.'
+  description <<~DESC
+    [STAFF] List all waitlist entries.
+
+    Returns waitlist entries with person, event_occurrence, state, and timestamps (created_at/updated_at).
+
+    Use for waitlist management, filling open spots, or understanding demand for full classes.
+  DESC
 
   def call
-    client.desk.waitlist_entries.all.to_json
+    Pike13::Desk::WaitlistEntry.all.to_json
+  end
+end
+
+class DeskGetWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [STAFF] Get waitlist entry details by ID.
+
+    Returns complete waitlist entry: person, event_occurrence, state, created_at, and updated_at.
+
+    States: pending (spot reserved), waiting (default), enrolled (moved to roster),
+    removed (removed from waitlist), expired (class completed).
+
+    Use for waitlist management or customer service inquiries.
+  DESC
+
+  arguments do
+    required(:entry_id).filled(:integer).description('Unique Pike13 waitlist entry ID')
+  end
+
+  def call(entry_id:)
+    Pike13::Desk::WaitlistEntry.find(entry_id).to_json
+  end
+end
+
+class DeskCreateWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [STAFF] Add person to waitlist for full event.
+
+    Creates waitlist entry for specified person.
+    Person defaults to current staff member if not specified.
+
+    Returns created entry with person, event_occurrence, state, and timestamps.
+
+    Use to manually add people to waitlist.
+  DESC
+
+  arguments do
+    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to join waitlist for')
+    optional(:person_id).maybe(:integer).description('Optional: person ID (defaults to current staff member)')
+  end
+
+  def call(event_occurrence_id:, person_id: nil)
+    params = { event_occurrence_id: event_occurrence_id }
+    params[:person_id] = person_id if person_id
+    Pike13::Desk::WaitlistEntry.create(params).to_json
+  end
+end
+
+class DeskUpdateWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [STAFF] Update waitlist entry state.
+
+    Transitions waitlist entry between states using state_event parameter.
+    Valid state_events:
+    - wait: transition to "waiting" state
+    - enroll: transition to "enrolled" state (does NOT add person to roster,
+      only marks waitlist entry as enrolled - create a Visit to actually enroll)
+
+    Note: Creating a Visit for a waitlisted person will automatically transition
+    the waitlist entry to "enrolled" and add them to the class roster.
+
+    Cannot transition entries in "removed" state.
+
+    Use to manage waitlist state changes.
+  DESC
+
+  arguments do
+    required(:entry_id).filled(:integer).description('Waitlist entry ID to update')
+    required(:state_event).filled(:string).description('State transition (wait or enroll)')
+  end
+
+  def call(entry_id:, state_event:)
+    params = { state_event: state_event }
+    Pike13::Desk::WaitlistEntry.update(entry_id, params).to_json
+  end
+end
+
+class DeskDeleteWaitlistEntry < Pike13BaseTool
+  description <<~DESC
+    [STAFF] Remove person from waitlist.
+
+    Deletes the waitlist entry.
+
+    Use to manually remove people from waitlist.
+  DESC
+
+  arguments do
+    required(:entry_id).filled(:integer).description('Waitlist entry ID to delete')
+  end
+
+  def call(entry_id:)
+    Pike13::Desk::WaitlistEntry.delete(entry_id).to_json
   end
 end

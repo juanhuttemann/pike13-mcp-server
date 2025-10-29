@@ -10,6 +10,6 @@ class DeskGetPack < Pike13BaseTool
   end
 
   def call(pack_id:)
-    client.desk.packs.find(pack_id).to_json
+    Pike13::Desk::Pack.find(pack_id).to_json
   end
 end

@@ -3,7 +3,7 @@
 require_relative 'base_tool'
 
 class FrontFindAvailableAppointmentSlots < Pike13BaseTool
-  description '[CLIENT] Find available appointment time slots for a service. Returns array of available times with start times, duration, and staff member. Use to show customers when they can book appointments for a specific service.'
+  description '[CLIENT] STEP 1 for booking: Find specific appointment times. Returns: [{start_time, end_time, staff_member_id, service_id}]. Use this FIRST to show available slots, then use FrontCreateVisit with chosen slot to complete booking. For calendar overview instead, use FrontGetAppointmentAvailabilitySummary.'
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')
@@ -17,12 +17,12 @@ class FrontFindAvailableAppointmentSlots < Pike13BaseTool
     params[:location_ids] = location_ids if location_ids
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    client.front.appointments.find_available_slots(service_id: service_id, **params).to_json
+    Pike13::Front::Appointment.find_available_slots(service_id: service_id, **params).to_json
   end
 end
 
 class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
-  description '[CLIENT] Get appointment availability heat map for date range. Returns availability scores (0-1) for each day showing relative availability. Use to display calendar heat map or find days with most availability. Limited to 90-day range.'
+  description '[CLIENT] Get availability OVERVIEW only - NOT for booking specific times. Returns daily scores 0-1 for calendar heat maps. Use to find days with most availability, then use FrontFindAvailableAppointmentSlots to get actual booking times. Limited to 90-day range.'
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')
@@ -37,7 +37,7 @@ class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
     params[:location_ids] = location_ids if location_ids
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    client.front.appointments.available_slots_summary(service_id: service_id, **params).to_json
+    Pike13::Front::Appointment.available_slots_summary(service_id: service_id, **params).to_json
   end
 end
 
@@ -56,7 +56,7 @@ class DeskFindAvailableAppointmentSlots < Pike13BaseTool
     params[:location_ids] = location_ids if location_ids
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    client.desk.appointments.find_available_slots(service_id: service_id, **params).to_json
+    Pike13::Desk::Appointment.find_available_slots(service_id: service_id, **params).to_json
   end
 end
 
@@ -76,6 +76,6 @@ class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
     params[:location_ids] = location_ids if location_ids
     params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    client.desk.appointments.available_slots_summary(service_id: service_id, **params).to_json
+    Pike13::Desk::Appointment.available_slots_summary(service_id: service_id, **params).to_json
   end
 end

@@ -10,14 +10,14 @@ class FrontGetInvoice < Pike13BaseTool
   end
 
   def call(invoice_id:)
-    client.front.invoices.find(invoice_id).to_json
+    Pike13::Front::Invoice.find(invoice_id).to_json
   end
 end
 
 class DeskListInvoices < Pike13BaseTool
-  description '[STAFF] List all invoices across business. Returns invoices with customer, line items, totals, taxes, payment status, and dates. Use for financial reporting, accounts receivable, or payment tracking. May return large datasets.'
+  description '[STAFF] List ALL invoices - AVOID for searches. Returns huge dataset. Use ONLY for "all invoices", "financial report", "accounts receivable". For specific customer invoices, search person first then get their invoices.'
 
   def call
-    client.desk.invoices.all.to_json
+    Pike13::Desk::Invoice.all.to_json
   end
 end
