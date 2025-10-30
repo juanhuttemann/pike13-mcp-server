@@ -3,7 +3,11 @@
 require_relative 'base_tool'
 
 class DeskListPersonWaitlistEntries < Pike13BaseTool
-  description '[STAFF] List all waitlist entries for a person. Returns array of waitlist entry objects with event occurrence details, position, timestamp, notification status, and expiration. Use for managing customer waitlists, checking waitlist status, or customer service inquiries.'
+  description <<~DESC
+    [STAFF] List all waitlist entries for a person.
+    Returns array of waitlist entry objects with event occurrence details, position, timestamp, notification status, and expiration.
+    Use for managing customer waitlists, checking waitlist status, or customer service inquiries.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -15,7 +19,11 @@ class DeskListPersonWaitlistEntries < Pike13BaseTool
 end
 
 class FrontListPersonWaitlistEntries < Pike13BaseTool
-  description '[CLIENT] List customer own waitlist entries. Returns array of customer-visible waitlist entries with class details, position, and estimated availability. Use for customer self-service waitlist viewing.'
+  description <<~DESC
+    [CLIENT] List customer own waitlist entries.
+    Returns array of customer-visible waitlist entries with class details, position, and estimated availability.
+    Use for customer self-service waitlist viewing.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')

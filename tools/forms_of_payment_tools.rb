@@ -3,7 +3,11 @@
 require_relative 'base_tool'
 
 class DeskListFormsOfPayment < Pike13BaseTool
-  description '[STAFF] List all saved payment methods for a person. Returns array of form of payment objects with type (credit card/ACH), last 4 digits, expiration, billing address, and default status. Use for billing management, payment troubleshooting, or customer service.'
+  description <<~DESC
+    [STAFF] List all saved payment methods for a person.
+    Returns array of form of payment objects with type (credit card/ACH), last 4 digits, expiration, billing address, and default status.
+    Use for billing management, payment troubleshooting, or customer service.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -15,7 +19,11 @@ class DeskListFormsOfPayment < Pike13BaseTool
 end
 
 class DeskGetFormOfPayment < Pike13BaseTool
-  description '[STAFF] Get specific payment method details. Returns form of payment object with type, last 4 digits, expiration, billing address, and metadata. Use for payment verification or billing inquiries.'
+  description <<~DESC
+    [STAFF] Get specific payment method details.
+    Returns form of payment object with type, last 4 digits, expiration, billing address, and metadata.
+    Use for payment verification or billing inquiries.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -28,7 +36,13 @@ class DeskGetFormOfPayment < Pike13BaseTool
 end
 
 class DeskCreateFormOfPayment < Pike13BaseTool
-  description '[STAFF] Add new payment method for a person. Requires "type" parameter ("creditcard" or "ach") and payment token from payment processor. Returns created form of payment object. Use for adding customer payment methods. WARNING: Must include "type" field ("creditcard" or "ach").'
+  description <<~DESC
+    [STAFF] Add new payment method for a person.
+    Requires "type" parameter ("creditcard" or "ach") and payment token from payment processor.
+    Returns created form of payment object.
+    Use for adding customer payment methods.
+    WARNING: Must include "type" field ("creditcard" or "ach").
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -49,7 +63,12 @@ class DeskCreateFormOfPayment < Pike13BaseTool
 end
 
 class DeskUpdateFormOfPayment < Pike13BaseTool
-  description '[STAFF] Update existing payment method. Updates only provided fields. Returns updated form of payment object. Use for updating billing address, setting default payment method, or updating expiration.'
+  description <<~DESC
+    [STAFF] Update existing payment method.
+    Updates only provided fields.
+    Returns updated form of payment object.
+    Use for updating billing address, setting default payment method, or updating expiration.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -67,7 +86,13 @@ class DeskUpdateFormOfPayment < Pike13BaseTool
 end
 
 class DeskDeleteFormOfPayment < Pike13BaseTool
-  description '[STAFF] Delete a payment method. Removes the saved payment method. Returns success status. Use to remove expired cards or at customer request. WARNING: Cannot delete if it is the default payment method for active subscriptions.'
+  description <<~DESC
+    [STAFF] Delete a payment method.
+    Removes the saved payment method.
+    Returns success status.
+    Use to remove expired cards or at customer request.
+    WARNING: Cannot delete if it is the default payment method for active subscriptions.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -80,7 +105,11 @@ class DeskDeleteFormOfPayment < Pike13BaseTool
 end
 
 class FrontListFormsOfPayment < Pike13BaseTool
-  description '[CLIENT] List customer own saved payment methods. Returns array of customer-visible payment method objects with masked card numbers and expiration dates. Use for customer self-service payment management.'
+  description <<~DESC
+    [CLIENT] List customer own saved payment methods.
+    Returns array of customer-visible payment method objects with masked card numbers and expiration dates.
+    Use for customer self-service payment management.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -92,7 +121,11 @@ class FrontListFormsOfPayment < Pike13BaseTool
 end
 
 class FrontGetFormOfPayment < Pike13BaseTool
-  description '[CLIENT] Get specific customer payment method details. Returns customer-visible form of payment object. Use for customer payment method viewing.'
+  description <<~DESC
+    [CLIENT] Get specific customer payment method details.
+    Returns customer-visible form of payment object.
+    Use for customer payment method viewing.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -105,7 +138,11 @@ class FrontGetFormOfPayment < Pike13BaseTool
 end
 
 class FrontGetFormOfPaymentMe < Pike13BaseTool
-  description '[CLIENT] Get authenticated customer own payment method by ID. Returns payment method for the currently authenticated customer. Use for customer self-service payment viewing without requiring person_id.'
+  description <<~DESC
+    [CLIENT] Get authenticated customer own payment method by ID.
+    Returns payment method for the currently authenticated customer.
+    Use for customer self-service payment viewing without requiring person_id.
+  DESC
 
   arguments do
     required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID (integer)')
@@ -117,7 +154,13 @@ class FrontGetFormOfPaymentMe < Pike13BaseTool
 end
 
 class FrontCreateFormOfPayment < Pike13BaseTool
-  description '[CLIENT] Add new payment method for customer. Requires "type" parameter ("creditcard" or "ach") and payment token. Returns created form of payment object. Use for customer self-service payment method addition. WARNING: Must include "type" field ("creditcard" or "ach").'
+  description <<~DESC
+    [CLIENT] Add new payment method for customer.
+    Requires "type" parameter ("creditcard" or "ach") and payment token.
+    Returns created form of payment object.
+    Use for customer self-service payment method addition.
+    WARNING: Must include "type" field ("creditcard" or "ach").
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -138,7 +181,12 @@ class FrontCreateFormOfPayment < Pike13BaseTool
 end
 
 class FrontUpdateFormOfPayment < Pike13BaseTool
-  description '[CLIENT] Update customer own payment method. Updates only provided fields. Returns updated form of payment object. Use for customer self-service payment method updates.'
+  description <<~DESC
+    [CLIENT] Update customer own payment method.
+    Updates only provided fields.
+    Returns updated form of payment object.
+    Use for customer self-service payment method updates.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -156,7 +204,13 @@ class FrontUpdateFormOfPayment < Pike13BaseTool
 end
 
 class FrontDeleteFormOfPayment < Pike13BaseTool
-  description '[CLIENT] Delete customer own payment method. Removes the saved payment method. Returns success status. Use for customer self-service payment method removal. WARNING: Cannot delete if it is the default payment method for active subscriptions.'
+  description <<~DESC
+    [CLIENT] Delete customer own payment method.
+    Removes the saved payment method.
+    Returns success status.
+    Use for customer self-service payment method removal.
+    WARNING: Cannot delete if it is the default payment method for active subscriptions.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')

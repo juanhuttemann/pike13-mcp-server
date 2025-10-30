@@ -3,7 +3,11 @@
 require_relative 'base_tool'
 
 class DeskListPersonWaivers < Pike13BaseTool
-  description '[STAFF] List all signed waivers for a person. Returns array of waiver objects with waiver name, signed date, IP address, status (active/expired), expiration date, and document reference. Use for liability verification, compliance checking, or customer service.'
+  description <<~DESC
+    [STAFF] List all signed waivers for a person.
+    Returns array of waiver objects with waiver name, signed date, IP address, status (active/expired), expiration date, and document reference.
+    Use for liability verification, compliance checking, or customer service.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -15,7 +19,11 @@ class DeskListPersonWaivers < Pike13BaseTool
 end
 
 class FrontListPersonWaivers < Pike13BaseTool
-  description '[CLIENT] List customer own signed waivers. Returns array of customer-visible waiver objects with waiver name, signed date, and expiration. Use for customer self-service waiver viewing.'
+  description <<~DESC
+    [CLIENT] List customer own signed waivers.
+    Returns array of customer-visible waiver objects with waiver name, signed date, and expiration.
+    Use for customer self-service waiver viewing.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')

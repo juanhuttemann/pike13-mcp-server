@@ -3,7 +3,12 @@
 require_relative 'base_tool'
 
 class FrontFindAvailableAppointmentSlots < Pike13BaseTool
-  description '[CLIENT] STEP 1 for booking: Find specific appointment times. Returns: [{start_time, end_time, staff_member_id, service_id}]. Use this FIRST to show available slots, then use FrontCreateVisit with chosen slot to complete booking. For calendar overview instead, use FrontGetAppointmentAvailabilitySummary.'
+  description <<~DESC
+    [CLIENT] STEP 1 for booking: Find specific appointment times.
+    Returns: [{start_time, end_time, staff_member_id, service_id}].
+    Use this FIRST to show available slots, then use FrontCreateVisit with chosen slot to complete booking.
+    For calendar overview instead, use FrontGetAppointmentAvailabilitySummary.
+  DESC
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')
@@ -22,7 +27,12 @@ class FrontFindAvailableAppointmentSlots < Pike13BaseTool
 end
 
 class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
-  description '[CLIENT] Get availability OVERVIEW only - NOT for booking specific times. Returns daily scores 0-1 for calendar heat maps. Use to find days with most availability, then use FrontFindAvailableAppointmentSlots to get actual booking times. Limited to 90-day range.'
+  description <<~DESC
+    [CLIENT] Get availability OVERVIEW only - NOT for booking specific times.
+    Returns daily scores 0-1 for calendar heat maps.
+    Use to find days with most availability, then use FrontFindAvailableAppointmentSlots to get actual booking times.
+    Limited to 90-day range.
+  DESC
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')
@@ -42,7 +52,11 @@ class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
 end
 
 class DeskFindAvailableAppointmentSlots < Pike13BaseTool
-  description '[STAFF] Find available appointment time slots for a service. Returns array of available times with start times, duration, staff member, and pricing. Use for staff to check appointment availability when booking for clients.'
+  description <<~DESC
+    [STAFF] Find available appointment time slots for a service.
+    Returns array of available times with start times, duration, staff member, and pricing.
+    Use for staff to check appointment availability when booking for clients.
+  DESC
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')
@@ -61,7 +75,12 @@ class DeskFindAvailableAppointmentSlots < Pike13BaseTool
 end
 
 class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
-  description '[STAFF] Get appointment availability heat map for date range. Returns availability scores (0-1) for each day showing relative availability with admin details. Use for staff scheduling analysis or capacity planning. Limited to 90-day range.'
+  description <<~DESC
+    [STAFF] Get appointment availability heat map for date range.
+    Returns availability scores (0-1) for each day showing relative availability with admin details.
+    Use for staff scheduling analysis or capacity planning.
+    Limited to 90-day range.
+  DESC
 
   arguments do
     required(:service_id).filled(:integer).description('Service ID for the appointment type')

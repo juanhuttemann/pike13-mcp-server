@@ -3,7 +3,11 @@
 require_relative 'base_tool'
 
 class FrontGetBookingLease < Pike13BaseTool
-  description '[CLIENT] Get booking lease details. A lease temporarily holds a spot during the booking process. Returns lease object with expiration time, booking details, and hold status. Use to verify lease status during multi-step booking checkout or to display countdown timer for held spots.'
+  description <<~DESC
+    [CLIENT] Get booking lease details. A lease temporarily holds a spot during the booking process.
+    Returns lease object with expiration time, booking details, and hold status.
+    Use to verify lease status during multi-step booking checkout or to display countdown timer for held spots.
+  DESC
 
   arguments do
     required(:booking_id).filled(:integer).description('Unique Pike13 booking ID (integer)')

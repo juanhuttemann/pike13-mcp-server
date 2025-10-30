@@ -3,7 +3,11 @@
 require_relative 'base_tool'
 
 class DeskListNotes < Pike13BaseTool
-  description '[STAFF] List all notes for a person. Returns array of note objects with subject, note content, author, timestamps, and visibility settings. Use to view communication history, customer service notes, or account annotations.'
+  description <<~DESC
+    [STAFF] List all notes for a person.
+    Returns array of note objects with subject, note content, author, timestamps, and visibility settings.
+    Use to view communication history, customer service notes, or account annotations.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -15,7 +19,11 @@ class DeskListNotes < Pike13BaseTool
 end
 
 class DeskGetNote < Pike13BaseTool
-  description '[STAFF] Get specific note details. Returns note object with full content, subject, author, timestamps, and visibility. Use when you need complete details of a specific note.'
+  description <<~DESC
+    [STAFF] Get specific note details.
+    Returns note object with full content, subject, author, timestamps, and visibility.
+    Use when you need complete details of a specific note.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -28,7 +36,13 @@ class DeskGetNote < Pike13BaseTool
 end
 
 class DeskCreateNote < Pike13BaseTool
-  description '[STAFF] Create a new note for a person. Requires "note" field (not "body") for content. Subject is optional but recommended. Returns created note object. Use for documenting customer interactions, service notes, or account annotations. WARNING: Use "note" parameter, not "body".'
+  description <<~DESC
+    [STAFF] Create a new note for a person.
+    Requires "note" field (not "body") for content. Subject is optional but recommended.
+    Returns created note object.
+    Use for documenting customer interactions, service notes, or account annotations.
+    WARNING: Use "note" parameter, not "body".
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -47,7 +61,13 @@ class DeskCreateNote < Pike13BaseTool
 end
 
 class DeskUpdateNote < Pike13BaseTool
-  description '[STAFF] Update an existing note. Updates only provided fields. Returns updated note object. Use for editing note content or subject. WARNING: Use "note" parameter for content, not "body".'
+  description <<~DESC
+    [STAFF] Update an existing note.
+    Updates only provided fields.
+    Returns updated note object.
+    Use for editing note content or subject.
+    WARNING: Use "note" parameter for content, not "body".
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -68,7 +88,12 @@ class DeskUpdateNote < Pike13BaseTool
 end
 
 class DeskDeleteNote < Pike13BaseTool
-  description '[STAFF] Delete a note. Permanently removes the note. Returns success status. Use with caution - deletion is permanent.'
+  description <<~DESC
+    [STAFF] Delete a note.
+    Permanently removes the note.
+    Returns success status.
+    Use with caution - deletion is permanent.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -81,7 +106,11 @@ class DeskDeleteNote < Pike13BaseTool
 end
 
 class FrontListNotes < Pike13BaseTool
-  description '[CLIENT] List notes visible to customer for their account. Returns array of client-visible note objects. Use for customer self-service to view account notes or communications marked as customer-visible.'
+  description <<~DESC
+    [CLIENT] List notes visible to customer for their account.
+    Returns array of client-visible note objects.
+    Use for customer self-service to view account notes or communications marked as customer-visible.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
@@ -93,7 +122,11 @@ class FrontListNotes < Pike13BaseTool
 end
 
 class FrontGetNote < Pike13BaseTool
-  description '[CLIENT] Get specific note visible to customer. Returns note object if customer has permission to view. Use for customer self-service note access.'
+  description <<~DESC
+    [CLIENT] Get specific note visible to customer.
+    Returns note object if customer has permission to view.
+    Use for customer self-service note access.
+  DESC
 
   arguments do
     required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
