@@ -38,53 +38,50 @@ mcp_app = FastMcp.rack_middleware(
 ) do |server|
   # Register all Pike13 tools
   server.register_tools(
-    # Business
-    AccountListBusinesses, FrontGetBusiness, FrontGetBranding, DeskGetBusiness,
-    # People
-    AccountGetMe, FrontGetMe, DeskListPeople, DeskGetPerson, DeskSearchPeople, DeskGetMe,
-    # Events
-    FrontListEvents, FrontGetEvent, DeskListEvents, DeskGetEvent,
-    # Event Occurrences
-    FrontListEventOccurrences, FrontGetEventOccurrence, DeskListEventOccurrences, DeskGetEventOccurrence,
-    # Appointment Availability
-    FrontFindAvailableAppointmentSlots, FrontGetAppointmentAvailabilitySummary,
-    DeskFindAvailableAppointmentSlots, DeskGetAppointmentAvailabilitySummary,
-    # Visits
-    FrontListVisits, FrontGetVisit, FrontCreateVisit, FrontDeleteVisit,
-    DeskListVisits, DeskGetVisit, DeskCreateVisit, DeskUpdateVisit, DeskDeleteVisit,
-    # Locations
-    FrontListLocations, DeskListLocations,
-    # Services
-    FrontListServices, FrontGetService, FrontGetServiceEnrollmentEligibilities,
-    DeskListServices, DeskGetService, DeskGetServiceEnrollmentEligibilities,
-    # Staff Members
-    FrontListStaffMembers, FrontGetStaffMember, DeskListStaffMembers, DeskGetStaffMember,
-    # Plans
-    DeskListPlans, DeskUpdatePlanEndDate,
-    # Plan Products
-    FrontListPlanProducts, FrontGetPlanProduct, DeskListPlanProducts, DeskGetPlanProduct,
-    # Pack Products
-    DeskListPackProducts,
-    # Invoices
-    FrontGetInvoice, DeskListInvoices,
-    # Revenue Categories
-    DeskListRevenueCategories, DeskGetRevenueCategory,
-    # Sales Taxes
-    DeskListSalesTaxes, DeskGetSalesTax,
-    # Custom Fields
-    DeskListCustomFields,
-    # Waitlist Entries
-    FrontGetWaitlistEntry, FrontCreateWaitlistEntry, FrontDeleteWaitlistEntry,
-    DeskListWaitlistEntries, DeskGetWaitlistEntry, DeskCreateWaitlistEntry,
-    DeskUpdateWaitlistEntry, DeskDeleteWaitlistEntry,
-    # Bookings
-    FrontGetBooking, DeskGetBooking,
-    # Packs
-    DeskGetPack,
-    # Punches
-    DeskGetPunch, DeskCreatePunch, DeskDeletePunch,
-    # Refunds
-    DeskVoidRefund
+    AccountCreateConfirmation, AccountCreatePasswordReset, AccountGetBusiness, AccountGetMe,
+    AccountListBusinesses, AccountListPeople, DeskCreateBooking, DeskCreateBookingLease,
+    DeskCreateEventOccurrenceNote, DeskCreateFormOfPayment, DeskCreateInvoice, DeskCreateInvoiceItem,
+    DeskCreateInvoiceItemDiscount, DeskCreateInvoiceItemProrate, DeskCreateInvoicePayment, DeskCreateInvoiceRefund,
+    DeskCreateNote, DeskCreatePackFromProduct, DeskCreatePackProduct, DeskCreatePerson,
+    DeskCreatePunch, DeskCreateVisit, DeskCreateWaitlistEntry, DeskDeleteBooking,
+    DeskDeleteEventOccurrenceNote, DeskDeleteFormOfPayment, DeskDeleteInvoiceItem, DeskDeleteInvoiceItemDiscounts,
+    DeskDeleteInvoiceItemProrate, DeskDeleteNote, DeskDeletePack, DeskDeletePackProduct,
+    DeskDeletePerson, DeskDeletePunch, DeskDeleteVisit, DeskDeleteWaitlistEntry,
+    DeskFindAvailableAppointmentSlots, DeskGenerateMakeUp, DeskGetAppointmentAvailabilitySummary, DeskGetBooking,
+    DeskGetBusiness, DeskGetBusinessFranchisees, DeskGetEvent, DeskGetEventOccurrence,
+    DeskGetEventOccurrenceEnrollmentEligibilities, DeskGetEventOccurrenceNote, DeskGetEventOccurrencesSummary, DeskGetFormOfPayment,
+    DeskGetInvoice, DeskGetInvoiceItemDiscounts, DeskGetInvoicePaymentMethods, DeskGetLocation,
+    DeskGetMakeUp, DeskGetMe, DeskGetNote, DeskGetPack,
+    DeskGetPackProduct, DeskGetPayment, DeskGetPaymentConfiguration, DeskGetPerson,
+    DeskGetPlanProduct, DeskGetPunch, DeskGetRevenueCategory, DeskGetSalesTax,
+    DeskGetService, DeskGetServiceEnrollmentEligibilities, DeskGetStaffMember, DeskGetVisit,
+    DeskGetWaitlistEntry, DeskListCustomFields, DeskListEventOccurrenceNotes, DeskListEventOccurrenceVisits,
+    DeskListEventOccurrenceWaitlistEntries, DeskListEventOccurrences, DeskListEvents, DeskListFormsOfPayment,
+    DeskListInvoices, DeskListLocations, DeskListMakeUpReasons, DeskListNotes,
+    DeskListPackProducts, DeskListPacks, DeskListPeople, DeskListPersonPlans,
+    DeskListPersonVisits, DeskListPersonWaitlistEntries, DeskListPersonWaivers, DeskListPlanProducts,
+    DeskListPlans, DeskListRevenueCategories, DeskListSalesTaxes, DeskListServices,
+    DeskListStaffMembers, DeskListVisits, DeskListWaitlistEntries, DeskSearchPeople,
+    DeskUpdateBooking, DeskUpdateBookingLease, DeskUpdateEventOccurrenceNote, DeskUpdateFormOfPayment,
+    DeskUpdateInvoice, DeskUpdateNote, DeskUpdatePackProduct, DeskUpdatePerson,
+    DeskUpdatePlanEndDate, DeskUpdateVisit, DeskUpdateWaitlistEntry, DeskVoidPayment,
+    DeskVoidRefund, FrontCompletePlanTerms, FrontCreateBooking, FrontCreateBookingLease,
+    FrontCreateFormOfPayment, FrontCreateInvoice, FrontCreateInvoiceItem, FrontCreateInvoicePayment,
+    FrontCreateVisit, FrontCreateWaitlistEntry, FrontDeleteBooking, FrontDeleteBookingLease,
+    FrontDeleteFormOfPayment, FrontDeleteInvoiceItem, FrontDeleteInvoicePayment, FrontDeleteVisit,
+    FrontDeleteWaitlistEntry, FrontFindAvailableAppointmentSlots, FrontGetAppointmentAvailabilitySummary, FrontGetBooking,
+    FrontGetBookingLease, FrontGetBranding, FrontGetBusiness, FrontGetBusinessFranchisees,
+    FrontGetEvent, FrontGetEventOccurrence, FrontGetEventOccurrenceEnrollmentEligibilities, FrontGetEventOccurrenceNote,
+    FrontGetEventOccurrencesSummary, FrontGetFormOfPayment, FrontGetFormOfPaymentMe, FrontGetInvoice,
+    FrontGetInvoicePaymentMethods, FrontGetLocation, FrontGetMe, FrontGetNote,
+    FrontGetPayment, FrontGetPaymentConfiguration, FrontGetPlanProduct, FrontGetPlanTerms,
+    FrontGetService, FrontGetServiceEnrollmentEligibilities, FrontGetStaffMember, FrontGetVisit,
+    FrontGetWaitlistEntry, FrontListEventOccurrenceNotes, FrontListEventOccurrenceWaitlistEligibilities, FrontListEventOccurrences,
+    FrontListEvents, FrontListFormsOfPayment, FrontListInvoices, FrontListLocations,
+    FrontListNotes, FrontListPersonPlans, FrontListPersonVisits, FrontListPersonWaitlistEntries,
+    FrontListPersonWaivers, FrontListPlanProducts, FrontListPlanTerms, FrontListServices,
+    FrontListStaffMembers, FrontListVisits, FrontUpdateBooking, FrontUpdateBookingLease,
+    FrontUpdateFormOfPayment, FrontUpdateInvoice
   )
 end
 

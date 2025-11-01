@@ -3,5 +3,5 @@
 source 'https://rubygems.org'
 
 gem 'fast-mcp'
-gem 'pike13', git: 'https://github.com/juanhuttemann/pike13-ruby.git'
+gem 'pike13'
 gem 'puma', '~> 7.1'
