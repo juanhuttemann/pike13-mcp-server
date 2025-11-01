@@ -13,8 +13,10 @@ class FrontListVisits < Pike13BaseTool
     Use to show customer their attendance history.
   DESC
 
-  def call
-    Pike13::Front::Visit.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Visit.all.to_json
+    end
   end
 end
 
@@ -28,12 +30,17 @@ class FrontGetVisit < Pike13BaseTool
     Use to show specific attendance details to customer.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Unique Pike13 visit ID')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Unique Pike13 visit ID' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:)
-    Pike13::Front::Visit.find(visit_id).to_json
+  class << self
+    def call(visit_id:, server_context:)
+      Pike13::Front::Visit.find(visit_id).to_json
+    end
   end
 end
 
@@ -48,15 +55,20 @@ class FrontCreateVisit < Pike13BaseTool
     Workflow: FrontFindAvailableAppointmentSlots → FrontCreateVisit → FrontGetVisit
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to enroll in')
-    optional(:person_id).maybe(:integer).description('Optional: person ID (defaults to authenticated person)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID to enroll in' },
+      person_id: { type: 'integer', description: 'Optional: person ID (defaults to authenticated person)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:, person_id: nil)
-    params = { event_occurrence_id: event_occurrence_id }
-    params[:person_id] = person_id if person_id
-    Pike13::Front::Visit.create(params).to_json
+  class << self
+    def call(event_occurrence_id:, person_id: nil, server_context:)
+      params = { event_occurrence_id: event_occurrence_id }
+      params[:person_id] = person_id if person_id
+      Pike13::Front::Visit.create(params).to_json
+    end
   end
 end
 
@@ -70,15 +82,20 @@ class FrontDeleteVisit < Pike13BaseTool
     Use to allow customers to cancel their enrollment.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Visit ID to cancel')
-    optional(:remove_recurring_enrollment).maybe(:bool).description('Optional: remove future recurring visits (boolean, default false)')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Visit ID to cancel' },
+      remove_recurring_enrollment: { type: 'boolean', description: 'Optional: remove future recurring visits (boolean, default false)' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:, remove_recurring_enrollment: nil)
-    params = {}
-    params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
-    Pike13::Front::Visit.destroy(visit_id, **params).to_json
+  class << self
+    def call(visit_id:, remove_recurring_enrollment: nil, server_context:)
+      params = {}
+      params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
+      Pike13::Front::Visit.destroy(visit_id, **params).to_json
+    end
   end
 end
 
@@ -94,13 +111,18 @@ class DeskListVisits < Pike13BaseTool
     Use for attendance tracking, reporting, or viewing person history.
   DESC
 
-  arguments do
-    optional(:person_id).maybe(:integer).description('Optional: filter visits for specific person')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Optional: filter visits for specific person' }
+    },
+    required: []
+  )
 
-  def call(person_id: nil)
-    visits = person_id ? Pike13::Desk::Visit.all(person_id: person_id) : Pike13::Desk::Visit.all
-    visits.to_json
+  class << self
+    def call(person_id: nil, server_context:)
+      visits = person_id ? Pike13::Desk::Visit.all(person_id: person_id) : Pike13::Desk::Visit.all
+      visits.to_json
+    end
   end
 end
 
@@ -114,12 +136,17 @@ class DeskGetVisit < Pike13BaseTool
     Use for attendance verification or dispute resolution.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Unique Pike13 visit ID')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Unique Pike13 visit ID' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:)
-    Pike13::Desk::Visit.find(visit_id).to_json
+  class << self
+    def call(visit_id:, server_context:)
+      Pike13::Desk::Visit.find(visit_id).to_json
+    end
   end
 end
 
@@ -138,21 +165,26 @@ class DeskCreateVisit < Pike13BaseTool
     Use for manual enrollment, walk-ins, or administrative corrections.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to enroll in')
-    optional(:person_id).maybe(:integer).description('Optional: person ID (required unless state=reserved)')
-    optional(:state).maybe(:string).description('Optional: initial state (reserved/registered/completed/noshowed/late_canceled, default: registered)')
-    optional(:notify_client).maybe(:bool).description('Optional: send notification to client (boolean, default true)')
-    optional(:restrictions).maybe(:array).description('Optional: array of restrictions to validate ([inside_blackout_window, full, in_the_past])')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID to enroll in' },
+      person_id: { type: 'integer', description: 'Optional: person ID (required unless state=reserved)' },
+      state: { type: 'string', description: 'Optional: initial state (reserved/registered/completed/noshowed/late_canceled, default: registered)' },
+      notify_client: { type: 'boolean', description: 'Optional: send notification to client (boolean, default true)' },
+      restrictions: { type: 'array', description: 'Optional: array of restrictions to validate ([inside_blackout_window, full, in_the_past])' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:, person_id: nil, state: nil, notify_client: nil, restrictions: nil)
-    params = { event_occurrence_id: event_occurrence_id }
-    params[:person_id] = person_id if person_id
-    params[:state] = state if state
-    params[:notify_client] = notify_client unless notify_client.nil?
-    params[:restrictions] = restrictions if restrictions
-    Pike13::Desk::Visit.create(params).to_json
+  class << self
+    def call(event_occurrence_id:, person_id: nil, state: nil, notify_client: nil, restrictions: nil, server_context:)
+      params = { event_occurrence_id: event_occurrence_id }
+      params[:person_id] = person_id if person_id
+      params[:state] = state if state
+      params[:notify_client] = notify_client unless notify_client.nil?
+      params[:restrictions] = restrictions if restrictions
+      Pike13::Desk::Visit.create(params).to_json
+    end
   end
 end
 
@@ -173,17 +205,22 @@ class DeskUpdateVisit < Pike13BaseTool
     Use for marking attendance, handling no-shows, or administrative corrections.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Visit ID to update')
-    optional(:state_event).maybe(:string).description('Optional: state transition (register/complete/noshow/late_cancel/reset)')
-    optional(:person_id).maybe(:integer).description('Optional: person ID (only when registering reserved visit)')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Visit ID to update' },
+      state_event: { type: 'string', description: 'Optional: state transition (register/complete/noshow/late_cancel/reset)' },
+      person_id: { type: 'integer', description: 'Optional: person ID (only when registering reserved visit)' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:, state_event: nil, person_id: nil)
-    params = {}
-    params[:state_event] = state_event if state_event
-    params[:person_id] = person_id if person_id
-    Pike13::Desk::Visit.update(visit_id, params).to_json
+  class << self
+    def call(visit_id:, state_event: nil, person_id: nil, server_context:)
+      params = {}
+      params[:state_event] = state_event if state_event
+      params[:person_id] = person_id if person_id
+      Pike13::Desk::Visit.update(visit_id, params).to_json
+    end
   end
 end
 
@@ -197,16 +234,21 @@ class DeskDeleteVisit < Pike13BaseTool
     Use for cancellations, schedule changes, or administrative corrections.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Visit ID to delete')
-    optional(:notify_client).maybe(:bool).description('Optional: send notification to client (boolean, default true)')
-    optional(:remove_recurring_enrollment).maybe(:bool).description('Optional: remove future recurring visits (boolean, default false)')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Visit ID to delete' },
+      notify_client: { type: 'boolean', description: 'Optional: send notification to client (boolean, default true)' },
+      remove_recurring_enrollment: { type: 'boolean', description: 'Optional: remove future recurring visits (boolean, default false)' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:, notify_client: nil, remove_recurring_enrollment: nil)
-    params = {}
-    params[:notify_client] = notify_client unless notify_client.nil?
-    params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
-    Pike13::Desk::Visit.destroy(visit_id, **params).to_json
+  class << self
+    def call(visit_id:, notify_client: nil, remove_recurring_enrollment: nil, server_context:)
+      params = {}
+      params[:notify_client] = notify_client unless notify_client.nil?
+      params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
+      Pike13::Desk::Visit.destroy(visit_id, **params).to_json
+    end
   end
 end

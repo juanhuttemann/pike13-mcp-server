@@ -11,8 +11,10 @@ class AccountGetMe < Pike13BaseTool
     NOT needed for regular business operations like booking, events, or services.
   DESC
 
-  def call
-    Pike13::Account.me.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Account.me.to_json
+    end
   end
 end
 
@@ -23,8 +25,10 @@ class AccountListPeople < Pike13BaseTool
     Use for account-wide user management or reporting across multiple businesses.
   DESC
 
-  def call
-    Pike13::Account::Person.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Account::Person.all.to_json
+    end
   end
 end
 
@@ -37,8 +41,10 @@ class FrontGetMe < Pike13BaseTool
     NOT needed for booking, viewing services, or regular customer operations.
   DESC
 
-  def call
-    Pike13::Front::Person.me.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Person.me.to_json
+    end
   end
 end
 
@@ -51,8 +57,10 @@ class DeskListPeople < Pike13BaseTool
     For finding specific people, use DeskSearchPeople instead.
   DESC
 
-  def call
-    Pike13::Desk::Person.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Person.all.to_json
+    end
   end
 end
 
@@ -64,12 +72,17 @@ class DeskGetPerson < Pike13BaseTool
     Workflow: DeskSearchPeople → DeskGetPerson → manage client (update, book, etc.)
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Desk::Person.find(person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Desk::Person.find(person_id).to_json
+    end
   end
 end
 
@@ -82,13 +95,18 @@ class DeskSearchPeople < Pike13BaseTool
     AVOID DeskListPeople for searches.
   DESC
 
-  arguments do
-    required(:query).filled(:string).description('Search term: name, email, or phone number (digits only for phone)')
-    optional(:fields).maybe(:string).description('Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.')
-  end
+  input_schema(
+    properties: {
+      query: { type: 'string', description: 'Search term: name, email, or phone number (digits only for phone)' },
+      fields: { type: 'string', description: 'Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.' }
+    },
+    required: ['query']
+  )
 
-  def call(query:, fields: nil)
-    Pike13::Desk::Person.search(query, fields: fields).to_json
+  class << self
+    def call(query:, fields: nil, server_context:)
+      Pike13::Desk::Person.search(query, fields: fields).to_json
+    end
   end
 end
 
@@ -100,8 +118,10 @@ class DeskGetMe < Pike13BaseTool
     NOT needed for regular staff operations like managing clients, events, or appointments.
   DESC
 
-  def call
-    Pike13::Desk::Person.me.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Person.me.to_json
+    end
   end
 end
 
@@ -113,24 +133,29 @@ class DeskCreatePerson < Pike13BaseTool
     Use for new client registration or importing users.
   DESC
 
-  arguments do
-    required(:first_name).filled(:string).description('Person first name')
-    required(:last_name).filled(:string).description('Person last name')
-    required(:email).filled(:string).description('Person email address')
-    optional(:phone).maybe(:string).description('Optional: Phone number')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional person attributes as a hash (e.g., address, emergency contacts, custom fields)')
-  end
+  input_schema(
+    properties: {
+      first_name: { type: 'string', description: 'Person first name' },
+      last_name: { type: 'string', description: 'Person last name' },
+      email: { type: 'string', description: 'Person email address' },
+      phone: { type: 'string', description: 'Optional: Phone number' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional person attributes as a hash (e.g., address, emergency contacts, custom fields)' }
+    },
+    required: ['first_name', 'last_name', 'email']
+  )
 
-  def call(first_name:, last_name:, email:, phone: nil, additional_attributes: nil)
-    attributes = {
-      first_name: first_name,
-      last_name: last_name,
-      email: email
-    }
-    attributes[:phone] = phone if phone
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(first_name:, last_name:, email:, phone: nil, additional_attributes: nil, server_context:)
+      attributes = {
+        first_name: first_name,
+        last_name: last_name,
+        email: email
+      }
+      attributes[:phone] = phone if phone
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::Person.create(**attributes).to_json
+      Pike13::Desk::Person.create(**attributes).to_json
+    end
   end
 end
 
@@ -142,24 +167,29 @@ class DeskUpdatePerson < Pike13BaseTool
     Use for profile edits, status changes, or custom field updates.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID to update')
-    optional(:first_name).maybe(:string).description('Optional: Update first name')
-    optional(:last_name).maybe(:string).description('Optional: Update last name')
-    optional(:email).maybe(:string).description('Optional: Update email address')
-    optional(:phone).maybe(:string).description('Optional: Update phone number')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes to update as a hash')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID to update' },
+      first_name: { type: 'string', description: 'Optional: Update first name' },
+      last_name: { type: 'string', description: 'Optional: Update last name' },
+      email: { type: 'string', description: 'Optional: Update email address' },
+      phone: { type: 'string', description: 'Optional: Update phone number' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes to update as a hash' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:, first_name: nil, last_name: nil, email: nil, phone: nil, additional_attributes: nil)
-    attributes = {}
-    attributes[:first_name] = first_name if first_name
-    attributes[:last_name] = last_name if last_name
-    attributes[:email] = email if email
-    attributes[:phone] = phone if phone
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(person_id:, first_name: nil, last_name: nil, email: nil, phone: nil, additional_attributes: nil, server_context:)
+      attributes = {}
+      attributes[:first_name] = first_name if first_name
+      attributes[:last_name] = last_name if last_name
+      attributes[:email] = email if email
+      attributes[:phone] = phone if phone
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::Person.update(person_id, **attributes).to_json
+      Pike13::Desk::Person.update(person_id, **attributes).to_json
+    end
   end
 end
 
@@ -171,11 +201,16 @@ class DeskDeletePerson < Pike13BaseTool
     Use with caution - ensure person has no active bookings or memberships.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID to delete')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID to delete' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Desk::Person.destroy(person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Desk::Person.destroy(person_id).to_json
+    end
   end
 end

@@ -13,14 +13,19 @@ class DeskListPlans < Pike13BaseTool
     Use for plan management, reporting, or membership/pack administration.
   DESC
 
-  arguments do
-    optional(:include_holds).maybe(:bool).description('Optional: include active and upcoming holds on each plan (boolean)')
-  end
+  input_schema(
+    properties: {
+      include_holds: { type: 'boolean', description: 'Optional: include active and upcoming holds on each plan (boolean)' }
+    },
+    required: []
+  )
 
-  def call(include_holds: nil)
-    params = {}
-    params[:include_holds] = include_holds if include_holds
-    Pike13::Desk::Plan.all(**params).to_json
+  class << self
+    def call(include_holds: nil, server_context:)
+      params = {}
+      params[:include_holds] = include_holds if include_holds
+      Pike13::Desk::Plan.all(**params).to_json
+    end
   end
 end
 
@@ -37,13 +42,18 @@ class DeskUpdatePlanEndDate < Pike13BaseTool
     Use to modify plan expiration dates or handle early cancellations.
   DESC
 
-  arguments do
-    required(:plan_id).filled(:integer).description('Unique Pike13 plan ID')
-    required(:end_date).filled(:string).description('New end date (YYYY-MM-DD format, must be in future)')
-  end
+  input_schema(
+    properties: {
+      plan_id: { type: 'integer', description: 'Unique Pike13 plan ID' },
+      end_date: { type: 'string', description: 'New end date (YYYY-MM-DD format, must be in future)' }
+    },
+    required: ['plan_id', 'end_date']
+  )
 
-  def call(plan_id:, end_date:)
-    params = { end_date: end_date }
-    Pike13::Desk::Plan.update_end_date(plan_id, params).to_json
+  class << self
+    def call(plan_id:, end_date:, server_context:)
+      params = { end_date: end_date }
+      Pike13::Desk::Plan.update_end_date(plan_id, params).to_json
+    end
   end
 end

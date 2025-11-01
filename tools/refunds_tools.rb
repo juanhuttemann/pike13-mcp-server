@@ -13,11 +13,16 @@ class DeskVoidRefund < Pike13BaseTool
     WARNING: This action cannot be undone and affects financial records.
   DESC
 
-  arguments do
-    required(:refund_id).filled(:integer).description('Unique Pike13 refund ID to void')
-  end
+  input_schema(
+    properties: {
+      refund_id: { type: 'integer', description: 'Unique Pike13 refund ID to void' }
+    },
+    required: ['refund_id']
+  )
 
-  def call(refund_id:)
-    Pike13::Desk::Refund.void(refund_id: refund_id).to_json
+  class << self
+    def call(refund_id:, server_context:)
+      Pike13::Desk::Refund.void(refund_id: refund_id).to_json
+    end
   end
 end

@@ -12,12 +12,17 @@ class FrontGetBooking < Pike13BaseTool
     Bookings = registrations reserved, Visits = actual attendance completed.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID (integer)')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' }
+    },
+    required: ['booking_id']
+  )
 
-  def call(booking_id:)
-    Pike13::Front::Booking.find(booking_id).to_json
+  class << self
+    def call(booking_id:, server_context:)
+      Pike13::Front::Booking.find(booking_id).to_json
+    end
   end
 end
 
@@ -29,12 +34,17 @@ class FrontCreateBooking < Pike13BaseTool
     Use for course enrollments or appointment bookings.
   DESC
 
-  arguments do
-    required(:attributes).filled(:hash).description('Booking attributes (event_id, person_id, etc.)')
-  end
+  input_schema(
+    properties: {
+      attributes: { type: 'object', description: 'Booking attributes (event_id, person_id, etc.)' }
+    },
+    required: ['attributes']
+  )
 
-  def call(attributes:)
-    Pike13::Front::Booking.create(attributes).to_json
+  class << self
+    def call(attributes:, server_context:)
+      Pike13::Front::Booking.create(attributes).to_json
+    end
   end
 end
 
@@ -45,13 +55,18 @@ class FrontUpdateBooking < Pike13BaseTool
     Returns updated booking.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID to update')
-    required(:attributes).filled(:hash).description('Booking attributes to update')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
+      attributes: { type: 'object', description: 'Booking attributes to update' }
+    },
+    required: ['booking_id', 'attributes']
+  )
 
-  def call(booking_id:, attributes:)
-    Pike13::Front::Booking.update(booking_id, attributes).to_json
+  class << self
+    def call(booking_id:, attributes:, server_context:)
+      Pike13::Front::Booking.update(booking_id, attributes).to_json
+    end
   end
 end
 
@@ -63,12 +78,17 @@ class FrontDeleteBooking < Pike13BaseTool
     Use when customer wants to cancel their booking.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID to cancel')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to cancel' }
+    },
+    required: ['booking_id']
+  )
 
-  def call(booking_id:)
-    Pike13::Front::Booking.destroy(booking_id).to_json
+  class << self
+    def call(booking_id:, server_context:)
+      Pike13::Front::Booking.destroy(booking_id).to_json
+    end
   end
 end
 
@@ -80,13 +100,18 @@ class FrontCreateBookingLease < Pike13BaseTool
     Use for holding a spot during checkout process.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Booking ID to create lease for')
-    required(:attributes).filled(:hash).description('Lease attributes')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Booking ID to create lease for' },
+      attributes: { type: 'object', description: 'Lease attributes' }
+    },
+    required: ['booking_id', 'attributes']
+  )
 
-  def call(booking_id:, attributes:)
-    Pike13::Front::Booking.create_lease(booking_id, attributes).to_json
+  class << self
+    def call(booking_id:, attributes:, server_context:)
+      Pike13::Front::Booking.create_lease(booking_id, attributes).to_json
+    end
   end
 end
 
@@ -97,14 +122,19 @@ class FrontUpdateBookingLease < Pike13BaseTool
     Returns updated lease.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Booking ID')
-    required(:lease_id).filled(:integer).description('Lease ID to update')
-    required(:attributes).filled(:hash).description('Lease attributes to update')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Booking ID' },
+      lease_id: { type: 'integer', description: 'Lease ID to update' },
+      attributes: { type: 'object', description: 'Lease attributes to update' }
+    },
+    required: ['booking_id', 'lease_id', 'attributes']
+  )
 
-  def call(booking_id:, lease_id:, attributes:)
-    Pike13::Front::Booking.update_lease(booking_id, lease_id, attributes).to_json
+  class << self
+    def call(booking_id:, lease_id:, attributes:, server_context:)
+      Pike13::Front::Booking.update_lease(booking_id, lease_id, attributes).to_json
+    end
   end
 end
 
@@ -115,13 +145,18 @@ class FrontDeleteBookingLease < Pike13BaseTool
     Returns confirmation.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Booking ID')
-    required(:lease_id).filled(:integer).description('Lease ID to delete')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Booking ID' },
+      lease_id: { type: 'integer', description: 'Lease ID to delete' }
+    },
+    required: ['booking_id', 'lease_id']
+  )
 
-  def call(booking_id:, lease_id:)
-    Pike13::Front::Booking.destroy_lease(booking_id, lease_id).to_json
+  class << self
+    def call(booking_id:, lease_id:, server_context:)
+      Pike13::Front::Booking.destroy_lease(booking_id, lease_id).to_json
+    end
   end
 end
 
@@ -135,12 +170,17 @@ class DeskGetBooking < Pike13BaseTool
     Bookings are reservations for events.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID (integer)')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' }
+    },
+    required: ['booking_id']
+  )
 
-  def call(booking_id:)
-    Pike13::Desk::Booking.find(booking_id).to_json
+  class << self
+    def call(booking_id:, server_context:)
+      Pike13::Desk::Booking.find(booking_id).to_json
+    end
   end
 end
 
@@ -152,12 +192,17 @@ class DeskCreateBooking < Pike13BaseTool
     Use for manual course enrollments or appointment bookings.
   DESC
 
-  arguments do
-    required(:attributes).filled(:hash).description('Booking attributes (event_id, person_id, etc.)')
-  end
+  input_schema(
+    properties: {
+      attributes: { type: 'object', description: 'Booking attributes (event_id, person_id, etc.)' }
+    },
+    required: ['attributes']
+  )
 
-  def call(attributes:)
-    Pike13::Desk::Booking.create(attributes).to_json
+  class << self
+    def call(attributes:, server_context:)
+      Pike13::Desk::Booking.create(attributes).to_json
+    end
   end
 end
 
@@ -169,13 +214,18 @@ class DeskUpdateBooking < Pike13BaseTool
     Use for administrative corrections or status changes.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID to update')
-    required(:attributes).filled(:hash).description('Booking attributes to update')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
+      attributes: { type: 'object', description: 'Booking attributes to update' }
+    },
+    required: ['booking_id', 'attributes']
+  )
 
-  def call(booking_id:, attributes:)
-    Pike13::Desk::Booking.update(booking_id, attributes).to_json
+  class << self
+    def call(booking_id:, attributes:, server_context:)
+      Pike13::Desk::Booking.update(booking_id, attributes).to_json
+    end
   end
 end
 
@@ -187,12 +237,17 @@ class DeskDeleteBooking < Pike13BaseTool
     Use for administrative cancellations or customer service.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID to cancel')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to cancel' }
+    },
+    required: ['booking_id']
+  )
 
-  def call(booking_id:)
-    Pike13::Desk::Booking.destroy(booking_id).to_json
+  class << self
+    def call(booking_id:, server_context:)
+      Pike13::Desk::Booking.destroy(booking_id).to_json
+    end
   end
 end
 
@@ -204,13 +259,18 @@ class DeskCreateBookingLease < Pike13BaseTool
     Use for reserving spots during registration process.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Booking ID to create lease for')
-    required(:attributes).filled(:hash).description('Lease attributes')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Booking ID to create lease for' },
+      attributes: { type: 'object', description: 'Lease attributes' }
+    },
+    required: ['booking_id', 'attributes']
+  )
 
-  def call(booking_id:, attributes:)
-    Pike13::Desk::Booking.create_lease(booking_id, attributes).to_json
+  class << self
+    def call(booking_id:, attributes:, server_context:)
+      Pike13::Desk::Booking.create_lease(booking_id, attributes).to_json
+    end
   end
 end
 
@@ -221,13 +281,18 @@ class DeskUpdateBookingLease < Pike13BaseTool
     Returns updated lease.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Booking ID')
-    required(:lease_id).filled(:integer).description('Lease ID to update')
-    required(:attributes).filled(:hash).description('Lease attributes to update')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Booking ID' },
+      lease_id: { type: 'integer', description: 'Lease ID to update' },
+      attributes: { type: 'object', description: 'Lease attributes to update' }
+    },
+    required: ['booking_id', 'lease_id', 'attributes']
+  )
 
-  def call(booking_id:, lease_id:, attributes:)
-    Pike13::Desk::Booking.update_lease(booking_id, lease_id, attributes).to_json
+  class << self
+    def call(booking_id:, lease_id:, attributes:, server_context:)
+      Pike13::Desk::Booking.update_lease(booking_id, lease_id, attributes).to_json
+    end
   end
 end

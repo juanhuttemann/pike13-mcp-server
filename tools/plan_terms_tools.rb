@@ -9,12 +9,17 @@ class FrontListPlanTerms < Pike13BaseTool
     Use to display plan terms before purchase or signup.
   DESC
 
-  arguments do
-    required(:plan_id).filled(:integer).description('Unique Pike13 plan ID (integer)')
-  end
+  input_schema(
+    properties: {
+      plan_id: { type: 'integer', description: 'Unique Pike13 plan ID (integer)' }
+    },
+    required: ['plan_id']
+  )
 
-  def call(plan_id:)
-    Pike13::Front::PlanTerms.all(plan_id: plan_id).to_json
+  class << self
+    def call(plan_id:, server_context:)
+      Pike13::Front::PlanTerms.all(plan_id: plan_id).to_json
+    end
   end
 end
 
@@ -25,13 +30,18 @@ class FrontGetPlanTerms < Pike13BaseTool
     Use to display specific terms version to customer.
   DESC
 
-  arguments do
-    required(:plan_id).filled(:integer).description('Unique Pike13 plan ID (integer)')
-    required(:plan_terms_id).filled(:integer).description('Unique plan terms ID (integer)')
-  end
+  input_schema(
+    properties: {
+      plan_id: { type: 'integer', description: 'Unique Pike13 plan ID (integer)' },
+      plan_terms_id: { type: 'integer', description: 'Unique plan terms ID (integer)' }
+    },
+    required: ['plan_id', 'plan_terms_id']
+  )
 
-  def call(plan_id:, plan_terms_id:)
-    Pike13::Front::PlanTerms.find(plan_id: plan_id, plan_terms_id: plan_terms_id).to_json
+  class << self
+    def call(plan_id:, plan_terms_id:, server_context:)
+      Pike13::Front::PlanTerms.find(plan_id: plan_id, plan_terms_id: plan_terms_id).to_json
+    end
   end
 end
 
@@ -43,12 +53,17 @@ class FrontCompletePlanTerms < Pike13BaseTool
     Use after customer reviews and accepts plan terms during signup or renewal.
   DESC
 
-  arguments do
-    required(:plan_id).filled(:integer).description('Unique Pike13 plan ID (integer)')
-    required(:plan_terms_id).filled(:integer).description('Unique plan terms ID to accept (integer)')
-  end
+  input_schema(
+    properties: {
+      plan_id: { type: 'integer', description: 'Unique Pike13 plan ID (integer)' },
+      plan_terms_id: { type: 'integer', description: 'Unique plan terms ID to accept (integer)' }
+    },
+    required: ['plan_id', 'plan_terms_id']
+  )
 
-  def call(plan_id:, plan_terms_id:)
-    Pike13::Front::PlanTerms.complete(plan_id: plan_id, plan_terms_id: plan_terms_id).to_json
+  class << self
+    def call(plan_id:, plan_terms_id:, server_context:)
+      Pike13::Front::PlanTerms.complete(plan_id: plan_id, plan_terms_id: plan_terms_id).to_json
+    end
   end
 end

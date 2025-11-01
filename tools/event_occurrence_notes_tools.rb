@@ -9,12 +9,17 @@ class DeskListEventOccurrenceNotes < Pike13BaseTool
     Use to view class-specific notes, instructor comments, or session details.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:)
-    Pike13::Desk::EventOccurrenceNote.all(event_occurrence_id: event_occurrence_id).to_json
+  class << self
+    def call(event_occurrence_id:, server_context:)
+      Pike13::Desk::EventOccurrenceNote.all(event_occurrence_id: event_occurrence_id).to_json
+    end
   end
 end
 
@@ -25,13 +30,18 @@ class DeskGetEventOccurrenceNote < Pike13BaseTool
     Use when you need complete details of a specific class note.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID (integer)' }
+    },
+    required: ['event_occurrence_id', 'note_id']
+  )
 
-  def call(event_occurrence_id:, note_id:)
-    Pike13::Desk::EventOccurrenceNote.find(event_occurrence_id: event_occurrence_id, id: note_id).to_json
+  class << self
+    def call(event_occurrence_id:, note_id:, server_context:)
+      Pike13::Desk::EventOccurrenceNote.find(event_occurrence_id: event_occurrence_id, id: note_id).to_json
+    end
   end
 end
 
@@ -44,22 +54,27 @@ class DeskCreateEventOccurrenceNote < Pike13BaseTool
     WARNING: Use "note" parameter, not "body".
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-    required(:note).filled(:string).description('Note content text (use "note" not "body")')
-    optional(:subject).maybe(:string).description('Optional: Note subject/title')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional note attributes')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
+      note: { type: 'string', description: 'Note content text (use "note" not "body' },
+      subject: { type: 'string', description: 'Optional: Note subject/title' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional note attributes' }
+    },
+    required: ['event_occurrence_id', 'note']
+  )
 
-  def call(event_occurrence_id:, note:, subject: nil, additional_attributes: nil)
-    attributes = { note: note }
-    attributes[:subject] = subject if subject
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(event_occurrence_id:, note:, subject: nil, additional_attributes: nil, server_context:)
+      attributes = { note: note }
+      attributes[:subject] = subject if subject
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::EventOccurrenceNote.create(
-      event_occurrence_id: event_occurrence_id,
-      attributes: attributes
-    ).to_json
+      Pike13::Desk::EventOccurrenceNote.create(
+        event_occurrence_id: event_occurrence_id,
+        attributes: attributes
+      ).to_json
+    end
   end
 end
 
@@ -72,25 +87,30 @@ class DeskUpdateEventOccurrenceNote < Pike13BaseTool
     WARNING: Use "note" parameter for content, not "body".
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID to update (integer)')
-    optional(:note).maybe(:string).description('Optional: Updated note content (use "note" not "body")')
-    optional(:subject).maybe(:string).description('Optional: Updated note subject/title')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes to update')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID to update (integer)' },
+      note: { type: 'string', description: 'Optional: Updated note content (use "note" not "body' },
+      subject: { type: 'string', description: 'Optional: Updated note subject/title' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes to update' }
+    },
+    required: ['event_occurrence_id', 'note_id']
+  )
 
-  def call(event_occurrence_id:, note_id:, note: nil, subject: nil, additional_attributes: nil)
-    attributes = {}
-    attributes[:note] = note if note
-    attributes[:subject] = subject if subject
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(event_occurrence_id:, note_id:, note: nil, subject: nil, additional_attributes: nil, server_context:)
+      attributes = {}
+      attributes[:note] = note if note
+      attributes[:subject] = subject if subject
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::EventOccurrenceNote.update(
-      event_occurrence_id: event_occurrence_id,
-      id: note_id,
-      attributes: attributes
-    ).to_json
+      Pike13::Desk::EventOccurrenceNote.update(
+        event_occurrence_id: event_occurrence_id,
+        id: note_id,
+        attributes: attributes
+      ).to_json
+    end
   end
 end
 
@@ -102,16 +122,21 @@ class DeskDeleteEventOccurrenceNote < Pike13BaseTool
     Use with caution - deletion is permanent.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID to delete (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID to delete (integer)' }
+    },
+    required: ['event_occurrence_id', 'note_id']
+  )
 
-  def call(event_occurrence_id:, note_id:)
-    Pike13::Desk::EventOccurrenceNote.destroy(
-      event_occurrence_id: event_occurrence_id,
-      id: note_id
-    ).to_json
+  class << self
+    def call(event_occurrence_id:, note_id:, server_context:)
+      Pike13::Desk::EventOccurrenceNote.destroy(
+        event_occurrence_id: event_occurrence_id,
+        id: note_id
+      ).to_json
+    end
   end
 end
 
@@ -122,12 +147,17 @@ class FrontListEventOccurrenceNotes < Pike13BaseTool
     Use for customer self-service to view class announcements or session information.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:)
-    Pike13::Front::EventOccurrenceNote.all(event_occurrence_id: event_occurrence_id).to_json
+  class << self
+    def call(event_occurrence_id:, server_context:)
+      Pike13::Front::EventOccurrenceNote.all(event_occurrence_id: event_occurrence_id).to_json
+    end
   end
 end
 
@@ -138,15 +168,20 @@ class FrontGetEventOccurrenceNote < Pike13BaseTool
     Use for customer access to class notes or announcements.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID (integer)' }
+    },
+    required: ['event_occurrence_id', 'note_id']
+  )
 
-  def call(event_occurrence_id:, note_id:)
-    Pike13::Front::EventOccurrenceNote.find(
-      event_occurrence_id: event_occurrence_id,
-      id: note_id
-    ).to_json
+  class << self
+    def call(event_occurrence_id:, note_id:, server_context:)
+      Pike13::Front::EventOccurrenceNote.find(
+        event_occurrence_id: event_occurrence_id,
+        id: note_id
+      ).to_json
+    end
   end
 end

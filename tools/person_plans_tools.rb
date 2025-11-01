@@ -9,12 +9,17 @@ class DeskListPersonPlans < Pike13BaseTool
     Use for membership management, billing inquiries, or plan verification.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Desk::PersonPlan.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Desk::PersonPlan.all(person_id: person_id).to_json
+    end
   end
 end
 
@@ -25,11 +30,16 @@ class FrontListPersonPlans < Pike13BaseTool
     Use for customer self-service membership viewing.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Front::PersonPlan.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Front::PersonPlan.all(person_id: person_id).to_json
+    end
   end
 end

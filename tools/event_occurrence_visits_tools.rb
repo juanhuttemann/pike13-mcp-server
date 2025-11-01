@@ -9,11 +9,16 @@ class DeskListEventOccurrenceVisits < Pike13BaseTool
     Use for attendance tracking, roster viewing, or session reporting.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:)
-    Pike13::Desk::EventOccurrenceVisit.all(event_occurrence_id: event_occurrence_id).to_json
+  class << self
+    def call(event_occurrence_id:, server_context:)
+      Pike13::Desk::EventOccurrenceVisit.all(event_occurrence_id: event_occurrence_id).to_json
+    end
   end
 end

@@ -17,12 +17,17 @@ class FrontGetWaitlistEntry < Pike13BaseTool
     Use to show customers their waitlist status.
   DESC
 
-  arguments do
-    required(:entry_id).filled(:integer).description('Unique Pike13 waitlist entry ID')
-  end
+  input_schema(
+    properties: {
+      entry_id: { type: 'integer', description: 'Unique Pike13 waitlist entry ID' }
+    },
+    required: ['entry_id']
+  )
 
-  def call(entry_id:)
-    Pike13::Front::WaitlistEntry.find(entry_id).to_json
+  class << self
+    def call(entry_id:, server_context:)
+      Pike13::Front::WaitlistEntry.find(entry_id).to_json
+    end
   end
 end
 
@@ -38,15 +43,20 @@ class FrontCreateWaitlistEntry < Pike13BaseTool
     Use to allow customers to join waitlist for full classes.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to join waitlist for')
-    optional(:person_id).maybe(:integer).description('Optional: person ID (defaults to authenticated person)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID to join waitlist for' },
+      person_id: { type: 'integer', description: 'Optional: person ID (defaults to authenticated person)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:, person_id: nil)
-    params = { event_occurrence_id: event_occurrence_id }
-    params[:person_id] = person_id if person_id
-    Pike13::Front::WaitlistEntry.create(params).to_json
+  class << self
+    def call(event_occurrence_id:, person_id: nil, server_context:)
+      params = { event_occurrence_id: event_occurrence_id }
+      params[:person_id] = person_id if person_id
+      Pike13::Front::WaitlistEntry.create(params).to_json
+    end
   end
 end
 
@@ -59,12 +69,17 @@ class FrontDeleteWaitlistEntry < Pike13BaseTool
     Use to allow customers to cancel their waitlist position.
   DESC
 
-  arguments do
-    required(:entry_id).filled(:integer).description('Waitlist entry ID to delete')
-  end
+  input_schema(
+    properties: {
+      entry_id: { type: 'integer', description: 'Waitlist entry ID to delete' }
+    },
+    required: ['entry_id']
+  )
 
-  def call(entry_id:)
-    Pike13::Front::WaitlistEntry.delete(entry_id).to_json
+  class << self
+    def call(entry_id:, server_context:)
+      Pike13::Front::WaitlistEntry.delete(entry_id).to_json
+    end
   end
 end
 
@@ -77,8 +92,10 @@ class DeskListWaitlistEntries < Pike13BaseTool
     Use for waitlist management, filling open spots, or understanding demand for full classes.
   DESC
 
-  def call
-    Pike13::Desk::WaitlistEntry.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::WaitlistEntry.all.to_json
+    end
   end
 end
 
@@ -94,12 +111,17 @@ class DeskGetWaitlistEntry < Pike13BaseTool
     Use for waitlist management or customer service inquiries.
   DESC
 
-  arguments do
-    required(:entry_id).filled(:integer).description('Unique Pike13 waitlist entry ID')
-  end
+  input_schema(
+    properties: {
+      entry_id: { type: 'integer', description: 'Unique Pike13 waitlist entry ID' }
+    },
+    required: ['entry_id']
+  )
 
-  def call(entry_id:)
-    Pike13::Desk::WaitlistEntry.find(entry_id).to_json
+  class << self
+    def call(entry_id:, server_context:)
+      Pike13::Desk::WaitlistEntry.find(entry_id).to_json
+    end
   end
 end
 
@@ -115,15 +137,20 @@ class DeskCreateWaitlistEntry < Pike13BaseTool
     Use to manually add people to waitlist.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Event occurrence ID to join waitlist for')
-    optional(:person_id).maybe(:integer).description('Optional: person ID (defaults to current staff member)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID to join waitlist for' },
+      person_id: { type: 'integer', description: 'Optional: person ID (defaults to current staff member)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:, person_id: nil)
-    params = { event_occurrence_id: event_occurrence_id }
-    params[:person_id] = person_id if person_id
-    Pike13::Desk::WaitlistEntry.create(params).to_json
+  class << self
+    def call(event_occurrence_id:, person_id: nil, server_context:)
+      params = { event_occurrence_id: event_occurrence_id }
+      params[:person_id] = person_id if person_id
+      Pike13::Desk::WaitlistEntry.create(params).to_json
+    end
   end
 end
 
@@ -145,14 +172,19 @@ class DeskUpdateWaitlistEntry < Pike13BaseTool
     Use to manage waitlist state changes.
   DESC
 
-  arguments do
-    required(:entry_id).filled(:integer).description('Waitlist entry ID to update')
-    required(:state_event).filled(:string).description('State transition (wait or enroll)')
-  end
+  input_schema(
+    properties: {
+      entry_id: { type: 'integer', description: 'Waitlist entry ID to update' },
+      state_event: { type: 'string', description: 'State transition (wait or enroll)' }
+    },
+    required: ['entry_id', 'state_event']
+  )
 
-  def call(entry_id:, state_event:)
-    params = { state_event: state_event }
-    Pike13::Desk::WaitlistEntry.update(entry_id, params).to_json
+  class << self
+    def call(entry_id:, state_event:, server_context:)
+      params = { state_event: state_event }
+      Pike13::Desk::WaitlistEntry.update(entry_id, params).to_json
+    end
   end
 end
 
@@ -165,11 +197,16 @@ class DeskDeleteWaitlistEntry < Pike13BaseTool
     Use to manually remove people from waitlist.
   DESC
 
-  arguments do
-    required(:entry_id).filled(:integer).description('Waitlist entry ID to delete')
-  end
+  input_schema(
+    properties: {
+      entry_id: { type: 'integer', description: 'Waitlist entry ID to delete' }
+    },
+    required: ['entry_id']
+  )
 
-  def call(entry_id:)
-    Pike13::Desk::WaitlistEntry.delete(entry_id).to_json
+  class << self
+    def call(entry_id:, server_context:)
+      Pike13::Desk::WaitlistEntry.delete(entry_id).to_json
+    end
   end
 end

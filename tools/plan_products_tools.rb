@@ -15,16 +15,21 @@ class FrontListPlanProducts < Pike13BaseTool
     Use to display membership options to customers for enrollment or pricing comparison.
   DESC
 
-  arguments do
-    optional(:location_ids).maybe(:string).description('Optional: comma-delimited location IDs to filter plan products')
-    optional(:service_ids).maybe(:string).description('Optional: comma-delimited service IDs to filter plan products')
-  end
+  input_schema(
+    properties: {
+      location_ids: { type: 'string', description: 'Optional: comma-delimited location IDs to filter plan products' },
+      service_ids: { type: 'string', description: 'Optional: comma-delimited service IDs to filter plan products' }
+    },
+    required: []
+  )
 
-  def call(location_ids: nil, service_ids: nil)
-    params = {}
-    params[:location_ids] = location_ids if location_ids
-    params[:service_ids] = service_ids if service_ids
-    Pike13::Front::PlanProduct.all(**params).to_json
+  class << self
+    def call(location_ids: nil, service_ids: nil, server_context:)
+      params = {}
+      params[:location_ids] = location_ids if location_ids
+      params[:service_ids] = service_ids if service_ids
+      Pike13::Front::PlanProduct.all(**params).to_json
+    end
   end
 end
 
@@ -38,12 +43,17 @@ class FrontGetPlanProduct < Pike13BaseTool
     Use to show detailed membership information before purchase.
   DESC
 
-  arguments do
-    required(:plan_product_id).filled(:integer).description('Unique Pike13 plan product ID')
-  end
+  input_schema(
+    properties: {
+      plan_product_id: { type: 'integer', description: 'Unique Pike13 plan product ID' }
+    },
+    required: ['plan_product_id']
+  )
 
-  def call(plan_product_id:)
-    Pike13::Front::PlanProduct.find(plan_product_id).to_json
+  class << self
+    def call(plan_product_id:, server_context:)
+      Pike13::Front::PlanProduct.find(plan_product_id).to_json
+    end
   end
 end
 
@@ -62,16 +72,21 @@ class DeskListPlanProducts < Pike13BaseTool
     Use for plan configuration, sales reporting, membership management, or administrative tasks.
   DESC
 
-  arguments do
-    optional(:location_ids).maybe(:string).description('Optional: comma-delimited location IDs to filter plan products')
-    optional(:service_ids).maybe(:string).description('Optional: comma-delimited service IDs to filter plan products')
-  end
+  input_schema(
+    properties: {
+      location_ids: { type: 'string', description: 'Optional: comma-delimited location IDs to filter plan products' },
+      service_ids: { type: 'string', description: 'Optional: comma-delimited service IDs to filter plan products' }
+    },
+    required: []
+  )
 
-  def call(location_ids: nil, service_ids: nil)
-    params = {}
-    params[:location_ids] = location_ids if location_ids
-    params[:service_ids] = service_ids if service_ids
-    Pike13::Desk::PlanProduct.all(**params).to_json
+  class << self
+    def call(location_ids: nil, service_ids: nil, server_context:)
+      params = {}
+      params[:location_ids] = location_ids if location_ids
+      params[:service_ids] = service_ids if service_ids
+      Pike13::Desk::PlanProduct.all(**params).to_json
+    end
   end
 end
 
@@ -88,11 +103,16 @@ class DeskGetPlanProduct < Pike13BaseTool
     Use for detailed plan review, configuration verification, or customer service inquiries.
   DESC
 
-  arguments do
-    required(:plan_product_id).filled(:integer).description('Unique Pike13 plan product ID')
-  end
+  input_schema(
+    properties: {
+      plan_product_id: { type: 'integer', description: 'Unique Pike13 plan product ID' }
+    },
+    required: ['plan_product_id']
+  )
 
-  def call(plan_product_id:)
-    Pike13::Desk::PlanProduct.find(plan_product_id).to_json
+  class << self
+    def call(plan_product_id:, server_context:)
+      Pike13::Desk::PlanProduct.find(plan_product_id).to_json
+    end
   end
 end

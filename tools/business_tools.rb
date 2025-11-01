@@ -9,8 +9,10 @@ class AccountListBusinesses < Pike13BaseTool
     NOT needed for regular operations - most users work within one business.
   DESC
 
-  def call
-    Pike13::Account::Business.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Account::Business.all.to_json
+    end
   end
 end
 
@@ -21,12 +23,17 @@ class AccountGetBusiness < Pike13BaseTool
     Use when user needs details about a specific business they own or administer.
   DESC
 
-  arguments do
-    required(:business_id).filled(:integer).description('Unique Pike13 business ID')
-  end
+  input_schema(
+    properties: {
+      business_id: { type: 'integer', description: 'Unique Pike13 business ID' }
+    },
+    required: ['business_id']
+  )
 
-  def call(business_id:)
-    Pike13::Account::Business.find(business_id).to_json
+  class << self
+    def call(business_id:, server_context:)
+      Pike13::Account::Business.find(business_id).to_json
+    end
   end
 end
 
@@ -37,8 +44,10 @@ class FrontGetBusiness < Pike13BaseTool
     Returns basic info - for admin details use DeskGetBusiness.
   DESC
 
-  def call
-    Pike13::Front::Business.find.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Business.find.to_json
+    end
   end
 end
 
@@ -49,8 +58,10 @@ class FrontGetBranding < Pike13BaseTool
     Use to customize UI to match business brand identity or display branded content in customer apps.
   DESC
 
-  def call
-    Pike13::Front::Branding.find.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Branding.find.to_json
+    end
   end
 end
 
@@ -61,8 +72,10 @@ class DeskGetBusiness < Pike13BaseTool
     Contains sensitive info - NOT for customer display.
   DESC
 
-  def call
-    Pike13::Desk::Business.find.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Business.find.to_json
+    end
   end
 end
 
@@ -74,8 +87,10 @@ class DeskGetBusinessFranchisees < Pike13BaseTool
     Only works for franchisor accounts.
   DESC
 
-  def call
-    Pike13::Desk::Business.franchisees.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Business.franchisees.to_json
+    end
   end
 end
 
@@ -86,7 +101,9 @@ class FrontGetBusinessFranchisees < Pike13BaseTool
     Use to display multiple franchise locations to customers.
   DESC
 
-  def call
-    Pike13::Front::Business.franchisees.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Business.franchisees.to_json
+    end
   end
 end

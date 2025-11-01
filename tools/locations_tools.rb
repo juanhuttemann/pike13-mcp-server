@@ -12,8 +12,10 @@ class FrontListLocations < Pike13BaseTool
     Shows only publicly visible locations.
   DESC
 
-  def call
-    Pike13::Front::Location.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Location.all.to_json
+    end
   end
 end
 
@@ -24,12 +26,17 @@ class FrontGetLocation < Pike13BaseTool
     Use to show detailed location information to customers.
   DESC
 
-  arguments do
-    required(:location_id).filled(:integer).description('Unique Pike13 location ID')
-  end
+  input_schema(
+    properties: {
+      location_id: { type: 'integer', description: 'Unique Pike13 location ID' }
+    },
+    required: ['location_id']
+  )
 
-  def call(location_id:)
-    Pike13::Front::Location.find(location_id).to_json
+  class << self
+    def call(location_id:, server_context:)
+      Pike13::Front::Location.find(location_id).to_json
+    end
   end
 end
 
@@ -42,8 +49,10 @@ class DeskListLocations < Pike13BaseTool
     Use for location management or staff scheduling.
   DESC
 
-  def call
-    Pike13::Desk::Location.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Location.all.to_json
+    end
   end
 end
 
@@ -54,11 +63,16 @@ class DeskGetLocation < Pike13BaseTool
     Use for location management or administrative tasks.
   DESC
 
-  arguments do
-    required(:location_id).filled(:integer).description('Unique Pike13 location ID')
-  end
+  input_schema(
+    properties: {
+      location_id: { type: 'integer', description: 'Unique Pike13 location ID' }
+    },
+    required: ['location_id']
+  )
 
-  def call(location_id:)
-    Pike13::Desk::Location.find(location_id).to_json
+  class << self
+    def call(location_id:, server_context:)
+      Pike13::Desk::Location.find(location_id).to_json
+    end
   end
 end

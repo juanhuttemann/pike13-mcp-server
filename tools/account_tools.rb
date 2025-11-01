@@ -9,12 +9,17 @@ class AccountCreateConfirmation < Pike13BaseTool
     Use when user needs to verify their email address.
   DESC
 
-  arguments do
-    required(:email).filled(:string).description('Email address to send confirmation to')
-  end
+  input_schema(
+    properties: {
+      email: { type: 'string', description: 'Email address to send confirmation to' }
+    },
+    required: ['email']
+  )
 
-  def call(email:)
-    Pike13::Account::Confirmation.create(email: email).to_json
+  class << self
+    def call(email:, server_context:)
+      Pike13::Account::Confirmation.create(email: email).to_json
+    end
   end
 end
 
@@ -25,11 +30,16 @@ class AccountCreatePasswordReset < Pike13BaseTool
     Use when user forgot password or needs to reset it.
   DESC
 
-  arguments do
-    required(:email).filled(:string).description('Email address for password reset')
-  end
+  input_schema(
+    properties: {
+      email: { type: 'string', description: 'Email address for password reset' }
+    },
+    required: ['email']
+  )
 
-  def call(email:)
-    Pike13::Account::Password.create(email: email).to_json
+  class << self
+    def call(email:, server_context:)
+      Pike13::Account::Password.create(email: email).to_json
+    end
   end
 end

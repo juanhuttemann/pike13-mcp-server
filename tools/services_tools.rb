@@ -7,8 +7,10 @@ class FrontListServices < Pike13BaseTool
     [CLIENT] STEP 1: List available services (yoga, personal training, etc). Returns: name, type, price, duration. Use FIRST to show what services are available, then use FrontFindAvailableAppointmentSlots to check times for appointment services, or FrontListEventOccurrences for class services.
   DESC
 
-  def call
-    Pike13::Front::Service.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Service.all.to_json
+    end
   end
 end
 
@@ -17,12 +19,17 @@ class FrontGetService < Pike13BaseTool
     [CLIENT] Get detailed service info by ID. Returns: full description, policies, requirements. Use when customer asks "tell me about [service]" or needs details before booking. Workflow: FrontListServices → FrontGetService → FrontFindAvailableAppointmentSlots/FrontListEventOccurrences
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Unique Pike13 service ID')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Unique Pike13 service ID' }
+    },
+    required: ['service_id']
+  )
 
-  def call(service_id:)
-    Pike13::Front::Service.find(service_id).to_json
+  class << self
+    def call(service_id:, server_context:)
+      Pike13::Front::Service.find(service_id).to_json
+    end
   end
 end
 
@@ -38,21 +45,26 @@ class FrontGetServiceEnrollmentEligibilities < Pike13BaseTool
     Use before attempting enrollment to check eligibility and display appropriate messages.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Unique Pike13 service ID')
-    optional(:event_id).maybe(:integer).description('Optional: event ID for course enrollment checks')
-    optional(:location_id).maybe(:integer).description('Optional: location ID to differentiate services')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-delimited staff member IDs')
-    optional(:start_at).maybe(:string).description('Optional: ISO 8601 timestamp when service starts')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Unique Pike13 service ID' },
+      event_id: { type: 'integer', description: 'Optional: event ID for course enrollment checks' },
+      location_id: { type: 'integer', description: 'Optional: location ID to differentiate services' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-delimited staff member IDs' },
+      start_at: { type: 'string', description: 'Optional: ISO 8601 timestamp when service starts' }
+    },
+    required: ['service_id']
+  )
 
-  def call(service_id:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil)
-    params = {}
-    params[:event_id] = event_id if event_id
-    params[:location_id] = location_id if location_id
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
-    params[:start_at] = start_at if start_at
-    Pike13::Front::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
+  class << self
+    def call(service_id:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil, server_context:)
+      params = {}
+      params[:event_id] = event_id if event_id
+      params[:location_id] = location_id if location_id
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
+      params[:start_at] = start_at if start_at
+      Pike13::Front::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
+    end
   end
 end
 
@@ -71,14 +83,19 @@ class DeskListServices < Pike13BaseTool
     Use for service configuration, schedule planning, or administrative management.
   DESC
 
-  arguments do
-    optional(:include_hidden).maybe(:bool).description('Optional: include hidden services (boolean)')
-  end
+  input_schema(
+    properties: {
+      include_hidden: { type: 'boolean', description: 'Optional: include hidden services (boolean)' }
+    },
+    required: []
+  )
 
-  def call(include_hidden: nil)
-    params = {}
-    params[:include_hidden] = include_hidden unless include_hidden.nil?
-    Pike13::Desk::Service.all(**params).to_json
+  class << self
+    def call(include_hidden: nil, server_context:)
+      params = {}
+      params[:include_hidden] = include_hidden unless include_hidden.nil?
+      Pike13::Desk::Service.all(**params).to_json
+    end
   end
 end
 
@@ -93,12 +110,17 @@ class DeskGetService < Pike13BaseTool
     Use for detailed service review, configuration verification, or customer service inquiries.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Unique Pike13 service ID')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Unique Pike13 service ID' }
+    },
+    required: ['service_id']
+  )
 
-  def call(service_id:)
-    Pike13::Desk::Service.find(service_id).to_json
+  class << self
+    def call(service_id:, server_context:)
+      Pike13::Desk::Service.find(service_id).to_json
+    end
   end
 end
 
@@ -116,21 +138,26 @@ class DeskGetServiceEnrollmentEligibilities < Pike13BaseTool
     Use before enrolling persons to validate eligibility.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Unique Pike13 service ID')
-    required(:person_ids).filled(:string).description('Required: comma-delimited person IDs')
-    optional(:event_id).maybe(:integer).description('Optional: event ID for course enrollment checks')
-    optional(:location_id).maybe(:integer).description('Optional: location ID to differentiate services')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-delimited staff member IDs')
-    optional(:start_at).maybe(:string).description('Optional: ISO 8601 timestamp when service starts')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Unique Pike13 service ID' },
+      person_ids: { type: 'string', description: 'Required: comma-delimited person IDs' },
+      event_id: { type: 'integer', description: 'Optional: event ID for course enrollment checks' },
+      location_id: { type: 'integer', description: 'Optional: location ID to differentiate services' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-delimited staff member IDs' },
+      start_at: { type: 'string', description: 'Optional: ISO 8601 timestamp when service starts' }
+    },
+    required: ['service_id', 'person_ids']
+  )
 
-  def call(service_id:, person_ids:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil)
-    params = { person_ids: person_ids }
-    params[:event_id] = event_id if event_id
-    params[:location_id] = location_id if location_id
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
-    params[:start_at] = start_at if start_at
-    Pike13::Desk::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
+  class << self
+    def call(service_id:, person_ids:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil, server_context:)
+      params = { person_ids: person_ids }
+      params[:event_id] = event_id if event_id
+      params[:location_id] = location_id if location_id
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
+      params[:start_at] = start_at if start_at
+      Pike13::Desk::Service.enrollment_eligibilities(service_id: service_id, **params).to_json
+    end
   end
 end

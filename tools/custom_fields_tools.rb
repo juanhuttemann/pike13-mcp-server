@@ -9,7 +9,9 @@ class DeskListCustomFields < Pike13BaseTool
     Use to understand additional data collected on person profiles beyond standard fields (e.g., emergency contacts, preferences, medical info).
   DESC
 
-  def call
-    Pike13::Desk::CustomField.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::CustomField.all.to_json
+    end
   end
 end

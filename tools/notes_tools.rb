@@ -9,12 +9,17 @@ class DeskListNotes < Pike13BaseTool
     Use to view communication history, customer service notes, or account annotations.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Desk::Note.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Desk::Note.all(person_id: person_id).to_json
+    end
   end
 end
 
@@ -25,13 +30,18 @@ class DeskGetNote < Pike13BaseTool
     Use when you need complete details of a specific note.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID (integer)' }
+    },
+    required: ['person_id', 'note_id']
+  )
 
-  def call(person_id:, note_id:)
-    Pike13::Desk::Note.find(person_id: person_id, id: note_id).to_json
+  class << self
+    def call(person_id:, note_id:, server_context:)
+      Pike13::Desk::Note.find(person_id: person_id, id: note_id).to_json
+    end
   end
 end
 
@@ -44,19 +54,24 @@ class DeskCreateNote < Pike13BaseTool
     WARNING: Use "note" parameter, not "body".
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:note).filled(:string).description('Note content text (use "note" not "body")')
-    optional(:subject).maybe(:string).description('Optional: Note subject/title')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional note attributes (e.g., visibility, category)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      note: { type: 'string', description: 'Note content text (use "note" not "body")' },
+      subject: { type: 'string', description: 'Optional: Note subject/title' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional note attributes (e.g., visibility, category)' }
+    },
+    required: ['person_id', 'note']
+  )
 
-  def call(person_id:, note:, subject: nil, additional_attributes: nil)
-    attributes = { note: note }
-    attributes[:subject] = subject if subject
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(person_id:, note:, subject: nil, additional_attributes: nil, server_context:)
+      attributes = { note: note }
+      attributes[:subject] = subject if subject
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::Note.create(person_id: person_id, attributes: attributes).to_json
+      Pike13::Desk::Note.create(person_id: person_id, attributes: attributes).to_json
+    end
   end
 end
 
@@ -69,21 +84,26 @@ class DeskUpdateNote < Pike13BaseTool
     WARNING: Use "note" parameter for content, not "body".
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID to update (integer)')
-    optional(:note).maybe(:string).description('Optional: Updated note content (use "note" not "body")')
-    optional(:subject).maybe(:string).description('Optional: Updated note subject/title')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes to update')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID to update (integer)' },
+      note: { type: 'string', description: 'Optional: Updated note content (use "note" not "body")' },
+      subject: { type: 'string', description: 'Optional: Updated note subject/title' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes to update' }
+    },
+    required: ['person_id', 'note_id']
+  )
 
-  def call(person_id:, note_id:, note: nil, subject: nil, additional_attributes: nil)
-    attributes = {}
-    attributes[:note] = note if note
-    attributes[:subject] = subject if subject
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(person_id:, note_id:, note: nil, subject: nil, additional_attributes: nil, server_context:)
+      attributes = {}
+      attributes[:note] = note if note
+      attributes[:subject] = subject if subject
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::Note.update(person_id: person_id, id: note_id, attributes: attributes).to_json
+      Pike13::Desk::Note.update(person_id: person_id, id: note_id, attributes: attributes).to_json
+    end
   end
 end
 
@@ -95,13 +115,18 @@ class DeskDeleteNote < Pike13BaseTool
     Use with caution - deletion is permanent.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID to delete (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID to delete (integer)' }
+    },
+    required: ['person_id', 'note_id']
+  )
 
-  def call(person_id:, note_id:)
-    Pike13::Desk::Note.destroy(person_id: person_id, id: note_id).to_json
+  class << self
+    def call(person_id:, note_id:, server_context:)
+      Pike13::Desk::Note.destroy(person_id: person_id, id: note_id).to_json
+    end
   end
 end
 
@@ -112,12 +137,17 @@ class FrontListNotes < Pike13BaseTool
     Use for customer self-service to view account notes or communications marked as customer-visible.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Front::Note.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Front::Note.all(person_id: person_id).to_json
+    end
   end
 end
 
@@ -128,12 +158,17 @@ class FrontGetNote < Pike13BaseTool
     Use for customer self-service note access.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:note_id).filled(:integer).description('Unique note ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      note_id: { type: 'integer', description: 'Unique note ID (integer)' }
+    },
+    required: ['person_id', 'note_id']
+  )
 
-  def call(person_id:, note_id:)
-    Pike13::Front::Note.find(person_id: person_id, id: note_id).to_json
+  class << self
+    def call(person_id:, note_id:, server_context:)
+      Pike13::Front::Note.find(person_id: person_id, id: note_id).to_json
+    end
   end
 end

@@ -9,12 +9,17 @@ class FrontGetBookingLease < Pike13BaseTool
     Use to verify lease status during multi-step booking checkout or to display countdown timer for held spots.
   DESC
 
-  arguments do
-    required(:booking_id).filled(:integer).description('Unique Pike13 booking ID (integer)')
-    required(:lease_id).filled(:integer).description('Unique booking lease ID (integer)')
-  end
+  input_schema(
+    properties: {
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' },
+      lease_id: { type: 'integer', description: 'Unique booking lease ID (integer)' }
+    },
+    required: ['booking_id', 'lease_id']
+  )
 
-  def call(booking_id:, lease_id:)
-    Pike13::Front::Booking.find_lease(booking_id: booking_id, id: lease_id).to_json
+  class << self
+    def call(booking_id:, lease_id:, server_context:)
+      Pike13::Front::Booking.find_lease(booking_id: booking_id, id: lease_id).to_json
+    end
   end
 end

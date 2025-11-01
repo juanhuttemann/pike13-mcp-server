@@ -13,12 +13,17 @@ class DeskGetPunch < Pike13BaseTool
     Use to verify punch usage, resolve billing disputes, or track plan consumption.
   DESC
 
-  arguments do
-    required(:punch_id).filled(:integer).description('Unique Pike13 punch ID')
-  end
+  input_schema(
+    properties: {
+      punch_id: { type: 'integer', description: 'Unique Pike13 punch ID' }
+    },
+    required: ['punch_id']
+  )
 
-  def call(punch_id:)
-    Pike13::Desk::Punch.find(punch_id).to_json
+  class << self
+    def call(punch_id:, server_context:)
+      Pike13::Desk::Punch.find(punch_id).to_json
+    end
   end
 end
 
@@ -34,15 +39,20 @@ class DeskCreatePunch < Pike13BaseTool
     Use to manually apply plan credits to visits or resolve payment issues.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Visit ID to pay for')
-    optional(:plan_id).maybe(:integer).description('Optional: plan ID to use (auto-selected if omitted)')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Visit ID to pay for' },
+      plan_id: { type: 'integer', description: 'Optional: plan ID to use (auto-selected if omitted)' }
+    },
+    required: ['visit_id']
+  )
 
-  def call(visit_id:, plan_id: nil)
-    params = { visit_id: visit_id }
-    params[:plan_id] = plan_id if plan_id
-    Pike13::Desk::Punch.create(params).to_json
+  class << self
+    def call(visit_id:, plan_id: nil, server_context:)
+      params = { visit_id: visit_id }
+      params[:plan_id] = plan_id if plan_id
+      Pike13::Desk::Punch.create(params).to_json
+    end
   end
 end
 
@@ -55,11 +65,16 @@ class DeskDeletePunch < Pike13BaseTool
     Use to reverse incorrect punch usage or correct billing errors.
   DESC
 
-  arguments do
-    required(:punch_id).filled(:integer).description('Punch ID to delete')
-  end
+  input_schema(
+    properties: {
+      punch_id: { type: 'integer', description: 'Punch ID to delete' }
+    },
+    required: ['punch_id']
+  )
 
-  def call(punch_id:)
-    Pike13::Desk::Punch.delete(punch_id).to_json
+  class << self
+    def call(punch_id:, server_context:)
+      Pike13::Desk::Punch.delete(punch_id).to_json
+    end
   end
 end

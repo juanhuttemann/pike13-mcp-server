@@ -14,8 +14,10 @@ class FrontListStaffMembers < Pike13BaseTool
     Use to display instructor profiles to customers or show available practitioners for appointment booking.
   DESC
 
-  def call
-    Pike13::Front::StaffMember.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::StaffMember.all.to_json
+    end
   end
 end
 
@@ -30,12 +32,17 @@ class FrontGetStaffMember < Pike13BaseTool
     Use to show detailed staff profile information.
   DESC
 
-  arguments do
-    required(:staff_member_id).filled(:integer).description('Unique Pike13 staff member ID')
-  end
+  input_schema(
+    properties: {
+      staff_member_id: { type: 'integer', description: 'Unique Pike13 staff member ID' }
+    },
+    required: ['staff_member_id']
+  )
 
-  def call(staff_member_id:)
-    Pike13::Front::StaffMember.find(staff_member_id).to_json
+  class << self
+    def call(staff_member_id:, server_context:)
+      Pike13::Front::StaffMember.find(staff_member_id).to_json
+    end
   end
 end
 
@@ -49,8 +56,10 @@ class DeskListStaffMembers < Pike13BaseTool
     Use for staff management, contact lookup, or administrative tasks.
   DESC
 
-  def call
-    Pike13::Desk::StaffMember.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::StaffMember.all.to_json
+    end
   end
 end
 
@@ -66,11 +75,16 @@ class DeskGetStaffMember < Pike13BaseTool
     Use for staff profile viewing or administrative management.
   DESC
 
-  arguments do
-    required(:staff_member_id).description('Staff member ID or "me" for current user')
-  end
+  input_schema(
+    properties: {
+      staff_member_id: { type: 'string', description: 'Staff member ID or "me" for current user' }
+    },
+    required: ['staff_member_id']
+  )
 
-  def call(staff_member_id:)
-    Pike13::Desk::StaffMember.find(staff_member_id).to_json
+  class << self
+    def call(staff_member_id:, server_context:)
+      Pike13::Desk::StaffMember.find(staff_member_id).to_json
+    end
   end
 end

@@ -10,13 +10,18 @@ class FrontListEventOccurrences < Pike13BaseTool
     Workflow: FrontListEvents → FrontListEventOccurrences → FrontCreateVisit to book.
   DESC
 
-  arguments do
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format (e.g., "2025-01-15")')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format (e.g., "2025-01-22")')
-  end
+  input_schema(
+    properties: {
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-01-22' }
+    },
+    required: ['from', 'to']
+  )
 
-  def call(from:, to:)
-    Pike13::Front::EventOccurrence.all(from: from, to: to).to_json
+  class << self
+    def call(from:, to:, server_context:)
+      Pike13::Front::EventOccurrence.all(from: from, to: to).to_json
+    end
   end
 end
 
@@ -27,12 +32,17 @@ class FrontGetEventOccurrence < Pike13BaseTool
     Use to show class details before booking or to check availability.
   DESC
 
-  arguments do
-    required(:occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['occurrence_id']
+  )
 
-  def call(occurrence_id:)
-    Pike13::Front::EventOccurrence.find(occurrence_id).to_json
+  class << self
+    def call(occurrence_id:, server_context:)
+      Pike13::Front::EventOccurrence.find(occurrence_id).to_json
+    end
   end
 end
 
@@ -44,13 +54,18 @@ class DeskListEventOccurrences < Pike13BaseTool
     Required for most schedule operations.
   DESC
 
-  arguments do
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format (e.g., "2025-01-15")')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format (e.g., "2025-01-22")')
-  end
+  input_schema(
+    properties: {
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-01-22' }
+    },
+    required: ['from', 'to']
+  )
 
-  def call(from:, to:)
-    Pike13::Desk::EventOccurrence.all(from: from, to: to).to_json
+  class << self
+    def call(from:, to:, server_context:)
+      Pike13::Desk::EventOccurrence.all(from: from, to: to).to_json
+    end
   end
 end
 
@@ -61,12 +76,17 @@ class DeskGetEventOccurrence < Pike13BaseTool
     Use for attendance management, roster viewing, or occurrence-specific reporting.
   DESC
 
-  arguments do
-    required(:occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['occurrence_id']
+  )
 
-  def call(occurrence_id:)
-    Pike13::Desk::EventOccurrence.find(occurrence_id).to_json
+  class << self
+    def call(occurrence_id:, server_context:)
+      Pike13::Desk::EventOccurrence.find(occurrence_id).to_json
+    end
   end
 end
 
@@ -77,17 +97,22 @@ class FrontGetEventOccurrencesSummary < Pike13BaseTool
     Use for calendar views or availability overviews for customers.
   DESC
 
-  arguments do
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format')
-    optional(:additional_params).maybe(:hash).description('Optional: Additional filter parameters')
-  end
+  input_schema(
+    properties: {
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format' },
+      additional_params: { type: 'object', description: 'Optional: Additional filter parameters' }
+    },
+    required: ['from', 'to']
+  )
 
-  def call(from:, to:, additional_params: nil)
-    params = { from: from, to: to }
-    params.merge!(additional_params) if additional_params
+  class << self
+    def call(from:, to:, additional_params: nil, server_context:)
+      params = { from: from, to: to }
+      params.merge!(additional_params) if additional_params
 
-    Pike13::Front::EventOccurrence.summary(**params).to_json
+      Pike13::Front::EventOccurrence.summary(**params).to_json
+    end
   end
 end
 
@@ -98,14 +123,19 @@ class FrontGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
     Use before booking to check if customer can enroll and display appropriate warnings.
   DESC
 
-  arguments do
-    required(:occurrence_id).filled(:integer).description('Event occurrence ID to check eligibility for')
-    optional(:additional_params).maybe(:hash).description('Optional: Additional parameters')
-  end
+  input_schema(
+    properties: {
+      occurrence_id: { type: 'integer', description: 'Event occurrence ID to check eligibility for' },
+      additional_params: { type: 'object', description: 'Optional: Additional parameters' }
+    },
+    required: ['occurrence_id']
+  )
 
-  def call(occurrence_id:, additional_params: nil)
-    params = additional_params || {}
-    Pike13::Front::EventOccurrence.enrollment_eligibilities(id: occurrence_id, **params).to_json
+  class << self
+    def call(occurrence_id:, additional_params: nil, server_context:)
+      params = additional_params || {}
+      Pike13::Front::EventOccurrence.enrollment_eligibilities(id: occurrence_id, **params).to_json
+    end
   end
 end
 
@@ -116,17 +146,22 @@ class DeskGetEventOccurrencesSummary < Pike13BaseTool
     Use for reporting, dashboard views, or schedule analysis.
   DESC
 
-  arguments do
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format')
-    optional(:additional_params).maybe(:hash).description('Optional: Additional filter parameters')
-  end
+  input_schema(
+    properties: {
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format' },
+      additional_params: { type: 'object', description: 'Optional: Additional filter parameters' }
+    },
+    required: ['from', 'to']
+  )
 
-  def call(from:, to:, additional_params: nil)
-    params = { from: from, to: to }
-    params.merge!(additional_params) if additional_params
+  class << self
+    def call(from:, to:, additional_params: nil, server_context:)
+      params = { from: from, to: to }
+      params.merge!(additional_params) if additional_params
 
-    Pike13::Desk::EventOccurrence.summary(**params).to_json
+      Pike13::Desk::EventOccurrence.summary(**params).to_json
+    end
   end
 end
 
@@ -137,16 +172,21 @@ class DeskGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
     Use before enrolling people to verify they can join the class.
   DESC
 
-  arguments do
-    required(:occurrence_id).filled(:integer).description('Event occurrence ID to check eligibility for')
-    optional(:person_ids).maybe(:string).description('Optional: Comma-delimited person IDs to check')
-    optional(:additional_params).maybe(:hash).description('Optional: Additional parameters')
-  end
+  input_schema(
+    properties: {
+      occurrence_id: { type: 'integer', description: 'Event occurrence ID to check eligibility for' },
+      person_ids: { type: 'string', description: 'Optional: Comma-delimited person IDs to check' },
+      additional_params: { type: 'object', description: 'Optional: Additional parameters' }
+    },
+    required: ['occurrence_id']
+  )
 
-  def call(occurrence_id:, person_ids: nil, additional_params: nil)
-    params = additional_params || {}
-    params[:person_ids] = person_ids if person_ids
+  class << self
+    def call(occurrence_id:, person_ids: nil, additional_params: nil, server_context:)
+      params = additional_params || {}
+      params[:person_ids] = person_ids if person_ids
 
-    Pike13::Desk::EventOccurrence.enrollment_eligibilities(id: occurrence_id, **params).to_json
+      Pike13::Desk::EventOccurrence.enrollment_eligibilities(id: occurrence_id, **params).to_json
+    end
   end
 end

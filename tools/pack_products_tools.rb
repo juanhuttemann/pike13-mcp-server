@@ -10,8 +10,10 @@ class DeskListPackProducts < Pike13BaseTool
     Packs are purchased by clients to use for multiple visits.
   DESC
 
-  def call
-    Pike13::Desk::PackProduct.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::PackProduct.all.to_json
+    end
   end
 end
 
@@ -22,12 +24,17 @@ class DeskGetPackProduct < Pike13BaseTool
     Use for reviewing pack configuration or customer inquiries.
   DESC
 
-  arguments do
-    required(:pack_product_id).filled(:integer).description('Unique Pike13 pack product ID')
-  end
+  input_schema(
+    properties: {
+      pack_product_id: { type: 'integer', description: 'Unique Pike13 pack product ID' }
+    },
+    required: ['pack_product_id']
+  )
 
-  def call(pack_product_id:)
-    Pike13::Desk::PackProduct.find(pack_product_id).to_json
+  class << self
+    def call(pack_product_id:, server_context:)
+      Pike13::Desk::PackProduct.find(pack_product_id).to_json
+    end
   end
 end
 
@@ -39,22 +46,27 @@ class DeskCreatePackProduct < Pike13BaseTool
     Use for setting up new pack offerings.
   DESC
 
-  arguments do
-    required(:name).filled(:string).description('Pack product name')
-    required(:count).filled(:integer).description('Number of punches/visits in pack')
-    required(:price_cents).filled(:integer).description('Pack price in cents')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes (expiration_days, service_ids, etc.)')
-  end
+  input_schema(
+    properties: {
+      name: { type: 'string', description: 'Pack product name' },
+      count: { type: 'integer', description: 'Number of punches/visits in pack' },
+      price_cents: { type: 'integer', description: 'Pack price in cents' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes (expiration_days, service_ids, etc.)' }
+    },
+    required: ['name', 'count', 'price_cents']
+  )
 
-  def call(name:, count:, price_cents:, additional_attributes: nil)
-    attributes = {
-      name: name,
-      count: count,
-      price_cents: price_cents
-    }
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(name:, count:, price_cents:, additional_attributes: nil, server_context:)
+      attributes = {
+        name: name,
+        count: count,
+        price_cents: price_cents
+      }
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::PackProduct.create(attributes).to_json
+      Pike13::Desk::PackProduct.create(attributes).to_json
+    end
   end
 end
 
@@ -66,13 +78,18 @@ class DeskUpdatePackProduct < Pike13BaseTool
     Use for updating pack configurations.
   DESC
 
-  arguments do
-    required(:pack_product_id).filled(:integer).description('Unique Pike13 pack product ID to update')
-    required(:attributes).filled(:hash).description('Pack product attributes to update')
-  end
+  input_schema(
+    properties: {
+      pack_product_id: { type: 'integer', description: 'Unique Pike13 pack product ID to update' },
+      attributes: { type: 'object', description: 'Pack product attributes to update' }
+    },
+    required: ['pack_product_id', 'attributes']
+  )
 
-  def call(pack_product_id:, attributes:)
-    Pike13::Desk::PackProduct.update(pack_product_id, attributes).to_json
+  class << self
+    def call(pack_product_id:, attributes:, server_context:)
+      Pike13::Desk::PackProduct.update(pack_product_id, attributes).to_json
+    end
   end
 end
 
@@ -84,12 +101,17 @@ class DeskDeletePackProduct < Pike13BaseTool
     Returns confirmation.
   DESC
 
-  arguments do
-    required(:pack_product_id).filled(:integer).description('Unique Pike13 pack product ID to delete')
-  end
+  input_schema(
+    properties: {
+      pack_product_id: { type: 'integer', description: 'Unique Pike13 pack product ID to delete' }
+    },
+    required: ['pack_product_id']
+  )
 
-  def call(pack_product_id:)
-    Pike13::Desk::PackProduct.destroy(pack_product_id).to_json
+  class << self
+    def call(pack_product_id:, server_context:)
+      Pike13::Desk::PackProduct.destroy(pack_product_id).to_json
+    end
   end
 end
 
@@ -101,16 +123,21 @@ class DeskCreatePackFromProduct < Pike13BaseTool
     Use for selling packs to customers or issuing complimentary packs.
   DESC
 
-  arguments do
-    required(:pack_product_id).filled(:integer).description('Pack product ID to create pack from')
-    required(:person_id).filled(:integer).description('Person ID to assign pack to')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional pack attributes (price_cents override, expiration_date, etc.)')
-  end
+  input_schema(
+    properties: {
+      pack_product_id: { type: 'integer', description: 'Pack product ID to create pack from' },
+      person_id: { type: 'integer', description: 'Person ID to assign pack to' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional pack attributes (price_cents override, expiration_date, etc.)' }
+    },
+    required: ['pack_product_id', 'person_id']
+  )
 
-  def call(pack_product_id:, person_id:, additional_attributes: nil)
-    attributes = { person_id: person_id }
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(pack_product_id:, person_id:, additional_attributes: nil, server_context:)
+      attributes = { person_id: person_id }
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::PackProduct.create_pack(pack_product_id, attributes).to_json
+      Pike13::Desk::PackProduct.create_pack(pack_product_id, attributes).to_json
+    end
   end
 end

@@ -9,12 +9,17 @@ class DeskListFormsOfPayment < Pike13BaseTool
     Use for billing management, payment troubleshooting, or customer service.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Desk::FormOfPayment.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Desk::FormOfPayment.all(person_id: person_id).to_json
+    end
   end
 end
 
@@ -25,13 +30,18 @@ class DeskGetFormOfPayment < Pike13BaseTool
     Use for payment verification or billing inquiries.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID (integer)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:)
-    Pike13::Desk::FormOfPayment.find(person_id: person_id, id: form_of_payment_id).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, server_context:)
+      Pike13::Desk::FormOfPayment.find(person_id: person_id, id: form_of_payment_id).to_json
+    end
   end
 end
 
@@ -44,21 +54,26 @@ class DeskCreateFormOfPayment < Pike13BaseTool
     WARNING: Must include "type" field ("creditcard" or "ach").
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:type).filled(:string).description('Payment type: "creditcard" or "ach" (REQUIRED)')
-    required(:token).filled(:string).description('Payment processor token (from Stripe, etc.)')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes (billing address, is_default, etc.)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      type: { type: 'string', description: 'Payment type: "creditcard" or "ach" (REQUIRED)' },
+      token: { type: 'string', description: 'Payment processor token (from Stripe, etc.)' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes (billing address, is_default, etc.)' }
+    },
+    required: ['person_id', 'type', 'token']
+  )
 
-  def call(person_id:, type:, token:, additional_attributes: nil)
-    attributes = {
-      type: type,
-      token: token
-    }
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(person_id:, type:, token:, additional_attributes: nil, server_context:)
+      attributes = {
+        type: type,
+        token: token
+      }
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Desk::FormOfPayment.create(person_id: person_id, attributes: attributes).to_json
+      Pike13::Desk::FormOfPayment.create(person_id: person_id, attributes: attributes).to_json
+    end
   end
 end
 
@@ -70,18 +85,23 @@ class DeskUpdateFormOfPayment < Pike13BaseTool
     Use for updating billing address, setting default payment method, or updating expiration.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID to update (integer)')
-    optional(:attributes).maybe(:hash).description('Optional: Attributes to update (is_default, billing_address, etc.)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID to update (integer)' },
+      attributes: { type: 'object', description: 'Optional: Attributes to update (is_default, billing_address, etc.)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:, attributes: nil)
-    Pike13::Desk::FormOfPayment.update(
-      person_id: person_id,
-      id: form_of_payment_id,
-      attributes: attributes || {}
-    ).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, attributes: nil, server_context:)
+      Pike13::Desk::FormOfPayment.update(
+        person_id: person_id,
+        id: form_of_payment_id,
+        attributes: attributes || {}
+      ).to_json
+    end
   end
 end
 
@@ -94,13 +114,18 @@ class DeskDeleteFormOfPayment < Pike13BaseTool
     WARNING: Cannot delete if it is the default payment method for active subscriptions.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID to delete (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID to delete (integer)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:)
-    Pike13::Desk::FormOfPayment.destroy(person_id: person_id, id: form_of_payment_id).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, server_context:)
+      Pike13::Desk::FormOfPayment.destroy(person_id: person_id, id: form_of_payment_id).to_json
+    end
   end
 end
 
@@ -111,12 +136,17 @@ class FrontListFormsOfPayment < Pike13BaseTool
     Use for customer self-service payment management.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+    },
+    required: ['person_id']
+  )
 
-  def call(person_id:)
-    Pike13::Front::FormOfPayment.all(person_id: person_id).to_json
+  class << self
+    def call(person_id:, server_context:)
+      Pike13::Front::FormOfPayment.all(person_id: person_id).to_json
+    end
   end
 end
 
@@ -127,13 +157,18 @@ class FrontGetFormOfPayment < Pike13BaseTool
     Use for customer payment method viewing.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID (integer)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:)
-    Pike13::Front::FormOfPayment.find(person_id: person_id, id: form_of_payment_id).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, server_context:)
+      Pike13::Front::FormOfPayment.find(person_id: person_id, id: form_of_payment_id).to_json
+    end
   end
 end
 
@@ -144,12 +179,17 @@ class FrontGetFormOfPaymentMe < Pike13BaseTool
     Use for customer self-service payment viewing without requiring person_id.
   DESC
 
-  arguments do
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID (integer)')
-  end
+  input_schema(
+    properties: {
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID (integer)' }
+    },
+    required: ['form_of_payment_id']
+  )
 
-  def call(form_of_payment_id:)
-    Pike13::Front::FormOfPayment.find_me(id: form_of_payment_id).to_json
+  class << self
+    def call(form_of_payment_id:, server_context:)
+      Pike13::Front::FormOfPayment.find_me(id: form_of_payment_id).to_json
+    end
   end
 end
 
@@ -162,21 +202,26 @@ class FrontCreateFormOfPayment < Pike13BaseTool
     WARNING: Must include "type" field ("creditcard" or "ach").
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:type).filled(:string).description('Payment type: "creditcard" or "ach" (REQUIRED)')
-    required(:token).filled(:string).description('Payment processor token (from Stripe, etc.)')
-    optional(:additional_attributes).maybe(:hash).description('Optional: Additional attributes (billing address, is_default, etc.)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      type: { type: 'string', description: 'Payment type: "creditcard" or "ach" (REQUIRED)' },
+      token: { type: 'string', description: 'Payment processor token (from Stripe, etc.)' },
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes (billing address, is_default, etc.)' }
+    },
+    required: ['person_id', 'type', 'token']
+  )
 
-  def call(person_id:, type:, token:, additional_attributes: nil)
-    attributes = {
-      type: type,
-      token: token
-    }
-    attributes.merge!(additional_attributes) if additional_attributes
+  class << self
+    def call(person_id:, type:, token:, additional_attributes: nil, server_context:)
+      attributes = {
+        type: type,
+        token: token
+      }
+      attributes.merge!(additional_attributes) if additional_attributes
 
-    Pike13::Front::FormOfPayment.create(person_id: person_id, attributes: attributes).to_json
+      Pike13::Front::FormOfPayment.create(person_id: person_id, attributes: attributes).to_json
+    end
   end
 end
 
@@ -188,18 +233,23 @@ class FrontUpdateFormOfPayment < Pike13BaseTool
     Use for customer self-service payment method updates.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID to update (integer)')
-    optional(:attributes).maybe(:hash).description('Optional: Attributes to update (is_default, billing_address, etc.)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID to update (integer)' },
+      attributes: { type: 'object', description: 'Optional: Attributes to update (is_default, billing_address, etc.)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:, attributes: nil)
-    Pike13::Front::FormOfPayment.update(
-      person_id: person_id,
-      id: form_of_payment_id,
-      attributes: attributes || {}
-    ).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, attributes: nil, server_context:)
+      Pike13::Front::FormOfPayment.update(
+        person_id: person_id,
+        id: form_of_payment_id,
+        attributes: attributes || {}
+      ).to_json
+    end
   end
 end
 
@@ -212,12 +262,17 @@ class FrontDeleteFormOfPayment < Pike13BaseTool
     WARNING: Cannot delete if it is the default payment method for active subscriptions.
   DESC
 
-  arguments do
-    required(:person_id).filled(:integer).description('Unique Pike13 person ID (integer)')
-    required(:form_of_payment_id).filled(:integer).description('Unique form of payment ID to delete (integer)')
-  end
+  input_schema(
+    properties: {
+      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      form_of_payment_id: { type: 'integer', description: 'Unique form of payment ID to delete (integer)' }
+    },
+    required: ['person_id', 'form_of_payment_id']
+  )
 
-  def call(person_id:, form_of_payment_id:)
-    Pike13::Front::FormOfPayment.destroy(person_id: person_id, id: form_of_payment_id).to_json
+  class << self
+    def call(person_id:, form_of_payment_id:, server_context:)
+      Pike13::Front::FormOfPayment.destroy(person_id: person_id, id: form_of_payment_id).to_json
+    end
   end
 end

@@ -11,8 +11,10 @@ class DeskListSalesTaxes < Pike13BaseTool
     Use for understanding tax calculations, financial reporting, or pricing configuration.
   DESC
 
-  def call
-    Pike13::Desk::SalesTax.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::SalesTax.all.to_json
+    end
   end
 end
 
@@ -25,11 +27,16 @@ class DeskGetSalesTax < Pike13BaseTool
     Use for viewing detailed tax configuration or location-specific rates.
   DESC
 
-  arguments do
-    required(:sales_tax_id).filled(:integer).description('Unique Pike13 sales tax ID')
-  end
+  input_schema(
+    properties: {
+      sales_tax_id: { type: 'integer', description: 'Unique Pike13 sales tax ID' }
+    },
+    required: ['sales_tax_id']
+  )
 
-  def call(sales_tax_id:)
-    Pike13::Desk::SalesTax.find(sales_tax_id).to_json
+  class << self
+    def call(sales_tax_id:, server_context:)
+      Pike13::Desk::SalesTax.find(sales_tax_id).to_json
+    end
   end
 end

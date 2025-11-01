@@ -12,8 +12,10 @@ class DeskListRevenueCategories < Pike13BaseTool
     Use for financial reporting, revenue analysis, or understanding how income is categorized.
   DESC
 
-  def call
-    Pike13::Desk::RevenueCategory.all.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::RevenueCategory.all.to_json
+    end
   end
 end
 
@@ -26,11 +28,16 @@ class DeskGetRevenueCategory < Pike13BaseTool
     Use for viewing specific category details or validation.
   DESC
 
-  arguments do
-    required(:revenue_category_id).filled(:integer).description('Unique Pike13 revenue category ID')
-  end
+  input_schema(
+    properties: {
+      revenue_category_id: { type: 'integer', description: 'Unique Pike13 revenue category ID' }
+    },
+    required: ['revenue_category_id']
+  )
 
-  def call(revenue_category_id:)
-    Pike13::Desk::RevenueCategory.find(revenue_category_id).to_json
+  class << self
+    def call(revenue_category_id:, server_context:)
+      Pike13::Desk::RevenueCategory.find(revenue_category_id).to_json
+    end
   end
 end

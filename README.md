@@ -4,23 +4,28 @@ MCP server for Pike13 API integration with stdio transport for Claude Desktop.
 
 ## Features
 
-- 174 Pike13 API tools across Front (Client), Desk (Staff), and Account APIs
-- Integrated supergateway for seamless Claude Desktop compatibility
-- Docker-based deployment with automatic SSE→stdio conversion
+- **174 Pike13 API tools** across Front (Client), Desk (Staff), and Account APIs
+- **1 Prompt** for common workflows
+- **Stdio transport** for direct Claude Desktop integration
+- **Docker-based** deployment with minimal dependencies
 - Support for all Pike13 API operations
 
 ## Installation
 
-### Prerequisites
-- Docker
-
-### Build
+### Using Pre-built Image (Recommended)
 
 ```bash
-# Build the image
-docker compose build
+docker pull juanhuttemann/pike13-mcp:latest
+```
 
-# Or build manually
+### Building from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/juanhuttemann/pike13-mcp-server.git
+cd pike13-mcp-server
+
+# Build the image
 docker build -t pike13-mcp .
 ```
 
@@ -39,15 +44,19 @@ Add to your Claude Desktop config file:
       "command": "docker",
       "args": [
         "run",
+        "-i",
+        "-a",
+        "stdin",
+        "-a",
+        "stdout",
+        "--rm",
         "--name",
         "pike13-mcp-stdio",
-        "-i",
-        "--rm",
         "-e",
         "PIKE13_ACCESS_TOKEN=your_access_token_here",
         "-e",
         "PIKE13_BASE_URL=https://yourbusiness.pike13.com",
-        "pike13-mcp"
+        "juanhuttemann/pike13-mcp:latest"
       ]
     }
   }
@@ -60,49 +69,101 @@ Add to your Claude Desktop config file:
 
 After updating the config, **restart Claude Desktop** to activate the MCP server.
 
+### Using with Local Build
+
+If you built the image locally, change the last argument from `juanhuttemann/pike13-mcp:latest` to `pike13-mcp`:
+
+```json
+"args": [
+  "run",
+  "-i",
+  "-a",
+  "stdin",
+  "-a",
+  "stdout",
+  "--rm",
+  "--name",
+  "pike13-mcp-stdio",
+  "-e",
+  "PIKE13_ACCESS_TOKEN=your_access_token_here",
+  "-e",
+  "PIKE13_BASE_URL=https://yourbusiness.pike13.com",
+  "pike13-mcp"
+]
+```
+
 ## Available Tools
 
 The server provides **174 tools** organized by Pike13 API:
 
-### Front API (Client) - 65 tools
+### Front API (Client) - 71 tools
 Tools prefixed with `Front` - for customer/public operations:
-- **Business**: Get business info, branding, locations
-- **Profile**: Get current user, appointments
-- **Events**: List events, event occurrences, availability
-- **Visits**: List, get, create, delete visits
+- **Business**: Get business info, branding, locations, franchisees
+- **Profile**: Get current user profile
+- **Events**: List events, event occurrences, availability, enrollment eligibilities
+- **Visits**: List, get, create, update, delete visits
 - **Services**: List services, enrollment eligibilities
-- **Products**: List plan products, invoices
-- **Staff**: List staff members
+- **Plans**: List plan products, plan terms
+- **Invoices**: List, get, create, update invoices and items
+- **Payments**: Create payments, get payment configuration
+- **Staff**: List staff members, get staff details
 - **Waitlist**: Manage waitlist entries
-- **Bookings**: Get booking details
+- **Bookings**: Full booking and booking lease management
+- **Forms of Payment**: Manage payment methods
+- **Notes**: List and get notes
+- **Waivers**: List person waivers
 
-### Desk API (Staff) - 103 tools
+### Desk API (Staff) - 97 tools
 Tools prefixed with `Desk` - for staff/admin operations:
-- **People**: List, search, get, manage people
-- **Business**: Get business details
+- **People**: List, search, get, create, update, delete people
+- **Business**: Get business details, franchisees
 - **Events**: Complete event and occurrence management
 - **Visits**: Full visit CRUD operations
 - **Services**: Service and enrollment management
-- **Plans**: List plans, manage end dates, punches
-- **Products**: Plan products, pack products
-- **Financial**: Invoices, revenue categories, sales taxes, refunds
+- **Plans**: List plans, manage end dates, plan products
+- **Punches**: Create, get, update, delete punches
+- **Packs**: Manage packs and pack products
+- **Invoices**: Full invoice management including items, discounts, prorates
+- **Payments**: Process payments, void payments, payment configuration
+- **Refunds**: Create and void refunds
+- **Revenue Categories**: List and get revenue categories
+- **Sales Taxes**: List and get sales taxes
 - **Custom Fields**: List custom fields
 - **Waitlist**: Full waitlist CRUD operations
 - **Staff**: Staff member management
-- **Packs**: Get pack details
+- **Locations**: List and get locations
+- **Notes**: Full note CRUD operations
+- **Forms of Payment**: Manage payment methods
+- **Appointments**: Find available slots, get availability summary
+- **Makeups**: Generate and get makeup credits
 
 ### Account API - 6 tools
 Tools prefixed with `Account` - for account-level operations:
-- **Businesses**: List all businesses
-- **User**: Get current user info
+- **Businesses**: List all businesses in account
+- **User**: Get account user info
+- **People**: List all people across businesses
+- **Password Reset**: Create password reset
+- **Confirmation**: Create confirmation
+
+## Available Prompts
+
+### search_client
+Search for a client by name, email, or phone using DeskSearchPeople.
+
+**Usage in Claude Desktop:**
+1. Type `/search_client`
+2. Enter the client name, email, or phone
+3. Claude will search and show the results
 
 ## How It Works
 
-The Docker container integrates two components:
-1. **Ruby MCP Server** (background): Serves Pike13 API tools via SSE on localhost:9292
-2. **Supergateway** (foreground): Converts SSE to stdio for Claude Desktop compatibility
+The Pike13 MCP Server uses a **stdio transport** architecture:
 
-This architecture provides clean JSON-RPC communication over stdin/stdout that Claude Desktop expects.
+1. **Ruby MCP Server**: Processes JSON-RPC requests via stdin/stdout
+2. **Pike13 SDK**: Makes API calls to your Pike13 instance
+3. **Direct Communication**: No HTTP or SSE - clean stdio-based protocol
+
+This provides the simplest and most efficient integration with Claude Desktop.
 
 ## Project Structure
 
@@ -110,12 +171,13 @@ This architecture provides clean JSON-RPC communication over stdin/stdout that C
 ├── config/
 │   └── pike13_client.rb    # Pike13 client configuration
 ├── tools/
-│   ├── base_tool.rb        # Base tool class
-│   └── *_tools.rb          # Resource-specific tools (77 tools total)
-├── server.rb               # Ruby MCP server (SSE transport)
-├── start.sh                # Docker entrypoint (integrates supergateway)
-├── Dockerfile              # Multi-stage build with Ruby + Node.js
-└── docker-compose.yml      # Docker Compose configuration
+│   ├── base_tool.rb        # Base tool with auto error handling
+│   └── *_tools.rb          # Resource-specific tools (35 files, 174 tools)
+├── prompts/
+│   └── search_client_prompt.rb  # Example prompt
+├── server.rb               # Ruby MCP server (stdio transport)
+├── Dockerfile              # Minimal Alpine-based build
+└── Gemfile                 # Only 2 gems: mcp, pike13
 ```
 
 ## Troubleshooting
@@ -123,31 +185,116 @@ This architecture provides clean JSON-RPC communication over stdin/stdout that C
 ### Claude Desktop shows "Server disconnected"
 - Ensure Docker is running
 - Verify environment variables are set correctly in the config
+- Check that your Pike13 access token is valid
 - Check Claude Desktop logs:
   - **macOS**: `~/Library/Logs/Claude/mcp-server-pike13.log`
   - **Windows**: `%APPDATA%\Claude\logs\mcp-server-pike13.log`
 
-### Container fails to start
-```bash
-# View container logs
-docker logs pike13-mcp-stdio
+### Testing the server manually
 
-# Rebuild the container
-docker compose down
-docker compose build --no-cache
-```
+Test that the server works with an initialize request:
 
-### Testing the container manually
 ```bash
-# Test that the container works
 echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | \
 docker run -i --rm \
   -e PIKE13_ACCESS_TOKEN=your_token \
   -e PIKE13_BASE_URL=https://yourbusiness.pike13.com \
-  pike13-mcp
+  juanhuttemann/pike13-mcp:latest
 ```
 
-You should see a clean JSON response with the server info.
+You should see a JSON response with server info and 174 tools.
+
+Test listing all tools:
+
+```bash
+echo '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | \
+docker run -i --rm \
+  -e PIKE13_ACCESS_TOKEN=your_token \
+  -e PIKE13_BASE_URL=https://yourbusiness.pike13.com \
+  juanhuttemann/pike13-mcp:latest
+```
+
+### Getting Pike13 API Credentials
+
+1. Log into your Pike13 account
+2. Go to **Settings** → **Integrations** → **API Access**
+3. Generate a new API access token
+4. Copy your access token and business URL
+
+## Development
+
+### Running locally without Docker
+
+```bash
+bundle install
+
+export PIKE13_ACCESS_TOKEN=your_token
+export PIKE13_BASE_URL=https://yourbusiness.pike13.com
+
+ruby server.rb
+```
+
+### Adding new tools
+
+1. Create a new file in `tools/` following the pattern:
+
+```ruby
+class MyNewTool < Pike13BaseTool
+  description "What this tool does"
+
+  input_schema(
+    properties: {
+      param_name: { type: 'string', description: 'Parameter description' }
+    },
+    required: ['param_name']
+  )
+
+  class << self
+    def call(param_name:, server_context:)
+      # Your implementation using Pike13 SDK
+      Pike13::SomeResource.some_method(param_name).to_json
+    end
+  end
+end
+```
+
+2. Rebuild the Docker image
+3. Restart Claude Desktop
+
+### Adding new prompts
+
+1. Create a new file in `prompts/`:
+
+```ruby
+class MyPrompt < MCP::Prompt
+  prompt_name 'my_prompt'
+  description 'What this prompt does'
+
+  arguments [
+    MCP::Prompt::Argument.new(
+      name: 'param',
+      description: 'Parameter description',
+      required: true
+    )
+  ]
+
+  class << self
+    def template(args, server_context:)
+      MCP::Prompt::Result.new(
+        description: "Description",
+        messages: [
+          MCP::Prompt::Message.new(
+            role: 'user',
+            content: MCP::Content::Text.new("Your instruction to Claude using #{args[:param]}")
+          )
+        ]
+      )
+    end
+  end
+end
+```
+
+2. Rebuild and restart
 
 ## License
 

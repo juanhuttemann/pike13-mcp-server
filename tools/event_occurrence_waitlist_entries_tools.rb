@@ -9,12 +9,17 @@ class DeskListEventOccurrenceWaitlistEntries < Pike13BaseTool
     Use for managing class waitlists, notifying customers when spots open, or capacity planning.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:)
-    Pike13::Desk::EventOccurrenceWaitlistEntry.all(event_occurrence_id: event_occurrence_id).to_json
+  class << self
+    def call(event_occurrence_id:, server_context:)
+      Pike13::Desk::EventOccurrenceWaitlistEntry.all(event_occurrence_id: event_occurrence_id).to_json
+    end
   end
 end
 
@@ -25,11 +30,16 @@ class FrontListEventOccurrenceWaitlistEligibilities < Pike13BaseTool
     Use before allowing customer to join waitlist.
   DESC
 
-  arguments do
-    required(:event_occurrence_id).filled(:integer).description('Unique Pike13 event occurrence ID (integer)')
-  end
+  input_schema(
+    properties: {
+      event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+    },
+    required: ['event_occurrence_id']
+  )
 
-  def call(event_occurrence_id:)
-    Pike13::Front::EventOccurrenceWaitlistEligibility.all(event_occurrence_id: event_occurrence_id).to_json
+  class << self
+    def call(event_occurrence_id:, server_context:)
+      Pike13::Front::EventOccurrenceWaitlistEligibility.all(event_occurrence_id: event_occurrence_id).to_json
+    end
   end
 end

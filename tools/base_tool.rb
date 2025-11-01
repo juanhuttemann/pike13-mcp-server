@@ -1,57 +1,74 @@
 # frozen_string_literal: true
 
-require 'fast_mcp'
+require 'mcp'
 require_relative '../config/pike13_client'
 
-# Base class for Pike13 tools
-class Pike13BaseTool < FastMcp::Tool
-  def initialize(*args, **kwargs)
-    super
-    configure_client
-  end
+# Module that wraps tool calls with Pike13 configuration and error handling
+module Pike13ToolWrapper
+  def call(**kwargs)
+    server_context = kwargs[:server_context]
 
-  # Override call_with_schema_validation! to add error handling
-  def call_with_schema_validation!(**kwargs)
-    super
+    # Configure Pike13 client from server_context
+    access_token = server_context[:access_token]
+    base_url = server_context[:base_url]
+    configure_pike13(access_token: access_token, base_url: base_url)
+
+    # Call the actual implementation
+    result = super(**kwargs)
+
+    # Wrap result in MCP::Tool::Response if it's not already
+    return result if result.is_a?(MCP::Tool::Response)
+
+    MCP::Tool::Response.new([{
+      type: 'text',
+      text: result
+    }])
   rescue Pike13::ConfigurationError
-    'Configuration error: Pike13 access token or base URL is missing or invalid.'
+    error_response('Configuration error: Pike13 access token or base URL is missing or invalid.')
   rescue Pike13::AuthenticationError
-    'Authentication failed: Invalid or expired access token.'
+    error_response('Authentication failed: Invalid or expired access token.')
   rescue Pike13::RateLimitError => e
     reset_info = e.rate_limit_reset ? " Resets at #{e.rate_limit_reset}." : ''
-    "Rate limit exceeded.#{reset_info}"
+    error_response("Rate limit exceeded.#{reset_info}")
   rescue Pike13::NotFoundError
-    'Resource not found. The ID may be incorrect or the resource was deleted.'
+    error_response('Resource not found. The ID may be incorrect or the resource was deleted.')
   rescue Pike13::ValidationError => e
     details = format_error_details(e.response_body)
-    "Validation error: #{details}"
+    error_response("Validation error: #{details}")
   rescue Pike13::BadRequestError => e
     details = format_error_details(e.response_body)
-    "Bad request: #{details}"
+    error_response("Bad request: #{details}")
   rescue Pike13::ServerError => e
-    "Pike13 server error (HTTP #{e.http_status})."
+    error_response("Pike13 server error (HTTP #{e.http_status}).")
   rescue Pike13::ConnectionError
-    'Connection failed: Cannot reach Pike13 API. Check network and base URL.'
+    error_response('Connection failed: Cannot reach Pike13 API. Check network and base URL.')
   rescue Timeout::Error, Errno::ETIMEDOUT, Errno::ECONNREFUSED, SocketError
-    'Connection failed: Cannot reach Pike13 API. Check network and base URL.'
+    error_response('Connection failed: Cannot reach Pike13 API. Check network and base URL.')
   rescue StandardError => e
-    "Error: #{e.message}"
+    error_response("Error: #{e.message}")
   end
 
   private
 
-  def configure_client
-    # Get credentials from Rack env headers
-    env = Thread.current[:rack_env] || {}
-    access_token = env['HTTP_X_PIKE13_ACCESS_TOKEN']
-    base_url = env['HTTP_X_PIKE13_BASE_URL']
-
-    configure_pike13(access_token: access_token, base_url: base_url)
+  def error_response(message)
+    MCP::Tool::Response.new([{
+      type: 'text',
+      text: message
+    }])
   end
 
   def format_error_details(response_body)
     return response_body.to_s unless response_body.is_a?(Hash)
 
     response_body.map { |k, v| "#{k}: #{v}" }.join(', ')
+  end
+end
+
+# Base class for Pike13 tools
+class Pike13BaseTool < MCP::Tool
+  # Automatically prepend the wrapper module to all subclasses
+  def self.inherited(subclass)
+    super
+    subclass.singleton_class.prepend(Pike13ToolWrapper)
   end
 end

@@ -10,19 +10,24 @@ class FrontFindAvailableAppointmentSlots < Pike13BaseTool
     For calendar overview instead, use FrontGetAppointmentAvailabilitySummary.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Service ID for the appointment type')
-    required(:date).filled(:string).description('Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")')
-    optional(:location_ids).maybe(:string).description('Optional: comma-separated location IDs to filter (e.g., "1,2")')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-separated staff member IDs to filter (e.g., "1,2")')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Service ID for the appointment type' },
+      date: { type: 'string', description: 'Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")' },
+      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter (e.g., "1,2")' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter (e.g., "1,2")' }
+    },
+    required: ['service_id', 'date']
+  )
 
-  def call(service_id:, date:, location_ids: nil, staff_member_ids: nil)
-    params = { date: date }
-    params[:location_ids] = location_ids if location_ids
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
+  class << self
+    def call(service_id:, date:, location_ids: nil, staff_member_ids: nil, server_context:)
+      params = { date: date }
+      params[:location_ids] = location_ids if location_ids
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    Pike13::Front::Appointment.find_available_slots(service_id: service_id, **params).to_json
+      Pike13::Front::Appointment.find_available_slots(service_id: service_id, **params).to_json
+    end
   end
 end
 
@@ -34,20 +39,25 @@ class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
     Limited to 90-day range.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Service ID for the appointment type')
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format (e.g., "2025-01-15")')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.')
-    optional(:location_ids).maybe(:string).description('Optional: comma-separated location IDs to filter')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-separated staff member IDs to filter')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Service ID for the appointment type' },
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15")' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.' },
+      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter' }
+    },
+    required: ['service_id', 'from', 'to']
+  )
 
-  def call(service_id:, from:, to:, location_ids: nil, staff_member_ids: nil)
-    params = { from: from, to: to }
-    params[:location_ids] = location_ids if location_ids
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
+  class << self
+    def call(service_id:, from:, to:, location_ids: nil, staff_member_ids: nil, server_context:)
+      params = { from: from, to: to }
+      params[:location_ids] = location_ids if location_ids
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    Pike13::Front::Appointment.available_slots_summary(service_id: service_id, **params).to_json
+      Pike13::Front::Appointment.available_slots_summary(service_id: service_id, **params).to_json
+    end
   end
 end
 
@@ -58,19 +68,24 @@ class DeskFindAvailableAppointmentSlots < Pike13BaseTool
     Use for staff to check appointment availability when booking for clients.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Service ID for the appointment type')
-    required(:date).filled(:string).description('Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")')
-    optional(:location_ids).maybe(:string).description('Optional: comma-separated location IDs to filter (e.g., "1,2")')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-separated staff member IDs to filter (e.g., "1,2")')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Service ID for the appointment type' },
+      date: { type: 'string', description: 'Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")' },
+      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter (e.g., "1,2")' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter (e.g., "1,2")' }
+    },
+    required: ['service_id', 'date']
+  )
 
-  def call(service_id:, date:, location_ids: nil, staff_member_ids: nil)
-    params = { date: date }
-    params[:location_ids] = location_ids if location_ids
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
+  class << self
+    def call(service_id:, date:, location_ids: nil, staff_member_ids: nil, server_context:)
+      params = { date: date }
+      params[:location_ids] = location_ids if location_ids
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    Pike13::Desk::Appointment.find_available_slots(service_id: service_id, **params).to_json
+      Pike13::Desk::Appointment.find_available_slots(service_id: service_id, **params).to_json
+    end
   end
 end
 
@@ -82,19 +97,24 @@ class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
     Limited to 90-day range.
   DESC
 
-  arguments do
-    required(:service_id).filled(:integer).description('Service ID for the appointment type')
-    required(:from).filled(:string).description('Start date in YYYY-MM-DD format (e.g., "2025-01-15")')
-    required(:to).filled(:string).description('End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.')
-    optional(:location_ids).maybe(:string).description('Optional: comma-separated location IDs to filter')
-    optional(:staff_member_ids).maybe(:string).description('Optional: comma-separated staff member IDs to filter')
-  end
+  input_schema(
+    properties: {
+      service_id: { type: 'integer', description: 'Service ID for the appointment type' },
+      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15")' },
+      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.' },
+      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter' },
+      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter' }
+    },
+    required: ['service_id', 'from', 'to']
+  )
 
-  def call(service_id:, from:, to:, location_ids: nil, staff_member_ids: nil)
-    params = { from: from, to: to }
-    params[:location_ids] = location_ids if location_ids
-    params[:staff_member_ids] = staff_member_ids if staff_member_ids
+  class << self
+    def call(service_id:, from:, to:, location_ids: nil, staff_member_ids: nil, server_context:)
+      params = { from: from, to: to }
+      params[:location_ids] = location_ids if location_ids
+      params[:staff_member_ids] = staff_member_ids if staff_member_ids
 
-    Pike13::Desk::Appointment.available_slots_summary(service_id: service_id, **params).to_json
+      Pike13::Desk::Appointment.available_slots_summary(service_id: service_id, **params).to_json
+    end
   end
 end

@@ -9,12 +9,17 @@ class DeskGetPayment < Pike13BaseTool
     Use for payment verification, reconciliation, or refund processing.
   DESC
 
-  arguments do
-    required(:payment_id).filled(:integer).description('Unique Pike13 payment ID (integer)')
-  end
+  input_schema(
+    properties: {
+      payment_id: { type: 'integer', description: 'Unique Pike13 payment ID (integer)' }
+    },
+    required: ['payment_id']
+  )
 
-  def call(payment_id:)
-    Pike13::Desk::Payment.find(payment_id).to_json
+  class << self
+    def call(payment_id:, server_context:)
+      Pike13::Desk::Payment.find(payment_id).to_json
+    end
   end
 end
 
@@ -25,8 +30,10 @@ class DeskGetPaymentConfiguration < Pike13BaseTool
     Use to verify payment setup or troubleshoot payment issues.
   DESC
 
-  def call
-    Pike13::Desk::Payment.configuration.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::Payment.configuration.to_json
+    end
   end
 end
 
@@ -39,16 +46,21 @@ class DeskVoidPayment < Pike13BaseTool
     WARNING: This action cannot be undone.
   DESC
 
-  arguments do
-    required(:payment_id).filled(:integer).description('Unique Pike13 payment ID to void (integer)')
-    optional(:invoice_item_ids_to_cancel).maybe(:array).description('Optional: Array of invoice item IDs to cancel with this void')
-  end
+  input_schema(
+    properties: {
+      payment_id: { type: 'integer', description: 'Unique Pike13 payment ID to void (integer)' },
+      invoice_item_ids_to_cancel: { type: 'array', description: 'Optional: Array of invoice item IDs to cancel with this void' }
+    },
+    required: ['payment_id']
+  )
 
-  def call(payment_id:, invoice_item_ids_to_cancel: nil)
-    params = { payment_id: payment_id }
-    params[:invoice_item_ids_to_cancel] = invoice_item_ids_to_cancel if invoice_item_ids_to_cancel
+  class << self
+    def call(payment_id:, invoice_item_ids_to_cancel: nil, server_context:)
+      params = { payment_id: payment_id }
+      params[:invoice_item_ids_to_cancel] = invoice_item_ids_to_cancel if invoice_item_ids_to_cancel
 
-    Pike13::Desk::Payment.void(**params).to_json
+      Pike13::Desk::Payment.void(**params).to_json
+    end
   end
 end
 
@@ -59,12 +71,17 @@ class FrontGetPayment < Pike13BaseTool
     Use for customer payment history or receipt display.
   DESC
 
-  arguments do
-    required(:payment_id).filled(:integer).description('Unique Pike13 payment ID (integer)')
-  end
+  input_schema(
+    properties: {
+      payment_id: { type: 'integer', description: 'Unique Pike13 payment ID (integer)' }
+    },
+    required: ['payment_id']
+  )
 
-  def call(payment_id:)
-    Pike13::Front::Payment.find(payment_id).to_json
+  class << self
+    def call(payment_id:, server_context:)
+      Pike13::Front::Payment.find(payment_id).to_json
+    end
   end
 end
 
@@ -75,7 +92,9 @@ class FrontGetPaymentConfiguration < Pike13BaseTool
     Use for customer payment form setup or displaying payment options.
   DESC
 
-  def call
-    Pike13::Front::Payment.configuration.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Front::Payment.configuration.to_json
+    end
   end
 end

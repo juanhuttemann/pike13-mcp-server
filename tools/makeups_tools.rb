@@ -9,12 +9,17 @@ class DeskGetMakeUp < Pike13BaseTool
     Use to verify make-up credits or track unused credits.
   DESC
 
-  arguments do
-    required(:make_up_id).filled(:integer).description('Unique Pike13 make-up ID (integer)')
-  end
+  input_schema(
+    properties: {
+      make_up_id: { type: 'integer', description: 'Unique Pike13 make-up ID (integer)' }
+    },
+    required: ['make_up_id']
+  )
 
-  def call(make_up_id:)
-    Pike13::Desk::MakeUp.find(make_up_id).to_json
+  class << self
+    def call(make_up_id:, server_context:)
+      Pike13::Desk::MakeUp.find(make_up_id).to_json
+    end
   end
 end
 
@@ -25,8 +30,10 @@ class DeskListMakeUpReasons < Pike13BaseTool
     Use when creating make-up credits to select appropriate reason, or for reporting on make-up categories.
   DESC
 
-  def call
-    Pike13::Desk::MakeUp.reasons.to_json
+  class << self
+    def call(server_context:)
+      Pike13::Desk::MakeUp.reasons.to_json
+    end
   end
 end
 
@@ -39,19 +46,24 @@ class DeskGenerateMakeUp < Pike13BaseTool
     Use when issuing make-up credits for missed classes, cancelled sessions, or service recovery.
   DESC
 
-  arguments do
-    required(:visit_id).filled(:integer).description('Unique Pike13 visit ID to generate make-up for (integer)')
-    required(:make_up_reason_id).filled(:integer).description('Make-up reason ID (get from DeskListMakeUpReasons)')
-    optional(:free_form_reason).maybe(:string).description('Optional: Additional free-form text explaining the reason')
-  end
+  input_schema(
+    properties: {
+      visit_id: { type: 'integer', description: 'Unique Pike13 visit ID to generate make-up for (integer)' },
+      make_up_reason_id: { type: 'integer', description: 'Make-up reason ID (get from DeskListMakeUpReasons)' },
+      free_form_reason: { type: 'string', description: 'Optional: Additional free-form text explaining the reason' }
+    },
+    required: ['visit_id', 'make_up_reason_id']
+  )
 
-  def call(visit_id:, make_up_reason_id:, free_form_reason: nil)
-    params = {
-      visit_id: visit_id,
-      make_up_reason_id: make_up_reason_id
-    }
-    params[:free_form_reason] = free_form_reason if free_form_reason
+  class << self
+    def call(visit_id:, make_up_reason_id:, free_form_reason: nil, server_context:)
+      params = {
+        visit_id: visit_id,
+        make_up_reason_id: make_up_reason_id
+      }
+      params[:free_form_reason] = free_form_reason if free_form_reason
 
-    Pike13::Desk::MakeUp.generate(**params).to_json
+      Pike13::Desk::MakeUp.generate(**params).to_json
+    end
   end
 end
