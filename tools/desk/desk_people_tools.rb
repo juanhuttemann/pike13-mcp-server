@@ -1,54 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'base_tool'
+require_relative '../base_tool'
 
-# Account-level tools
-class AccountGetMe < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] Get account-level user info ONLY.
-    Returns account object with ID, email, name.
-    Use ONLY when user asks about their account, billing, or businesses they own.
-    NOT needed for regular business operations like booking, events, or services.
-  DESC
-
-  class << self
-    def call(server_context:)
-      Pike13::Account.me.to_json
-    end
-  end
-end
-
-class AccountListPeople < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] List all people across all businesses in the account.
-    Returns paginated array of person objects from all associated businesses.
-    Use for account-wide user management or reporting across multiple businesses.
-  DESC
-
-  class << self
-    def call(server_context:)
-      Pike13::Account::Person.all.to_json
-    end
-  end
-end
-
-# Front (CLIENT) tools
-class FrontGetMe < Pike13BaseTool
-  description <<~DESC
-    [CLIENT] Get current customer profile details.
-    Returns: name, email, phone, emergency contacts, profile photo, active memberships.
-    Use ONLY when user asks "who am I", "my profile", "my info" or wants to view/edit their personal details.
-    NOT needed for booking, viewing services, or regular customer operations.
-  DESC
-
-  class << self
-    def call(server_context:)
-      Pike13::Front::Person.me.to_json
-    end
-  end
-end
-
-# Desk (STAFF) tools
 class DeskListPeople < Pike13BaseTool
   description <<~DESC
     [STAFF] List ALL clients - AVOID for searches.
