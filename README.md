@@ -4,7 +4,7 @@ MCP server for Pike13 API integration with stdio transport for Claude Desktop.
 
 ## Features
 
-- **174 Pike13 API tools** across Front (Client), Desk (Staff), and Account APIs
+- **186 Pike13 API tools** across Front (Client), Desk (Staff), Account, and Reporting APIs
 - **1 Prompt** for common workflows
 - **Stdio transport** for direct Claude Desktop integration
 - **Docker-based** deployment with minimal dependencies
@@ -94,9 +94,9 @@ If you built the image locally, change the last argument from `juanhuttemann/pik
 
 ## Available Tools
 
-The server provides **174 tools** organized by Pike13 API:
+The server provides **186 tools** organized by Pike13 API:
 
-### Front API (Client) - 71 tools
+### Front API (Client) - 65 tools
 Tools prefixed with `Front` - for customer/public operations:
 - **Business**: Get business info, branding, locations, franchisees
 - **Profile**: Get current user profile
@@ -113,7 +113,7 @@ Tools prefixed with `Front` - for customer/public operations:
 - **Notes**: List and get notes
 - **Waivers**: List person waivers
 
-### Desk API (Staff) - 97 tools
+### Desk API (Staff) - 103 tools
 Tools prefixed with `Desk` - for staff/admin operations:
 - **People**: List, search, get, create, update, delete people
 - **Business**: Get business details, franchisees
@@ -143,6 +143,21 @@ Tools prefixed with `Account` - for account-level operations:
 - **User**: Get account user info
 - **People**: List all people across businesses
 - **Password Reset**: Create password reset
+
+### Reporting API - 12 tools
+Tools prefixed with `Reporting` - for analytics and reporting operations:
+- **Monthly Business Metrics**: Get business performance metrics
+- **Event Occurrences**: Get event occurrence reports
+- **Event Occurrence Staff Members**: Get staff assignment reports
+- **Enrollments**: Get enrollment reports
+- **Clients**: Get client reports
+- **Staff Members**: Get staff reports
+- **Invoices**: Get invoice reports
+- **Invoice Items**: Get invoice item reports
+- **Invoice Item Transactions**: Get transaction reports
+- **Pays**: Get payment reports
+- **Person Plans**: Get membership/plan reports
+- **Transactions**: Get financial transaction reports
 - **Confirmation**: Create confirmation
 
 ## Available Prompts
@@ -172,7 +187,7 @@ This provides the simplest and most efficient integration with Claude Desktop.
 │   └── pike13_client.rb    # Pike13 client configuration
 ├── tools/
 │   ├── base_tool.rb        # Base tool with auto error handling
-│   └── *_tools.rb          # Resource-specific tools (35 files, 174 tools)
+│   └── *_tools.rb          # Resource-specific tools (35 files, 186 tools)
 ├── prompts/
 │   └── search_client_prompt.rb  # Example prompt
 ├── server.rb               # Ruby MCP server (stdio transport)
@@ -202,7 +217,7 @@ docker run -i --rm \
   juanhuttemann/pike13-mcp:latest
 ```
 
-You should see a JSON response with server info and 174 tools.
+You should see a JSON response with server info and 186 tools.
 
 Test listing all tools:
 

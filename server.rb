@@ -6,7 +6,7 @@ Bundler.require(:default)
 require 'mcp'
 
 # Load Pike13 tools
-Dir[File.join(__dir__, 'tools', '*_tools.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'tools', '**', '*.rb')].each { |file| require file }
 
 # Load Pike13 prompts
 Dir[File.join(__dir__, 'prompts', '*.rb')].each { |file| require file }
