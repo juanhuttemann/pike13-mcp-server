@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskGetMakeUp < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get make-up credit details by ID.
+    Get make-up credit details by ID.
     Returns make-up object with credit amount, reason, original visit reference, expiration date, usage status, and person details.
     Use to verify make-up credits or track unused credits.
   DESC
@@ -25,7 +25,7 @@ end
 
 class DeskListMakeUpReasons < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all configured make-up reasons.
+    List all configured make-up reasons.
     Returns array of make-up reason objects with ID, name, and description.
     Use when creating make-up credits to select appropriate reason, or for reporting on make-up categories.
   DESC
@@ -39,7 +39,7 @@ end
 
 class DeskGenerateMakeUp < Pike13BaseTool
   description <<~DESC
-    [STAFF] Generate make-up credit for a missed visit.
+    Generate make-up credit for a missed visit.
     Creates credit that customer can use for future bookings.
     Requires visit_id and make_up_reason_id.
     Returns created make-up object.

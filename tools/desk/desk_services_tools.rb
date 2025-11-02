@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListServices < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all services with administrative details.
+    List all services with administrative details.
 
     Returns complete service catalog with type (GroupClass/Appointment/Course), descriptions,
     duration settings (duration_in_minutes/snap_duration/setup_duration/cleanup_duration),
@@ -35,7 +35,7 @@ end
 
 class DeskGetService < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get complete service details by ID.
+    Get complete service details by ID.
 
     Returns full administrative data: type, descriptions, all duration settings, enrollment windows,
     visibility permissions for all user types, capacity and display settings, tip configuration,
@@ -60,7 +60,7 @@ end
 
 class DeskGetServiceEnrollmentEligibilities < Pike13BaseTool
   description <<~DESC
-    [STAFF] Check enrollment eligibility for a service for specified persons.
+    Check enrollment eligibility for a service for specified persons.
 
     Returns enrollment warnings and restrictions for each person ID provided.
     Does not return dependents. Requires person_ids parameter.

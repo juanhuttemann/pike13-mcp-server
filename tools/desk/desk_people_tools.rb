@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListPeople < Pike13BaseTool
   description <<~DESC
-    [STAFF] List ALL clients - AVOID for searches.
+    List ALL clients - AVOID for searches.
     Returns huge dataset.
     Use ONLY for "all clients", "export clients", "client report".
     For finding specific people, use DeskSearchPeople instead.
@@ -19,7 +19,7 @@ end
 
 class DeskGetPerson < Pike13BaseTool
   description <<~DESC
-    [STAFF] STEP 2: Get full client details after search.
+    STEP 2: Get full client details after search.
     Returns: contact, memberships, billing, history.
     Use AFTER DeskSearchPeople to get complete profile.
     Workflow: DeskSearchPeople → DeskGetPerson → manage client (update, book, etc.)
@@ -41,7 +41,7 @@ end
 
 class DeskSearchPeople < Pike13BaseTool
   description <<~DESC
-    [STAFF] STEP 1: Find client by name/email/phone.
+    STEP 1: Find client by name/email/phone.
     Returns: [{person_id, name, email}].
     Use FIRST when you need to find someone.
     Workflow: DeskSearchPeople → DeskGetPerson for full details.
@@ -66,7 +66,7 @@ end
 
 class DeskGetMe < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get current staff member profile and permissions.
+    Get current staff member profile and permissions.
     Returns: name, email, role, assigned locations, permissions.
     Use ONLY when staff asks "who am I", "my profile", "my permissions" or needs to verify their staff status.
     NOT needed for regular staff operations like managing clients, events, or appointments.
@@ -81,7 +81,7 @@ end
 
 class DeskCreatePerson < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new person (client/customer).
+    Create a new person (client/customer).
     Requires at minimum first_name, last_name, and email.
     Returns created person object with assigned ID.
     Use for new client registration or importing users.
@@ -116,7 +116,7 @@ end
 
 class DeskUpdatePerson < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing person profile.
+    Update an existing person profile.
     Updates only the provided fields.
     Returns updated person object.
     Use for profile edits, status changes, or custom field updates.
@@ -151,7 +151,7 @@ end
 
 class DeskDeletePerson < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete (archive) a person.
+    Delete (archive) a person.
     This typically archives the person rather than permanently deleting.
     Returns success status.
     Use with caution - ensure person has no active bookings or memberships.

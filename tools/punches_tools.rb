@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskGetPunch < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get individual punch (class credit) by ID.
+    Get individual punch (class credit) by ID.
 
     Returns punch with visit_id, plan_id, and created_at timestamp.
 
@@ -29,7 +29,7 @@ end
 
 class DeskCreatePunch < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a punch to pay for a visit with a plan.
+    Create a punch to pay for a visit with a plan.
 
     Creates a punch linking a visit to a plan (membership or pack).
     If plan_id is omitted, the system attempts to automatically find a suitable plan.
@@ -58,7 +58,7 @@ end
 
 class DeskDeletePunch < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete a punch.
+    Delete a punch.
 
     Destroys the punch. The associated visit will become unpaid.
 

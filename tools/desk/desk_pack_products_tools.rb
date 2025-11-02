@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListPackProducts < Pike13BaseTool
   description <<~DESC
-    [STAFF ONLY] List purchasable class pack products.
+    List purchasable class pack products.
     Returns pack products (multi-visit bundles) with punch count, pricing, expiration rules, service restrictions, and visibility.
     Use for pack configuration, sales operations, or understanding available pack offerings.
     Packs are purchased by clients to use for multiple visits.
@@ -19,7 +19,7 @@ end
 
 class DeskGetPackProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get specific pack product by ID.
+    Get specific pack product by ID.
     Returns complete pack product details including punch count, pricing, expiration settings, service restrictions, and purchase limits.
     Use for reviewing pack configuration or customer inquiries.
   DESC
@@ -40,7 +40,7 @@ end
 
 class DeskCreatePackProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new pack product.
+    Create a new pack product.
     Creates a new multi-visit pack product with specified punch count, pricing, and expiration rules.
     Returns created pack product with ID.
     Use for setting up new pack offerings.
@@ -73,7 +73,7 @@ end
 
 class DeskUpdatePackProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing pack product.
+    Update an existing pack product.
     Modifies pack product details like name, pricing, or expiration settings.
     Returns updated pack product.
     Use for updating pack configurations.
@@ -96,7 +96,7 @@ end
 
 class DeskDeletePackProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete (archive) a pack product.
+    Delete (archive) a pack product.
     Archives the pack product so it's no longer available for purchase.
     Existing purchased packs are not affected.
     Returns confirmation.
@@ -118,7 +118,7 @@ end
 
 class DeskCreatePackFromProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a pack instance for a person from a pack product.
+    Create a pack instance for a person from a pack product.
     Issues/sells a pack to a specific person based on the pack product template.
     Returns created pack with remaining punches.
     Use for selling packs to customers or issuing complimentary packs.

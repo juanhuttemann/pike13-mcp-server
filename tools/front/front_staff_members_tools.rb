@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListStaffMembers < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List staff members visible to clients.
+    List staff members visible to clients.
 
     Returns staff with name (first_name/middle_name/last_name), bio, and profile_photo URLs
     (x50/x100/x200/x400 sizes).
@@ -23,7 +23,7 @@ end
 
 class FrontGetStaffMember < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get staff member details by ID.
+    Get staff member details by ID.
 
     Returns staff member: name, bio, and profile_photo URLs.
 

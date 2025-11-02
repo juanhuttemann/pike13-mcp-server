@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListEventOccurrenceNotes < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all notes for an event occurrence (class session).
+    List all notes for an event occurrence (class session).
     Returns array of note objects with subject, content, author, timestamps.
     Use to view class-specific notes, instructor comments, or session details.
   DESC
@@ -25,7 +25,7 @@ end
 
 class DeskGetEventOccurrenceNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get specific event occurrence note details.
+    Get specific event occurrence note details.
     Returns note object with full content, subject, author, and timestamps.
     Use when you need complete details of a specific class note.
   DESC
@@ -47,7 +47,7 @@ end
 
 class DeskCreateEventOccurrenceNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new note for an event occurrence (class session).
+    Create a new note for an event occurrence (class session).
     Requires "note" field (not "body") for content. Subject is optional but recommended.
     Returns created note object.
     Use for documenting class events, instructor observations, or session-specific information.
@@ -80,7 +80,7 @@ end
 
 class DeskUpdateEventOccurrenceNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing event occurrence note.
+    Update an existing event occurrence note.
     Updates only provided fields.
     Returns updated note object.
     Use for editing class notes or session documentation.
@@ -116,7 +116,7 @@ end
 
 class DeskDeleteEventOccurrenceNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete an event occurrence note.
+    Delete an event occurrence note.
     Permanently removes the class note.
     Returns success status.
     Use with caution - deletion is permanent.
@@ -142,7 +142,7 @@ end
 
 class FrontListEventOccurrenceNotes < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List customer-visible notes for an event occurrence (class session).
+    List customer-visible notes for an event occurrence (class session).
     Returns array of client-visible note objects.
     Use for customer self-service to view class announcements or session information.
   DESC
@@ -163,7 +163,7 @@ end
 
 class FrontGetEventOccurrenceNote < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get specific customer-visible event occurrence note.
+    Get specific customer-visible event occurrence note.
     Returns note object if customer has permission to view.
     Use for customer access to class notes or announcements.
   DESC

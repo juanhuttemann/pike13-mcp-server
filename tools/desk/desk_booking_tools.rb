@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskGetBooking < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get event registration details by ID.
+    Get event registration details by ID.
     Returns complete booking with customer, event occurrence, registration time, payment status, cancellation status, and modifications.
     Use for registration management or resolving booking issues.
     Bookings are reservations for events.
@@ -26,7 +26,7 @@ end
 
 class DeskCreateBooking < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new booking/registration for a course.
+    Create a new booking/registration for a course.
     Books/registers specified person for course or appointment.
     Returns created booking with confirmation details.
     Use for manual course enrollments or appointment bookings.
@@ -48,7 +48,7 @@ end
 
 class DeskUpdateBooking < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing booking.
+    Update an existing booking.
     Modifies booking details, status, or preferences.
     Returns updated booking.
     Use for administrative corrections or status changes.
@@ -71,7 +71,7 @@ end
 
 class DeskDeleteBooking < Pike13BaseTool
   description <<~DESC
-    [STAFF] Cancel/delete a booking.
+    Cancel/delete a booking.
     Cancels the person's course registration or appointment booking.
     Returns cancellation confirmation.
     Use for administrative cancellations or customer service.
@@ -93,7 +93,7 @@ end
 
 class DeskCreateBookingLease < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a booking lease.
+    Create a booking lease.
     Creates temporary hold/lease on booking slot.
     Returns lease with expiration time.
     Use for reserving spots during registration process.
@@ -116,7 +116,7 @@ end
 
 class DeskUpdateBookingLease < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update a booking lease.
+    Update a booking lease.
     Extends or modifies the booking hold/lease.
     Returns updated lease.
   DESC

@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListWaitlistEntries < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all waitlist entries.
+    List all waitlist entries.
 
     Returns waitlist entries with person, event_occurrence, state, and timestamps (created_at/updated_at).
 
@@ -20,7 +20,7 @@ end
 
 class DeskGetWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get waitlist entry details by ID.
+    Get waitlist entry details by ID.
 
     Returns complete waitlist entry: person, event_occurrence, state, created_at, and updated_at.
 
@@ -46,7 +46,7 @@ end
 
 class DeskCreateWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [STAFF] Add person to waitlist for full event.
+    Add person to waitlist for full event.
 
     Creates waitlist entry for specified person.
     Person defaults to current staff member if not specified.
@@ -75,7 +75,7 @@ end
 
 class DeskUpdateWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update waitlist entry state.
+    Update waitlist entry state.
 
     Transitions waitlist entry between states using state_event parameter.
     Valid state_events:
@@ -109,7 +109,7 @@ end
 
 class DeskDeleteWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [STAFF] Remove person from waitlist.
+    Remove person from waitlist.
 
     Deletes the waitlist entry.
 

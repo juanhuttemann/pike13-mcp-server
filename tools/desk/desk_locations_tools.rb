@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListLocations < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all business locations with admin details.
+    List all business locations with admin details.
     Returns locations with full address, contact info, timezone, capacity, amenities, visibility settings, and operational status.
     Use for location management or staff scheduling.
   DESC
@@ -18,7 +18,7 @@ end
 
 class DeskGetLocation < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get specific location by ID with full admin details.
+    Get specific location by ID with full admin details.
     Returns complete location data including capacity, amenities, visibility settings, operational status, and configuration.
     Use for location management or administrative tasks.
   DESC

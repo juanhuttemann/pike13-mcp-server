@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontGetWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get customer waitlist entry by ID.
+    Get customer waitlist entry by ID.
 
     Returns waitlist entry details: person, event_occurrence (name/start_at/end_at/service/location),
     and state (pending/waiting/enrolled/removed/expired).
@@ -33,7 +33,7 @@ end
 
 class FrontCreateWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Add person to waitlist for full event.
+    Add person to waitlist for full event.
 
     Creates waitlist entry for authenticated person or dependent.
     Person defaults to authenticated user if not specified.
@@ -62,7 +62,7 @@ end
 
 class FrontDeleteWaitlistEntry < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Remove person from waitlist.
+    Remove person from waitlist.
 
     Deletes the waitlist entry, removing person from waitlist.
 

@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontFindAvailableAppointmentSlots < Pike13BaseTool
   description <<~DESC
-    [CLIENT] STEP 1 for booking: Find specific appointment times.
+    STEP 1 for booking: Find specific appointment times.
     Returns: [{start_time, end_time, staff_member_id, service_id}].
     Use this FIRST to show available slots, then use FrontCreateVisit with chosen slot to complete booking.
     For calendar overview instead, use FrontGetAppointmentAvailabilitySummary.
@@ -34,7 +34,7 @@ end
 
 class FrontGetAppointmentAvailabilitySummary < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get availability OVERVIEW only - NOT for booking specific times.
+    Get availability OVERVIEW only - NOT for booking specific times.
     Returns daily scores 0-1 for calendar heat maps.
     Use to find days with most availability, then use FrontFindAvailableAppointmentSlots to get actual booking times.
     Limited to 90-day range.

@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskFindAvailableAppointmentSlots < Pike13BaseTool
   description <<~DESC
-    [STAFF] Find available appointment time slots for a service.
+    Find available appointment time slots for a service.
     Returns array of available times with start times, duration, staff member, and pricing.
     Use for staff to check appointment availability when booking for clients.
   DESC
@@ -33,7 +33,7 @@ end
 
 class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get appointment availability heat map for date range.
+    Get appointment availability heat map for date range.
     Returns availability scores (0-1) for each day showing relative availability with admin details.
     Use for staff scheduling analysis or capacity planning.
     Limited to 90-day range.

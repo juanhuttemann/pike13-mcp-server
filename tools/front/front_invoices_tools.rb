@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListInvoices < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List customer invoices.
+    List customer invoices.
     Returns invoices for authenticated customer with line items, amounts, and payment status.
     Use to show customer their billing history.
   DESC
@@ -18,7 +18,7 @@ end
 
 class FrontGetInvoice < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get customer invoice by ID.
+    Get customer invoice by ID.
     Returns invoice with line items, amounts, taxes, payment status, and due date.
     Use to show customers their bills or payment history.
     Only returns invoices for authenticated customer.
@@ -40,7 +40,7 @@ end
 
 class FrontGetInvoicePaymentMethods < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get available payment methods for an invoice.
+    Get available payment methods for an invoice.
     Returns payment methods that can be used to pay this invoice.
     Use when customer is ready to pay an invoice.
   DESC
@@ -61,7 +61,7 @@ end
 
 class FrontCreateInvoice < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Create a new invoice.
+    Create a new invoice.
     Creates invoice for authenticated customer.
     Returns created invoice with ID.
   DESC
@@ -86,7 +86,7 @@ end
 
 class FrontUpdateInvoice < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Update an existing invoice.
+    Update an existing invoice.
     Updates invoice details like due date or notes.
     Returns updated invoice.
   DESC
@@ -108,7 +108,7 @@ end
 
 class FrontCreateInvoiceItem < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Add an item to an invoice.
+    Add an item to an invoice.
     Creates a new line item on the invoice.
     Returns updated invoice with new item.
   DESC
@@ -138,7 +138,7 @@ end
 
 class FrontDeleteInvoiceItem < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Remove an item from an invoice.
+    Remove an item from an invoice.
     Deletes a line item from the invoice.
     Returns updated invoice.
   DESC
@@ -160,7 +160,7 @@ end
 
 class FrontCreateInvoicePayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Create a payment for an invoice.
+    Create a payment for an invoice.
     Processes payment for the invoice using specified payment method.
     Returns payment confirmation.
   DESC
@@ -182,7 +182,7 @@ end
 
 class FrontDeleteInvoicePayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Delete a payment from an invoice.
+    Delete a payment from an invoice.
     Removes a payment from the invoice (if allowed).
     Returns updated invoice.
   DESC

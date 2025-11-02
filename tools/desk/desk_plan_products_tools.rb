@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListPlanProducts < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all membership plan products for the business.
+    List all membership plan products for the business.
 
     Returns plan products with complete administrative details: pricing, billing settings
     (interval_unit/interval_count/days/days_of_month/months_of_year), visit limits,
@@ -37,7 +37,7 @@ end
 
 class DeskGetPlanProduct < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get complete plan product details by ID.
+    Get complete plan product details by ID.
 
     Returns full administrative data: pricing, billing configuration, commitment settings,
     hold policies (holds_allowed/hold_limit_unit/hold_limit_length/hold_fee_cents),

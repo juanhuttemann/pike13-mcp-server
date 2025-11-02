@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListEvents < Pike13BaseTool
   description <<~DESC
-    [CLIENT] STEP 1: List class/event TEMPLATES (not scheduled times).
+    STEP 1: List class/event TEMPLATES (not scheduled times).
     Returns: yoga class template, personal training template, etc.
     Use to show what types are available, then use FrontListEventOccurrences to get actual scheduled times for booking.
   DESC
@@ -18,7 +18,7 @@ end
 
 class FrontGetEvent < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get public event details by ID.
+    Get public event details by ID.
     Returns event template with description, service, duration, instructor, location, capacity, and recurrence rules.
     Use to display class details before showing available times (event_occurrences).
   DESC

@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskVoidRefund < Pike13BaseTool
   description <<~DESC
-    [STAFF] Void a refund transaction.
+    Void a refund transaction.
 
     Voids (cancels) the refund. Returns updated refund with voided_at timestamp and is_voidable=false.
 

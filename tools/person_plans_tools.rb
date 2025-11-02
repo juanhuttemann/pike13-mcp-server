@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListPersonPlans < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all membership plans for a person.
+    List all membership plans for a person.
     Returns array of plan objects with plan details, status (active/cancelled/expired), start/end dates, billing info, remaining credits, and auto-renewal settings.
     Use for membership management, billing inquiries, or plan verification.
   DESC
@@ -25,7 +25,7 @@ end
 
 class FrontListPersonPlans < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List customer own membership plans.
+    List customer own membership plans.
     Returns array of customer-visible plan objects with status, benefits, billing dates, and renewal information.
     Use for customer self-service membership viewing.
   DESC

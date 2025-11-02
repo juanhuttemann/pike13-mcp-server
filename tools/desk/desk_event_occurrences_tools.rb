@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListEventOccurrences < Pike13BaseTool
   description <<~DESC
-    [STAFF] List scheduled class instances with admin data for date range.
+    List scheduled class instances with admin data for date range.
     Returns occurrences with attendance, registrations, revenue, instructor assignments, and status.
     Use for staff schedule view, attendance tracking, or reporting.
     Required for most schedule operations.
@@ -27,7 +27,7 @@ end
 
 class DeskGetEventOccurrence < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get complete scheduled class instance by ID.
+    Get complete scheduled class instance by ID.
     Returns full occurrence data: roster, attendance, revenue, notes, instructor, location, and all admin details.
     Use for attendance management, roster viewing, or occurrence-specific reporting.
   DESC
@@ -48,7 +48,7 @@ end
 
 class DeskGetEventOccurrencesSummary < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get event occurrences summary for date range with admin data.
+    Get event occurrences summary for date range with admin data.
     Returns aggregated summary of scheduled classes by day with attendance and revenue stats.
     Use for reporting, dashboard views, or schedule analysis.
   DESC
@@ -74,7 +74,7 @@ end
 
 class DeskGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
   description <<~DESC
-    [STAFF] Check enrollment eligibility for specific people in an event occurrence.
+    Check enrollment eligibility for specific people in an event occurrence.
     Returns eligibility status and restrictions for specified person IDs.
     Use before enrolling people to verify they can join the class.
   DESC

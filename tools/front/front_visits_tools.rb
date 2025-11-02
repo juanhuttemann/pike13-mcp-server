@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListVisits < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List authenticated customer attendance records.
+    List authenticated customer attendance records.
 
     Returns visits (attendance at events or appointments) with person, event_occurrence details,
     state (reserved/registered/completed/noshowed/late_canceled), timestamps (registered_at/completed_at/
@@ -22,7 +22,7 @@ end
 
 class FrontGetVisit < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get customer visit (attendance record) by ID.
+    Get customer visit (attendance record) by ID.
 
     Returns visit details: person, event_occurrence (name/start_at/end_at/service/location),
     state, timestamps, payment status, and associated punch.
@@ -46,7 +46,7 @@ end
 
 class FrontCreateVisit < Pike13BaseTool
   description <<~DESC
-    [CLIENT] STEP 2 for booking: Complete appointment/class booking.
+    STEP 2 for booking: Complete appointment/class booking.
 
     Creates visit (attendance record) after finding available slots with FrontFindAvailableAppointmentSlots. Use event_occurrence_id from availability check or event listing.
 
@@ -74,7 +74,7 @@ end
 
 class FrontDeleteVisit < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Cancel a visit if free to cancel.
+    Cancel a visit if free to cancel.
 
     Removes visit from roster. Can optionally remove all future recurring visits.
     Only works if visit is within free cancellation window.

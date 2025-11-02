@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListVisits < Pike13BaseTool
   description <<~DESC
-    [STAFF] List attendance records with optional person filter.
+    List attendance records with optional person filter.
 
     Returns visits with person, event_occurrence details, state, timestamps,
     payment status, and punch usage.
@@ -31,7 +31,7 @@ end
 
 class DeskGetVisit < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get complete visit (attendance) record by ID.
+    Get complete visit (attendance) record by ID.
 
     Returns full visit data: person, event_occurrence, state, all timestamps,
     payment details, punch used, and status history.
@@ -55,7 +55,7 @@ end
 
 class DeskCreateVisit < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a visit (enroll person in event/class).
+    Create a visit (enroll person in event/class).
 
     Enrolls person in event occurrence with specified initial state.
     Can override restrictions and control client notifications.
@@ -95,7 +95,7 @@ end
 
 class DeskUpdateVisit < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update visit state (mark attendance/no-show/late cancel).
+    Update visit state (mark attendance/no-show/late cancel).
 
     Transitions visit between states using state_event parameter.
     Valid state_events:
@@ -132,7 +132,7 @@ end
 
 class DeskDeleteVisit < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete visit and optionally future recurring visits.
+    Delete visit and optionally future recurring visits.
 
     Removes visit from roster. Can control client notifications and remove all future
     recurring enrollments in the same event series.

@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListSalesTaxes < Pike13BaseTool
   description <<~DESC
-    [STAFF] List available sales tax configurations.
+    List available sales tax configurations.
 
     Returns sales taxes with id, name, and tax_rate (percentage).
 
@@ -20,7 +20,7 @@ end
 
 class DeskGetSalesTax < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get sales tax details by ID.
+    Get sales tax details by ID.
 
     Returns sales tax with id, name, tax_rate, and locations (with location-specific tax rates if applicable).
 

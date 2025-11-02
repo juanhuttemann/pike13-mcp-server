@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListStaffMembers < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all current staff members with administrative details.
+    List all current staff members with administrative details.
 
     Returns staff with name, phone, email, role (owner/staff_member), bio, profile_photo URLs,
     and custom_fields (id/custom_field_id/name/value).
@@ -21,7 +21,7 @@ end
 
 class DeskGetStaffMember < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get staff member details by ID or 'me' for current user.
+    Get staff member details by ID or 'me' for current user.
 
     Returns complete staff member data: name, phone, email, role, bio, profile_photo URLs,
     and custom_fields.

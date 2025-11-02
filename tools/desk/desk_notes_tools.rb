@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListNotes < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all notes for a person.
+    List all notes for a person.
     Returns array of note objects with subject, note content, author, timestamps, and visibility settings.
     Use to view communication history, customer service notes, or account annotations.
   DESC
@@ -25,7 +25,7 @@ end
 
 class DeskGetNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get specific note details.
+    Get specific note details.
     Returns note object with full content, subject, author, timestamps, and visibility.
     Use when you need complete details of a specific note.
   DESC
@@ -47,7 +47,7 @@ end
 
 class DeskCreateNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new note for a person.
+    Create a new note for a person.
     Requires "note" field (not "body") for content. Subject is optional but recommended.
     Returns created note object.
     Use for documenting customer interactions, service notes, or account annotations.
@@ -78,7 +78,7 @@ end
 
 class DeskUpdateNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing note.
+    Update an existing note.
     Updates only provided fields.
     Returns updated note object.
     Use for editing note content or subject.
@@ -110,7 +110,7 @@ end
 
 class DeskDeleteNote < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete a note.
+    Delete a note.
     Permanently removes the note.
     Returns success status.
     Use with caution - deletion is permanent.

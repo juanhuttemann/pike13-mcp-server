@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListEventOccurrences < Pike13BaseTool
   description <<~DESC
-    [CLIENT] STEP 2: List ACTUAL scheduled classes/times (not templates).
+    STEP 2: List ACTUAL scheduled classes/times (not templates).
     Returns: Monday 9am Yoga, Tuesday 6pm Pilates, etc.
     Use AFTER FrontListEvents to get specific times for booking.
     Workflow: FrontListEvents → FrontListEventOccurrences → FrontCreateVisit to book.
@@ -27,7 +27,7 @@ end
 
 class FrontGetEventOccurrence < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get specific scheduled class instance by ID.
+    Get specific scheduled class instance by ID.
     Returns occurrence with exact time, instructor, location, capacity, spots remaining, and current registrations.
     Use to show class details before booking or to check availability.
   DESC
@@ -48,7 +48,7 @@ end
 
 class FrontGetEventOccurrencesSummary < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get event occurrences summary for date range.
+    Get event occurrences summary for date range.
     Returns aggregated summary of scheduled classes by day.
     Use for calendar views or availability overviews for customers.
   DESC
@@ -74,7 +74,7 @@ end
 
 class FrontGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Check enrollment eligibility for an event occurrence.
+    Check enrollment eligibility for an event occurrence.
     Returns eligibility status and restrictions for authenticated customer and dependents.
     Use before booking to check if customer can enroll and display appropriate warnings.
   DESC

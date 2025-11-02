@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListPlans < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all plans (memberships and packs) for the business.
+    List all plans (memberships and packs) for the business.
 
     Returns plans with type (Pack/Membership), count (visit limit), people (id/email/name),
     name, plan_product_id, staff_member_id, description, price_cents, start_date, end_date,
@@ -32,7 +32,7 @@ end
 
 class DeskUpdatePlanEndDate < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update the end date for a specific plan.
+    Update the end date for a specific plan.
 
     Updates plan end_date. End date must be in the future and cannot be at or after
     the next billing cycle date.

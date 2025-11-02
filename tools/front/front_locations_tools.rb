@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListLocations < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List public business locations.
+    List public business locations.
     Returns locations with name, address, timezone, phone, and hours.
     Use to display location options to customers for booking or finding addresses.
     Shows only publicly visible locations.
@@ -19,7 +19,7 @@ end
 
 class FrontGetLocation < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get specific location by ID.
+    Get specific location by ID.
     Returns location details including address, hours, contact info, and timezone.
     Use to show detailed location information to customers.
   DESC

@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListRevenueCategories < Pike13BaseTool
   description <<~DESC
-    [STAFF] List revenue classification categories.
+    List revenue classification categories.
 
     Returns accounting categories for income tracking with id and name.
     Revenue categories are never deleted but names can be edited and may change over time.
@@ -21,7 +21,7 @@ end
 
 class DeskGetRevenueCategory < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get revenue category details by ID.
+    Get revenue category details by ID.
 
     Returns revenue category with id and name.
 

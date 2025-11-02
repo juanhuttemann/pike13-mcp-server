@@ -39,7 +39,7 @@ end
 
 class FrontGetBusiness < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get business info for customers: name, hours, contact, timezone.
+    Get business info for customers: name, hours, contact, timezone.
     Use for "business hours", "contact info", "location" questions.
     Returns basic info - for admin details use DeskGetBusiness.
   DESC
@@ -53,7 +53,7 @@ end
 
 class FrontGetBranding < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get business branding assets (no auth required).
+    Get business branding assets (no auth required).
     Returns logo URLs, brand colors, custom CSS, and theme settings.
     Use to customize UI to match business brand identity or display branded content in customer apps.
   DESC
@@ -67,7 +67,7 @@ end
 
 class DeskGetBusiness < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get admin business details: settings, billing, features, configs.
+    Get admin business details: settings, billing, features, configs.
     Use for admin dashboards, business configuration, staff management.
     Contains sensitive info - NOT for customer display.
   DESC
@@ -81,7 +81,7 @@ end
 
 class DeskGetBusinessFranchisees < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get franchisee businesses.
+    Get franchisee businesses.
     Returns list of franchisee businesses associated with this franchisor account.
     Use for multi-location franchise management or reporting.
     Only works for franchisor accounts.
@@ -96,7 +96,7 @@ end
 
 class FrontGetBusinessFranchisees < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get franchisee businesses visible to customers.
+    Get franchisee businesses visible to customers.
     Returns list of franchisee locations customers can view.
     Use to display multiple franchise locations to customers.
   DESC

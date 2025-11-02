@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class FrontListServices < Pike13BaseTool
   description <<~DESC
-    [CLIENT] STEP 1: List available services (yoga, personal training, etc). Returns: name, type, price, duration. Use FIRST to show what services are available, then use FrontFindAvailableAppointmentSlots to check times for appointment services, or FrontListEventOccurrences for class services.
+    STEP 1: List available services (yoga, personal training, etc). Returns: name, type, price, duration. Use FIRST to show what services are available, then use FrontFindAvailableAppointmentSlots to check times for appointment services, or FrontListEventOccurrences for class services.
   DESC
 
   class << self
@@ -16,7 +16,7 @@ end
 
 class FrontGetService < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get detailed service info by ID. Returns: full description, policies, requirements. Use when customer asks "tell me about [service]" or needs details before booking. Workflow: FrontListServices → FrontGetService → FrontFindAvailableAppointmentSlots/FrontListEventOccurrences
+    Get detailed service info by ID. Returns: full description, policies, requirements. Use when customer asks "tell me about [service]" or needs details before booking. Workflow: FrontListServices → FrontGetService → FrontFindAvailableAppointmentSlots/FrontListEventOccurrences
   DESC
 
   input_schema(
@@ -35,7 +35,7 @@ end
 
 class FrontGetServiceEnrollmentEligibilities < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Check enrollment eligibility for a service for the logged-in person and dependents.
+    Check enrollment eligibility for a service for the logged-in person and dependents.
 
     Returns enrollment warnings and restrictions based on service configuration and person status.
     Warnings include: credit_card_required, client_purchase_disabled.

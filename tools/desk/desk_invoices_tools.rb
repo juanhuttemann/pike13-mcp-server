@@ -4,7 +4,7 @@ require_relative '../base_tool'
 
 class DeskListInvoices < Pike13BaseTool
   description <<~DESC
-    [STAFF] List ALL invoices - AVOID for searches.
+    List ALL invoices - AVOID for searches.
     Returns huge dataset.
     Use ONLY for "all invoices", "financial report", "accounts receivable".
     For specific customer invoices, search person first then get their invoices.
@@ -19,7 +19,7 @@ end
 
 class DeskGetInvoice < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get invoice by ID with full admin details.
+    Get invoice by ID with full admin details.
     Returns invoice with line items, amounts, taxes, payment status, and full audit trail.
     Use for customer service or billing inquiries.
   DESC
@@ -40,7 +40,7 @@ end
 
 class DeskGetInvoicePaymentMethods < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get available payment methods for an invoice.
+    Get available payment methods for an invoice.
     Returns all payment methods that can be used to pay this invoice.
     Use when processing payment for a customer.
   DESC
@@ -61,7 +61,7 @@ end
 
 class DeskCreateInvoice < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a new invoice.
+    Create a new invoice.
     Creates invoice for specified person with optional line items.
     Returns created invoice with ID.
     Use for manual billing or custom charges.
@@ -88,7 +88,7 @@ end
 
 class DeskUpdateInvoice < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update an existing invoice.
+    Update an existing invoice.
     Updates invoice details like due date, notes, or status.
     Returns updated invoice.
     Use for corrections or administrative changes.
@@ -111,7 +111,7 @@ end
 
 class DeskCreateInvoiceItem < Pike13BaseTool
   description <<~DESC
-    [STAFF] Add an item to an invoice.
+    Add an item to an invoice.
     Creates a new line item on the invoice with description and amount.
     Returns updated invoice with new item.
     Use for adding charges, services, or products to invoice.
@@ -143,7 +143,7 @@ end
 
 class DeskDeleteInvoiceItem < Pike13BaseTool
   description <<~DESC
-    [STAFF] Remove an item from an invoice.
+    Remove an item from an invoice.
     Deletes a line item from the invoice.
     Returns updated invoice.
     Use for removing incorrect charges or cancelled items.
@@ -166,7 +166,7 @@ end
 
 class DeskCreateInvoiceItemDiscount < Pike13BaseTool
   description <<~DESC
-    [STAFF] Add a discount to an invoice item.
+    Add a discount to an invoice item.
     Creates discount on specific line item.
     Returns updated invoice with discount applied.
     Use for promotional discounts or adjustments.
@@ -190,7 +190,7 @@ end
 
 class DeskGetInvoiceItemDiscounts < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get discounts for an invoice item.
+    Get discounts for an invoice item.
     Returns all discounts applied to the invoice item.
     Use to review discount details.
   DESC
@@ -212,7 +212,7 @@ end
 
 class DeskDeleteInvoiceItemDiscounts < Pike13BaseTool
   description <<~DESC
-    [STAFF] Remove all discounts from an invoice item.
+    Remove all discounts from an invoice item.
     Deletes all discounts on the specified line item.
     Returns updated invoice.
     Use for removing promotional discounts.
@@ -235,7 +235,7 @@ end
 
 class DeskCreateInvoiceItemProrate < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a prorate adjustment for an invoice item.
+    Create a prorate adjustment for an invoice item.
     Adds prorated amount to invoice item (for partial periods).
     Returns updated invoice with prorate.
     Use for membership prorations or partial month billing.
@@ -259,7 +259,7 @@ end
 
 class DeskDeleteInvoiceItemProrate < Pike13BaseTool
   description <<~DESC
-    [STAFF] Remove prorate from an invoice item.
+    Remove prorate from an invoice item.
     Deletes prorate adjustment from the line item.
     Returns updated invoice.
   DESC
@@ -281,7 +281,7 @@ end
 
 class DeskCreateInvoicePayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a payment for an invoice.
+    Create a payment for an invoice.
     Processes payment for the invoice using specified payment method.
     Returns payment confirmation with transaction details.
     Use for processing customer payments at desk.
@@ -305,7 +305,7 @@ end
 
 class DeskCreateInvoiceRefund < Pike13BaseTool
   description <<~DESC
-    [STAFF] Create a refund for an invoice payment.
+    Create a refund for an invoice payment.
     Issues refund on a specific payment.
     Returns refund confirmation.
     Use for processing customer refunds.

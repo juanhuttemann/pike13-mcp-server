@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListPersonWaivers < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all signed waivers for a person.
+    List all signed waivers for a person.
     Returns array of waiver objects with waiver name, signed date, IP address, status (active/expired), expiration date, and document reference.
     Use for liability verification, compliance checking, or customer service.
   DESC
@@ -25,7 +25,7 @@ end
 
 class FrontListPersonWaivers < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List customer own signed waivers.
+    List customer own signed waivers.
     Returns array of customer-visible waiver objects with waiver name, signed date, and expiration.
     Use for customer self-service waiver viewing.
   DESC

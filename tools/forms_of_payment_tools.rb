@@ -4,7 +4,7 @@ require_relative 'base_tool'
 
 class DeskListFormsOfPayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] List all saved payment methods for a person.
+    List all saved payment methods for a person.
     Returns array of form of payment objects with type (credit card/ACH), last 4 digits, expiration, billing address, and default status.
     Use for billing management, payment troubleshooting, or customer service.
   DESC
@@ -25,7 +25,7 @@ end
 
 class DeskGetFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get specific payment method details.
+    Get specific payment method details.
     Returns form of payment object with type, last 4 digits, expiration, billing address, and metadata.
     Use for payment verification or billing inquiries.
   DESC
@@ -47,7 +47,7 @@ end
 
 class DeskCreateFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] Add new payment method for a person.
+    Add new payment method for a person.
     Requires "type" parameter ("creditcard" or "ach") and payment token from payment processor.
     Returns created form of payment object.
     Use for adding customer payment methods.
@@ -80,7 +80,7 @@ end
 
 class DeskUpdateFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] Update existing payment method.
+    Update existing payment method.
     Updates only provided fields.
     Returns updated form of payment object.
     Use for updating billing address, setting default payment method, or updating expiration.
@@ -108,7 +108,7 @@ end
 
 class DeskDeleteFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [STAFF] Delete a payment method.
+    Delete a payment method.
     Removes the saved payment method.
     Returns success status.
     Use to remove expired cards or at customer request.
@@ -132,7 +132,7 @@ end
 
 class FrontListFormsOfPayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] List customer own saved payment methods.
+    List customer own saved payment methods.
     Returns array of customer-visible payment method objects with masked card numbers and expiration dates.
     Use for customer self-service payment management.
   DESC
@@ -153,7 +153,7 @@ end
 
 class FrontGetFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get specific customer payment method details.
+    Get specific customer payment method details.
     Returns customer-visible form of payment object.
     Use for customer payment method viewing.
   DESC
@@ -175,7 +175,7 @@ end
 
 class FrontGetFormOfPaymentMe < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Get authenticated customer own payment method by ID.
+    Get authenticated customer own payment method by ID.
     Returns payment method for the currently authenticated customer.
     Use for customer self-service payment viewing without requiring person_id.
   DESC
@@ -196,7 +196,7 @@ end
 
 class FrontCreateFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Add new payment method for customer.
+    Add new payment method for customer.
     Requires "type" parameter ("creditcard" or "ach") and payment token.
     Returns created form of payment object.
     Use for customer self-service payment method addition.
@@ -229,7 +229,7 @@ end
 
 class FrontUpdateFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Update customer own payment method.
+    Update customer own payment method.
     Updates only provided fields.
     Returns updated form of payment object.
     Use for customer self-service payment method updates.
@@ -257,7 +257,7 @@ end
 
 class FrontDeleteFormOfPayment < Pike13BaseTool
   description <<~DESC
-    [CLIENT] Delete customer own payment method.
+    Delete customer own payment method.
     Removes the saved payment method.
     Returns success status.
     Use for customer self-service payment method removal.
