@@ -8,6 +8,7 @@ MCP server for Pike13 API integration with stdio transport for Claude Desktop.
 - **1 Prompt** for common workflows
 - **Stdio transport** for direct Claude Desktop integration
 - **Docker-based** deployment with minimal dependencies
+- **Tool filtering** via environment variable - load only the tool groups you need
 - Support for all Pike13 API operations
 
 ## Installation
@@ -56,6 +57,8 @@ Add to your Claude Desktop config file:
         "PIKE13_ACCESS_TOKEN=your_access_token_here",
         "-e",
         "PIKE13_BASE_URL=https://yourbusiness.pike13.com",
+        "-e",
+        "TOOLS_ENABLED=front,desk,reporting",
         "juanhuttemann/pike13-mcp:latest"
       ]
     }
@@ -66,6 +69,26 @@ Add to your Claude Desktop config file:
 **Environment Variables:**
 - `PIKE13_ACCESS_TOKEN`: Your Pike13 API access token
 - `PIKE13_BASE_URL`: Your Pike13 business URL (e.g., `https://yourbusiness.pike13.com`)
+- `TOOLS_ENABLED`: Comma-separated list of tool groups to load (optional, defaults to 'all')
+
+**Tool Groups:**
+Control which Pike13 API tools are available by setting the `TOOLS_ENABLED` environment variable:
+- `account` - Account-level operations (6 tools)
+- `desk` - Staff/admin operations (103 tools)
+- `front` - Customer-facing operations (25 tools)
+- `reporting` - Analytics and reporting (12 tools)
+
+**Examples:**
+```bash
+# Load only Front and Reporting tools (37 tools total)
+TOOLS_ENABLED=front,reporting
+
+# Load only Desk tools (103 tools)
+TOOLS_ENABLED=desk
+
+# Load all tools (186 tools) - this is the default
+TOOLS_ENABLED=all
+```
 
 After updating the config, **restart Claude Desktop** to activate the MCP server.
 
@@ -88,6 +111,8 @@ If you built the image locally, change the last argument from `juanhuttemann/pik
   "PIKE13_ACCESS_TOKEN=your_access_token_here",
   "-e",
   "PIKE13_BASE_URL=https://yourbusiness.pike13.com",
+  "-e",
+  "TOOLS_ENABLED=front,desk,reporting",
   "pike13-mcp"
 ]
 ```
@@ -214,10 +239,11 @@ echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":
 docker run -i --rm \
   -e PIKE13_ACCESS_TOKEN=your_token \
   -e PIKE13_BASE_URL=https://yourbusiness.pike13.com \
+  -e TOOLS_ENABLED=front,desk,reporting \
   juanhuttemann/pike13-mcp:latest
 ```
 
-You should see a JSON response with server info and 186 tools.
+You should see a JSON response with server info and the enabled tools (e.g., 140 tools for front+desk+reporting).
 
 Test listing all tools:
 
@@ -226,6 +252,7 @@ echo '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | \
 docker run -i --rm \
   -e PIKE13_ACCESS_TOKEN=your_token \
   -e PIKE13_BASE_URL=https://yourbusiness.pike13.com \
+  -e TOOLS_ENABLED=front,desk,reporting \
   juanhuttemann/pike13-mcp:latest
 ```
 
@@ -245,6 +272,7 @@ bundle install
 
 export PIKE13_ACCESS_TOKEN=your_token
 export PIKE13_BASE_URL=https://yourbusiness.pike13.com
+export TOOLS_ENABLED=front,desk,reporting  # Optional: control which tool groups to load
 
 ruby server.rb
 ```

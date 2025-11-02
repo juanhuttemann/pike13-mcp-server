@@ -5,8 +5,26 @@ require 'bundler/setup'
 Bundler.require(:default)
 require 'mcp'
 
-# Load Pike13 tools
-Dir[File.join(__dir__, 'tools', '**', '*.rb')].sort.each { |file| require file }
+# Get enabled tool groups from environment
+enabled_groups = ENV['TOOLS_ENABLED']&.downcase&.split(',')&.map(&:strip) || ['all']
+enabled_groups = ['account', 'desk', 'front', 'reporting'] if enabled_groups.include?('all')
+
+# Validate groups
+valid_groups = ['account', 'desk', 'front', 'reporting']
+enabled_groups = enabled_groups & valid_groups
+
+if enabled_groups.empty?
+  warn "Warning: No valid tool groups in TOOLS_ENABLED='#{ENV['TOOLS_ENABLED']}'. Using all groups."
+  enabled_groups = valid_groups
+end
+
+# Load Pike13 tools only from enabled directories
+enabled_groups.each do |group|
+  Dir[File.join(__dir__, 'tools', group, '*.rb')].sort.each { |file| require file }
+end
+
+# Always load base tool
+require File.join(__dir__, 'tools', 'base_tool.rb')
 
 # Load Pike13 prompts
 Dir[File.join(__dir__, 'prompts', '*.rb')].sort.each { |file| require file }
@@ -40,6 +58,7 @@ server.transport = transport
 transport.open
 
 warn 'Starting Pike13 MCP Server (stdio mode)'
+warn "Enabled tool groups: #{enabled_groups.join(', ')}"
 warn "Loaded #{tool_classes.size} Pike13 tools"
 warn "Loaded #{prompt_classes.size} Pike13 prompts"
 warn 'Waiting for JSON-RPC requests on stdin/stdout...'
