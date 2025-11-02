@@ -2,8 +2,6 @@
 
 require_relative 'base_tool'
 
-# Front (CLIENT) Booking Tools
-
 class FrontGetBooking < Pike13BaseTool
   description <<~DESC
     [CLIENT] Get event REGISTRATION details.
@@ -160,139 +158,24 @@ class FrontDeleteBookingLease < Pike13BaseTool
   end
 end
 
-# Desk (STAFF) Booking Tools
-
-class DeskGetBooking < Pike13BaseTool
+class FrontGetBookingLease < Pike13BaseTool
   description <<~DESC
-    [STAFF] Get event registration details by ID.
-    Returns complete booking with customer, event occurrence, registration time, payment status, cancellation status, and modifications.
-    Use for registration management or resolving booking issues.
-    Bookings are reservations for events.
+    [CLIENT] Get booking lease details. A lease temporarily holds a spot during the booking process.
+    Returns lease object with expiration time, booking details, and hold status.
+    Use to verify lease status during multi-step booking checkout or to display countdown timer for held spots.
   DESC
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' }
+      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' },
+      lease_id: { type: 'integer', description: 'Unique booking lease ID (integer)' }
     },
-    required: ['booking_id']
+    required: ['booking_id', 'lease_id']
   )
 
   class << self
-    def call(booking_id:, server_context:)
-      Pike13::Desk::Booking.find(booking_id).to_json
-    end
-  end
-end
-
-class DeskCreateBooking < Pike13BaseTool
-  description <<~DESC
-    [STAFF] Create a new booking/registration for a course.
-    Books/registers specified person for course or appointment.
-    Returns created booking with confirmation details.
-    Use for manual course enrollments or appointment bookings.
-  DESC
-
-  input_schema(
-    properties: {
-      attributes: { type: 'object', description: 'Booking attributes (event_id, person_id, etc.)' }
-    },
-    required: ['attributes']
-  )
-
-  class << self
-    def call(attributes:, server_context:)
-      Pike13::Desk::Booking.create(attributes).to_json
-    end
-  end
-end
-
-class DeskUpdateBooking < Pike13BaseTool
-  description <<~DESC
-    [STAFF] Update an existing booking.
-    Modifies booking details, status, or preferences.
-    Returns updated booking.
-    Use for administrative corrections or status changes.
-  DESC
-
-  input_schema(
-    properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
-      attributes: { type: 'object', description: 'Booking attributes to update' }
-    },
-    required: ['booking_id', 'attributes']
-  )
-
-  class << self
-    def call(booking_id:, attributes:, server_context:)
-      Pike13::Desk::Booking.update(booking_id, attributes).to_json
-    end
-  end
-end
-
-class DeskDeleteBooking < Pike13BaseTool
-  description <<~DESC
-    [STAFF] Cancel/delete a booking.
-    Cancels the person's course registration or appointment booking.
-    Returns cancellation confirmation.
-    Use for administrative cancellations or customer service.
-  DESC
-
-  input_schema(
-    properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to cancel' }
-    },
-    required: ['booking_id']
-  )
-
-  class << self
-    def call(booking_id:, server_context:)
-      Pike13::Desk::Booking.destroy(booking_id).to_json
-    end
-  end
-end
-
-class DeskCreateBookingLease < Pike13BaseTool
-  description <<~DESC
-    [STAFF] Create a booking lease.
-    Creates temporary hold/lease on booking slot.
-    Returns lease with expiration time.
-    Use for reserving spots during registration process.
-  DESC
-
-  input_schema(
-    properties: {
-      booking_id: { type: 'integer', description: 'Booking ID to create lease for' },
-      attributes: { type: 'object', description: 'Lease attributes' }
-    },
-    required: ['booking_id', 'attributes']
-  )
-
-  class << self
-    def call(booking_id:, attributes:, server_context:)
-      Pike13::Desk::Booking.create_lease(booking_id, attributes).to_json
-    end
-  end
-end
-
-class DeskUpdateBookingLease < Pike13BaseTool
-  description <<~DESC
-    [STAFF] Update a booking lease.
-    Extends or modifies the booking hold/lease.
-    Returns updated lease.
-  DESC
-
-  input_schema(
-    properties: {
-      booking_id: { type: 'integer', description: 'Booking ID' },
-      lease_id: { type: 'integer', description: 'Lease ID to update' },
-      attributes: { type: 'object', description: 'Lease attributes to update' }
-    },
-    required: ['booking_id', 'lease_id', 'attributes']
-  )
-
-  class << self
-    def call(booking_id:, lease_id:, attributes:, server_context:)
-      Pike13::Desk::Booking.update_lease(booking_id, lease_id, attributes).to_json
+    def call(booking_id:, lease_id:, server_context:)
+      Pike13::Front::Booking.find_lease(booking_id: booking_id, id: lease_id).to_json
     end
   end
 end
