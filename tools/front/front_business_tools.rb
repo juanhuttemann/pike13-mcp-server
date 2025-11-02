@@ -6,7 +6,7 @@ class FrontGetBusiness < Pike13BaseTool
   description <<~DESC
     Get business info for customers: name, hours, contact, timezone.
     Use for "business hours", "contact info", "location" questions.
-    Returns basic info - for admin details use DeskGetBusiness.
+    Returns basic info.
   DESC
 
   class << self
