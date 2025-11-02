@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListEvents < Pike13BaseTool
   description <<~DESC

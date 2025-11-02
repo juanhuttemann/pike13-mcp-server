@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListServices < Pike13BaseTool
   description <<~DESC
@@ -57,7 +57,7 @@ class FrontGetServiceEnrollmentEligibilities < Pike13BaseTool
   )
 
   class << self
-    def call(service_id:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil, server_context:)
+    def call(service_id:, server_context:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil)
       params = {}
       params[:event_id] = event_id if event_id
       params[:location_id] = location_id if location_id

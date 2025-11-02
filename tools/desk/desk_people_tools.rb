@@ -51,13 +51,14 @@ class DeskSearchPeople < Pike13BaseTool
   input_schema(
     properties: {
       query: { type: 'string', description: 'Search term: name, email, or phone number (digits only for phone)' },
-      fields: { type: 'string', description: 'Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.' }
+      fields: { type: 'string',
+                description: 'Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.' }
     },
     required: ['query']
   )
 
   class << self
-    def call(query:, fields: nil, server_context:)
+    def call(query:, server_context:, fields: nil)
       Pike13::Desk::Person.search(query, fields: fields).to_json
     end
   end
@@ -92,13 +93,14 @@ class DeskCreatePerson < Pike13BaseTool
       last_name: { type: 'string', description: 'Person last name' },
       email: { type: 'string', description: 'Person email address' },
       phone: { type: 'string', description: 'Optional: Phone number' },
-      additional_attributes: { type: 'object', description: 'Optional: Additional person attributes as a hash (e.g., address, emergency contacts, custom fields)' }
+      additional_attributes: { type: 'object',
+                               description: 'Optional: Additional person attributes as a hash (e.g., address, emergency contacts, custom fields)' }
     },
-    required: ['first_name', 'last_name', 'email']
+    required: %w[first_name last_name email]
   )
 
   class << self
-    def call(first_name:, last_name:, email:, phone: nil, additional_attributes: nil, server_context:)
+    def call(first_name:, last_name:, email:, server_context:, phone: nil, additional_attributes: nil)
       attributes = {
         first_name: first_name,
         last_name: last_name,
@@ -133,7 +135,8 @@ class DeskUpdatePerson < Pike13BaseTool
   )
 
   class << self
-    def call(person_id:, first_name: nil, last_name: nil, email: nil, phone: nil, additional_attributes: nil, server_context:)
+    def call(person_id:, server_context:, first_name: nil, last_name: nil, email: nil, phone: nil,
+             additional_attributes: nil)
       attributes = {}
       attributes[:first_name] = first_name if first_name
       attributes[:last_name] = last_name if last_name

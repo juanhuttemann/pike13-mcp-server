@@ -35,7 +35,7 @@ class DeskGetEventOccurrenceNote < Pike13BaseTool
       event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
       note_id: { type: 'integer', description: 'Unique note ID (integer)' }
     },
-    required: ['event_occurrence_id', 'note_id']
+    required: %w[event_occurrence_id note_id]
   )
 
   class << self
@@ -61,11 +61,11 @@ class DeskCreateEventOccurrenceNote < Pike13BaseTool
       subject: { type: 'string', description: 'Optional: Note subject/title' },
       additional_attributes: { type: 'object', description: 'Optional: Additional note attributes' }
     },
-    required: ['event_occurrence_id', 'note']
+    required: %w[event_occurrence_id note]
   )
 
   class << self
-    def call(event_occurrence_id:, note:, subject: nil, additional_attributes: nil, server_context:)
+    def call(event_occurrence_id:, note:, server_context:, subject: nil, additional_attributes: nil)
       attributes = { note: note }
       attributes[:subject] = subject if subject
       attributes.merge!(additional_attributes) if additional_attributes
@@ -95,11 +95,11 @@ class DeskUpdateEventOccurrenceNote < Pike13BaseTool
       subject: { type: 'string', description: 'Optional: Updated note subject/title' },
       additional_attributes: { type: 'object', description: 'Optional: Additional attributes to update' }
     },
-    required: ['event_occurrence_id', 'note_id']
+    required: %w[event_occurrence_id note_id]
   )
 
   class << self
-    def call(event_occurrence_id:, note_id:, note: nil, subject: nil, additional_attributes: nil, server_context:)
+    def call(event_occurrence_id:, note_id:, server_context:, note: nil, subject: nil, additional_attributes: nil)
       attributes = {}
       attributes[:note] = note if note
       attributes[:subject] = subject if subject
@@ -127,7 +127,7 @@ class DeskDeleteEventOccurrenceNote < Pike13BaseTool
       event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
       note_id: { type: 'integer', description: 'Unique note ID to delete (integer)' }
     },
-    required: ['event_occurrence_id', 'note_id']
+    required: %w[event_occurrence_id note_id]
   )
 
   class << self
@@ -173,7 +173,7 @@ class FrontGetEventOccurrenceNote < Pike13BaseTool
       event_occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' },
       note_id: { type: 'integer', description: 'Unique note ID (integer)' }
     },
-    required: ['event_occurrence_id', 'note_id']
+    required: %w[event_occurrence_id note_id]
   )
 
   class << self

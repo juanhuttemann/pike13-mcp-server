@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListStaffMembers < Pike13BaseTool
   description <<~DESC
@@ -45,4 +45,3 @@ class FrontGetStaffMember < Pike13BaseTool
     end
   end
 end
-

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListWaitlistEntries < Pike13BaseTool
   description <<~DESC
@@ -65,7 +65,7 @@ class DeskCreateWaitlistEntry < Pike13BaseTool
   )
 
   class << self
-    def call(event_occurrence_id:, person_id: nil, server_context:)
+    def call(event_occurrence_id:, server_context:, person_id: nil)
       params = { event_occurrence_id: event_occurrence_id }
       params[:person_id] = person_id if person_id
       Pike13::Desk::WaitlistEntry.create(params).to_json
@@ -96,7 +96,7 @@ class DeskUpdateWaitlistEntry < Pike13BaseTool
       entry_id: { type: 'integer', description: 'Waitlist entry ID to update' },
       state_event: { type: 'string', description: 'State transition (wait or enroll)' }
     },
-    required: ['entry_id', 'state_event']
+    required: %w[entry_id state_event]
   )
 
   class << self

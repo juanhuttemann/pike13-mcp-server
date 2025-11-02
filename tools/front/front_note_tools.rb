@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListNotes < Pike13BaseTool
   description <<~DESC
@@ -35,7 +35,7 @@ class FrontGetNote < Pike13BaseTool
       person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
       note_id: { type: 'integer', description: 'Unique note ID (integer)' }
     },
-    required: ['person_id', 'note_id']
+    required: %w[person_id note_id]
   )
 
   class << self

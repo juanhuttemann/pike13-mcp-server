@@ -49,13 +49,14 @@ class DeskVoidPayment < Pike13BaseTool
   input_schema(
     properties: {
       payment_id: { type: 'integer', description: 'Unique Pike13 payment ID to void (integer)' },
-      invoice_item_ids_to_cancel: { type: 'array', description: 'Optional: Array of invoice item IDs to cancel with this void' }
+      invoice_item_ids_to_cancel: { type: 'array',
+                                    description: 'Optional: Array of invoice item IDs to cancel with this void' }
     },
     required: ['payment_id']
   )
 
   class << self
-    def call(payment_id:, invoice_item_ids_to_cancel: nil, server_context:)
+    def call(payment_id:, server_context:, invoice_item_ids_to_cancel: nil)
       params = { payment_id: payment_id }
       params[:invoice_item_ids_to_cancel] = invoice_item_ids_to_cancel if invoice_item_ids_to_cancel
 

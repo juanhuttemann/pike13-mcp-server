@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListInvoices < Pike13BaseTool
   description <<~DESC
@@ -75,7 +75,7 @@ class FrontCreateInvoice < Pike13BaseTool
   )
 
   class << self
-    def call(person_id:, additional_attributes: nil, server_context:)
+    def call(person_id:, server_context:, additional_attributes: nil)
       attributes = { person_id: person_id }
       attributes.merge!(additional_attributes) if additional_attributes
 
@@ -96,7 +96,7 @@ class FrontUpdateInvoice < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Unique Pike13 invoice ID to update' },
       attributes: { type: 'object', description: 'Invoice attributes to update as a hash' }
     },
-    required: ['invoice_id', 'attributes']
+    required: %w[invoice_id attributes]
   )
 
   class << self
@@ -120,11 +120,11 @@ class FrontCreateInvoiceItem < Pike13BaseTool
       amount_cents: { type: 'integer', description: 'Item amount in cents' },
       additional_attributes: { type: 'object', description: 'Optional: Additional item attributes' }
     },
-    required: ['invoice_id', 'description', 'amount_cents']
+    required: %w[invoice_id description amount_cents]
   )
 
   class << self
-    def call(invoice_id:, description:, amount_cents:, additional_attributes: nil, server_context:)
+    def call(invoice_id:, description:, amount_cents:, server_context:, additional_attributes: nil)
       attributes = {
         description: description,
         amount_cents: amount_cents
@@ -148,7 +148,7 @@ class FrontDeleteInvoiceItem < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       item_id: { type: 'integer', description: 'Invoice item ID to delete' }
     },
-    required: ['invoice_id', 'item_id']
+    required: %w[invoice_id item_id]
   )
 
   class << self
@@ -170,7 +170,7 @@ class FrontCreateInvoicePayment < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID to pay' },
       attributes: { type: 'object', description: 'Payment attributes (amount_cents, form_of_payment_id, etc.)' }
     },
-    required: ['invoice_id', 'attributes']
+    required: %w[invoice_id attributes]
   )
 
   class << self
@@ -192,7 +192,7 @@ class FrontDeleteInvoicePayment < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       payment_id: { type: 'integer', description: 'Payment ID to delete' }
     },
-    required: ['invoice_id', 'payment_id']
+    required: %w[invoice_id payment_id]
   )
 
   class << self

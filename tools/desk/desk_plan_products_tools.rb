@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListPlanProducts < Pike13BaseTool
   description <<~DESC
@@ -26,7 +26,7 @@ class DeskListPlanProducts < Pike13BaseTool
   )
 
   class << self
-    def call(location_ids: nil, service_ids: nil, server_context:)
+    def call(server_context:, location_ids: nil, service_ids: nil)
       params = {}
       params[:location_ids] = location_ids if location_ids
       params[:service_ids] = service_ids if service_ids

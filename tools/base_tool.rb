@@ -20,9 +20,9 @@ module Pike13ToolWrapper
     return result if result.is_a?(MCP::Tool::Response)
 
     MCP::Tool::Response.new([{
-      type: 'text',
-      text: result
-    }])
+                              type: 'text',
+                              text: result
+                            }])
   rescue Pike13::ConfigurationError
     error_response('Configuration error: Pike13 access token or base URL is missing or invalid.')
   rescue Pike13::AuthenticationError
@@ -52,9 +52,9 @@ module Pike13ToolWrapper
 
   def error_response(message)
     MCP::Tool::Response.new([{
-      type: 'text',
-      text: message
-    }])
+                              type: 'text',
+                              text: message
+                            }])
   end
 
   def format_error_details(response_body)

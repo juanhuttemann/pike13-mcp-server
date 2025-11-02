@@ -6,10 +6,10 @@ Bundler.require(:default)
 require 'mcp'
 
 # Load Pike13 tools
-Dir[File.join(__dir__, 'tools', '**', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'tools', '**', '*.rb')].sort.each { |file| require file }
 
 # Load Pike13 prompts
-Dir[File.join(__dir__, 'prompts', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'prompts', '*.rb')].sort.each { |file| require file }
 
 # Collect all tool classes
 tool_classes = ObjectSpace.each_object(Class).select { |klass| klass < Pike13BaseTool }
@@ -39,7 +39,7 @@ server.transport = transport
 # Open the stdio transport (blocking loop)
 transport.open
 
-STDERR.puts "Starting Pike13 MCP Server (stdio mode)"
-STDERR.puts "Loaded #{tool_classes.size} Pike13 tools"
-STDERR.puts "Loaded #{prompt_classes.size} Pike13 prompts"
-STDERR.puts "Waiting for JSON-RPC requests on stdin/stdout..."
+warn 'Starting Pike13 MCP Server (stdio mode)'
+warn "Loaded #{tool_classes.size} Pike13 tools"
+warn "Loaded #{prompt_classes.size} Pike13 prompts"
+warn 'Waiting for JSON-RPC requests on stdin/stdout...'

@@ -35,7 +35,7 @@ class FrontGetPlanTerms < Pike13BaseTool
       plan_id: { type: 'integer', description: 'Unique Pike13 plan ID (integer)' },
       plan_terms_id: { type: 'integer', description: 'Unique plan terms ID (integer)' }
     },
-    required: ['plan_id', 'plan_terms_id']
+    required: %w[plan_id plan_terms_id]
   )
 
   class << self
@@ -58,7 +58,7 @@ class FrontCompletePlanTerms < Pike13BaseTool
       plan_id: { type: 'integer', description: 'Unique Pike13 plan ID (integer)' },
       plan_terms_id: { type: 'integer', description: 'Unique plan terms ID to accept (integer)' }
     },
-    required: ['plan_id', 'plan_terms_id']
+    required: %w[plan_id plan_terms_id]
   )
 
   class << self

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListServices < Pike13BaseTool
   description <<~DESC
@@ -25,7 +25,7 @@ class DeskListServices < Pike13BaseTool
   )
 
   class << self
-    def call(include_hidden: nil, server_context:)
+    def call(server_context:, include_hidden: nil)
       params = {}
       params[:include_hidden] = include_hidden unless include_hidden.nil?
       Pike13::Desk::Service.all(**params).to_json
@@ -81,11 +81,12 @@ class DeskGetServiceEnrollmentEligibilities < Pike13BaseTool
       staff_member_ids: { type: 'string', description: 'Optional: comma-delimited staff member IDs' },
       start_at: { type: 'string', description: 'Optional: ISO 8601 timestamp when service starts' }
     },
-    required: ['service_id', 'person_ids']
+    required: %w[service_id person_ids]
   )
 
   class << self
-    def call(service_id:, person_ids:, event_id: nil, location_id: nil, staff_member_ids: nil, start_at: nil, server_context:)
+    def call(service_id:, person_ids:, server_context:, event_id: nil, location_id: nil, staff_member_ids: nil,
+             start_at: nil)
       params = { person_ids: person_ids }
       params[:event_id] = event_id if event_id
       params[:location_id] = location_id if location_id

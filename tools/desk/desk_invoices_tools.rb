@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListInvoices < Pike13BaseTool
   description <<~DESC
@@ -70,13 +70,14 @@ class DeskCreateInvoice < Pike13BaseTool
   input_schema(
     properties: {
       person_id: { type: 'integer', description: 'Person ID for the invoice' },
-      additional_attributes: { type: 'object', description: 'Optional: Additional invoice attributes as a hash (e.g., due_on, notes)' }
+      additional_attributes: { type: 'object',
+                               description: 'Optional: Additional invoice attributes as a hash (e.g., due_on, notes)' }
     },
     required: ['person_id']
   )
 
   class << self
-    def call(person_id:, additional_attributes: nil, server_context:)
+    def call(person_id:, server_context:, additional_attributes: nil)
       attributes = { person_id: person_id }
       attributes.merge!(additional_attributes) if additional_attributes
 
@@ -98,7 +99,7 @@ class DeskUpdateInvoice < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Unique Pike13 invoice ID to update' },
       attributes: { type: 'object', description: 'Invoice attributes to update as a hash' }
     },
-    required: ['invoice_id', 'attributes']
+    required: %w[invoice_id attributes]
   )
 
   class << self
@@ -121,13 +122,14 @@ class DeskCreateInvoiceItem < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID to add item to' },
       description: { type: 'string', description: 'Item description' },
       amount_cents: { type: 'integer', description: 'Item amount in cents' },
-      additional_attributes: { type: 'object', description: 'Optional: Additional item attributes (revenue_category_id, sales_tax_id, etc.)' }
+      additional_attributes: { type: 'object',
+                               description: 'Optional: Additional item attributes (revenue_category_id, sales_tax_id, etc.)' }
     },
-    required: ['invoice_id', 'description', 'amount_cents']
+    required: %w[invoice_id description amount_cents]
   )
 
   class << self
-    def call(invoice_id:, description:, amount_cents:, additional_attributes: nil, server_context:)
+    def call(invoice_id:, description:, amount_cents:, server_context:, additional_attributes: nil)
       attributes = {
         description: description,
         amount_cents: amount_cents
@@ -152,7 +154,7 @@ class DeskDeleteInvoiceItem < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       item_id: { type: 'integer', description: 'Invoice item ID to delete' }
     },
-    required: ['invoice_id', 'item_id']
+    required: %w[invoice_id item_id]
   )
 
   class << self
@@ -176,7 +178,7 @@ class DeskCreateInvoiceItemDiscount < Pike13BaseTool
       invoice_item_id: { type: 'integer', description: 'Invoice item ID to discount' },
       attributes: { type: 'object', description: 'Discount attributes (amount_cents or percentage)' }
     },
-    required: ['invoice_id', 'invoice_item_id', 'attributes']
+    required: %w[invoice_id invoice_item_id attributes]
   )
 
   class << self
@@ -198,7 +200,7 @@ class DeskGetInvoiceItemDiscounts < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       invoice_item_id: { type: 'integer', description: 'Invoice item ID' }
     },
-    required: ['invoice_id', 'invoice_item_id']
+    required: %w[invoice_id invoice_item_id]
   )
 
   class << self
@@ -221,7 +223,7 @@ class DeskDeleteInvoiceItemDiscounts < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       invoice_item_id: { type: 'integer', description: 'Invoice item ID' }
     },
-    required: ['invoice_id', 'invoice_item_id']
+    required: %w[invoice_id invoice_item_id]
   )
 
   class << self
@@ -245,7 +247,7 @@ class DeskCreateInvoiceItemProrate < Pike13BaseTool
       invoice_item_id: { type: 'integer', description: 'Invoice item ID to prorate' },
       attributes: { type: 'object', description: 'Prorate attributes' }
     },
-    required: ['invoice_id', 'invoice_item_id', 'attributes']
+    required: %w[invoice_id invoice_item_id attributes]
   )
 
   class << self
@@ -267,7 +269,7 @@ class DeskDeleteInvoiceItemProrate < Pike13BaseTool
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       invoice_item_id: { type: 'integer', description: 'Invoice item ID' }
     },
-    required: ['invoice_id', 'invoice_item_id']
+    required: %w[invoice_id invoice_item_id]
   )
 
   class << self
@@ -288,9 +290,10 @@ class DeskCreateInvoicePayment < Pike13BaseTool
   input_schema(
     properties: {
       invoice_id: { type: 'integer', description: 'Invoice ID to pay' },
-      attributes: { type: 'object', description: 'Payment attributes (amount_cents, form_of_payment_id, payment_type, etc.)' }
+      attributes: { type: 'object',
+                    description: 'Payment attributes (amount_cents, form_of_payment_id, payment_type, etc.)' }
     },
-    required: ['invoice_id', 'attributes']
+    required: %w[invoice_id attributes]
   )
 
   class << self
@@ -314,7 +317,7 @@ class DeskCreateInvoiceRefund < Pike13BaseTool
       payment_id: { type: 'integer', description: 'Payment ID to refund' },
       attributes: { type: 'object', description: 'Refund attributes (amount_cents, reason, etc.)' }
     },
-    required: ['invoice_id', 'payment_id', 'attributes']
+    required: %w[invoice_id payment_id attributes]
   )
 
   class << self

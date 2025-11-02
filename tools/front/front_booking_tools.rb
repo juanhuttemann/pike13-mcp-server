@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontGetBooking < Pike13BaseTool
   description <<~DESC
@@ -58,7 +58,7 @@ class FrontUpdateBooking < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
       attributes: { type: 'object', description: 'Booking attributes to update' }
     },
-    required: ['booking_id', 'attributes']
+    required: %w[booking_id attributes]
   )
 
   class << self
@@ -103,7 +103,7 @@ class FrontCreateBookingLease < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Booking ID to create lease for' },
       attributes: { type: 'object', description: 'Lease attributes' }
     },
-    required: ['booking_id', 'attributes']
+    required: %w[booking_id attributes]
   )
 
   class << self
@@ -126,7 +126,7 @@ class FrontUpdateBookingLease < Pike13BaseTool
       lease_id: { type: 'integer', description: 'Lease ID to update' },
       attributes: { type: 'object', description: 'Lease attributes to update' }
     },
-    required: ['booking_id', 'lease_id', 'attributes']
+    required: %w[booking_id lease_id attributes]
   )
 
   class << self
@@ -148,7 +148,7 @@ class FrontDeleteBookingLease < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Booking ID' },
       lease_id: { type: 'integer', description: 'Lease ID to delete' }
     },
-    required: ['booking_id', 'lease_id']
+    required: %w[booking_id lease_id]
   )
 
   class << self
@@ -170,7 +170,7 @@ class FrontGetBookingLease < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' },
       lease_id: { type: 'integer', description: 'Unique booking lease ID (integer)' }
     },
-    required: ['booking_id', 'lease_id']
+    required: %w[booking_id lease_id]
   )
 
   class << self

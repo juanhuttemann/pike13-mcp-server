@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListEvents < Pike13BaseTool
   description <<~DESC
@@ -36,4 +36,3 @@ class FrontGetEvent < Pike13BaseTool
     end
   end
 end
-

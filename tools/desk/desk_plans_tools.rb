@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListPlans < Pike13BaseTool
   description <<~DESC
@@ -15,13 +15,14 @@ class DeskListPlans < Pike13BaseTool
 
   input_schema(
     properties: {
-      include_holds: { type: 'boolean', description: 'Optional: include active and upcoming holds on each plan (boolean)' }
+      include_holds: { type: 'boolean',
+                       description: 'Optional: include active and upcoming holds on each plan (boolean)' }
     },
     required: []
   )
 
   class << self
-    def call(include_holds: nil, server_context:)
+    def call(server_context:, include_holds: nil)
       params = {}
       params[:include_holds] = include_holds if include_holds
       Pike13::Desk::Plan.all(**params).to_json
@@ -47,7 +48,7 @@ class DeskUpdatePlanEndDate < Pike13BaseTool
       plan_id: { type: 'integer', description: 'Unique Pike13 plan ID' },
       end_date: { type: 'string', description: 'New end date (YYYY-MM-DD format, must be in future)' }
     },
-    required: ['plan_id', 'end_date']
+    required: %w[plan_id end_date]
   )
 
   class << self

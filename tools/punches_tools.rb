@@ -48,7 +48,7 @@ class DeskCreatePunch < Pike13BaseTool
   )
 
   class << self
-    def call(visit_id:, plan_id: nil, server_context:)
+    def call(visit_id:, server_context:, plan_id: nil)
       params = { visit_id: visit_id }
       params[:plan_id] = plan_id if plan_id
       Pike13::Desk::Punch.create(params).to_json

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontGetWaitlistEntry < Pike13BaseTool
   description <<~DESC
@@ -52,7 +52,7 @@ class FrontCreateWaitlistEntry < Pike13BaseTool
   )
 
   class << self
-    def call(event_occurrence_id:, person_id: nil, server_context:)
+    def call(event_occurrence_id:, server_context:, person_id: nil)
       params = { event_occurrence_id: event_occurrence_id }
       params[:person_id] = person_id if person_id
       Pike13::Front::WaitlistEntry.create(params).to_json

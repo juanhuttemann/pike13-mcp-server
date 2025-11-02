@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListEventOccurrences < Pike13BaseTool
   description <<~DESC
@@ -15,7 +15,7 @@ class DeskListEventOccurrences < Pike13BaseTool
       from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15' },
       to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-01-22' }
     },
-    required: ['from', 'to']
+    required: %w[from to]
   )
 
   class << self
@@ -59,11 +59,11 @@ class DeskGetEventOccurrencesSummary < Pike13BaseTool
       to: { type: 'string', description: 'End date in YYYY-MM-DD format' },
       additional_params: { type: 'object', description: 'Optional: Additional filter parameters' }
     },
-    required: ['from', 'to']
+    required: %w[from to]
   )
 
   class << self
-    def call(from:, to:, additional_params: nil, server_context:)
+    def call(from:, to:, server_context:, additional_params: nil)
       params = { from: from, to: to }
       params.merge!(additional_params) if additional_params
 
@@ -89,7 +89,7 @@ class DeskGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
   )
 
   class << self
-    def call(occurrence_id:, person_ids: nil, additional_params: nil, server_context:)
+    def call(occurrence_id:, server_context:, person_ids: nil, additional_params: nil)
       params = additional_params || {}
       params[:person_ids] = person_ids if person_ids
 

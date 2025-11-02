@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskGetBooking < Pike13BaseTool
   description <<~DESC
@@ -59,7 +59,7 @@ class DeskUpdateBooking < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
       attributes: { type: 'object', description: 'Booking attributes to update' }
     },
-    required: ['booking_id', 'attributes']
+    required: %w[booking_id attributes]
   )
 
   class << self
@@ -104,7 +104,7 @@ class DeskCreateBookingLease < Pike13BaseTool
       booking_id: { type: 'integer', description: 'Booking ID to create lease for' },
       attributes: { type: 'object', description: 'Lease attributes' }
     },
-    required: ['booking_id', 'attributes']
+    required: %w[booking_id attributes]
   )
 
   class << self
@@ -127,7 +127,7 @@ class DeskUpdateBookingLease < Pike13BaseTool
       lease_id: { type: 'integer', description: 'Lease ID to update' },
       attributes: { type: 'object', description: 'Lease attributes to update' }
     },
-    required: ['booking_id', 'lease_id', 'attributes']
+    required: %w[booking_id lease_id attributes]
   )
 
   class << self

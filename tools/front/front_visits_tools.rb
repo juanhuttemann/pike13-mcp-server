@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class FrontListVisits < Pike13BaseTool
   description <<~DESC
@@ -64,7 +64,7 @@ class FrontCreateVisit < Pike13BaseTool
   )
 
   class << self
-    def call(event_occurrence_id:, person_id: nil, server_context:)
+    def call(event_occurrence_id:, server_context:, person_id: nil)
       params = { event_occurrence_id: event_occurrence_id }
       params[:person_id] = person_id if person_id
       Pike13::Front::Visit.create(params).to_json
@@ -85,18 +85,17 @@ class FrontDeleteVisit < Pike13BaseTool
   input_schema(
     properties: {
       visit_id: { type: 'integer', description: 'Visit ID to cancel' },
-      remove_recurring_enrollment: { type: 'boolean', description: 'Optional: remove future recurring visits (boolean, default false)' }
+      remove_recurring_enrollment: { type: 'boolean',
+                                     description: 'Optional: remove future recurring visits (boolean, default false)' }
     },
     required: ['visit_id']
   )
 
   class << self
-    def call(visit_id:, remove_recurring_enrollment: nil, server_context:)
+    def call(visit_id:, server_context:, remove_recurring_enrollment: nil)
       params = {}
       params[:remove_recurring_enrollment] = remove_recurring_enrollment if remove_recurring_enrollment
       Pike13::Front::Visit.destroy(visit_id, **params).to_json
     end
   end
 end
-
-

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskGetMakeUp < Pike13BaseTool
   description <<~DESC
@@ -52,11 +52,11 @@ class DeskGenerateMakeUp < Pike13BaseTool
       make_up_reason_id: { type: 'integer', description: 'Make-up reason ID (get from DeskListMakeUpReasons)' },
       free_form_reason: { type: 'string', description: 'Optional: Additional free-form text explaining the reason' }
     },
-    required: ['visit_id', 'make_up_reason_id']
+    required: %w[visit_id make_up_reason_id]
   )
 
   class << self
-    def call(visit_id:, make_up_reason_id:, free_form_reason: nil, server_context:)
+    def call(visit_id:, make_up_reason_id:, server_context:, free_form_reason: nil)
       params = {
         visit_id: visit_id,
         make_up_reason_id: make_up_reason_id

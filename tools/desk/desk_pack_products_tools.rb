@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskListPackProducts < Pike13BaseTool
   description <<~DESC
@@ -51,13 +51,14 @@ class DeskCreatePackProduct < Pike13BaseTool
       name: { type: 'string', description: 'Pack product name' },
       count: { type: 'integer', description: 'Number of punches/visits in pack' },
       price_cents: { type: 'integer', description: 'Pack price in cents' },
-      additional_attributes: { type: 'object', description: 'Optional: Additional attributes (expiration_days, service_ids, etc.)' }
+      additional_attributes: { type: 'object',
+                               description: 'Optional: Additional attributes (expiration_days, service_ids, etc.)' }
     },
-    required: ['name', 'count', 'price_cents']
+    required: %w[name count price_cents]
   )
 
   class << self
-    def call(name:, count:, price_cents:, additional_attributes: nil, server_context:)
+    def call(name:, count:, price_cents:, server_context:, additional_attributes: nil)
       attributes = {
         name: name,
         count: count,
@@ -83,7 +84,7 @@ class DeskUpdatePackProduct < Pike13BaseTool
       pack_product_id: { type: 'integer', description: 'Unique Pike13 pack product ID to update' },
       attributes: { type: 'object', description: 'Pack product attributes to update' }
     },
-    required: ['pack_product_id', 'attributes']
+    required: %w[pack_product_id attributes]
   )
 
   class << self
@@ -127,13 +128,14 @@ class DeskCreatePackFromProduct < Pike13BaseTool
     properties: {
       pack_product_id: { type: 'integer', description: 'Pack product ID to create pack from' },
       person_id: { type: 'integer', description: 'Person ID to assign pack to' },
-      additional_attributes: { type: 'object', description: 'Optional: Additional pack attributes (price_cents override, expiration_date, etc.)' }
+      additional_attributes: { type: 'object',
+                               description: 'Optional: Additional pack attributes (price_cents override, expiration_date, etc.)' }
     },
-    required: ['pack_product_id', 'person_id']
+    required: %w[pack_product_id person_id]
   )
 
   class << self
-    def call(pack_product_id:, person_id:, additional_attributes: nil, server_context:)
+    def call(pack_product_id:, person_id:, server_context:, additional_attributes: nil)
       attributes = { person_id: person_id }
       attributes.merge!(additional_attributes) if additional_attributes
 

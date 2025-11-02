@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../base_tool"
+require_relative '../base_tool'
 
 class DeskFindAvailableAppointmentSlots < Pike13BaseTool
   description <<~DESC
@@ -14,13 +14,14 @@ class DeskFindAvailableAppointmentSlots < Pike13BaseTool
       service_id: { type: 'integer', description: 'Service ID for the appointment type' },
       date: { type: 'string', description: 'Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")' },
       location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter (e.g., "1,2")' },
-      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter (e.g., "1,2")' }
+      staff_member_ids: { type: 'string',
+                          description: 'Optional: comma-separated staff member IDs to filter (e.g., "1,2")' }
     },
-    required: ['service_id', 'date']
+    required: %w[service_id date]
   )
 
   class << self
-    def call(service_id:, date:, location_ids: nil, staff_member_ids: nil, server_context:)
+    def call(service_id:, date:, server_context:, location_ids: nil, staff_member_ids: nil)
       params = { date: date }
       params[:location_ids] = location_ids if location_ids
       params[:staff_member_ids] = staff_member_ids if staff_member_ids
@@ -42,15 +43,16 @@ class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
     properties: {
       service_id: { type: 'integer', description: 'Service ID for the appointment type' },
       from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15")' },
-      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.' },
+      to: { type: 'string',
+            description: 'End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.' },
       location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter' },
       staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter' }
     },
-    required: ['service_id', 'from', 'to']
+    required: %w[service_id from to]
   )
 
   class << self
-    def call(service_id:, from:, to:, location_ids: nil, staff_member_ids: nil, server_context:)
+    def call(service_id:, from:, to:, server_context:, location_ids: nil, staff_member_ids: nil)
       params = { from: from, to: to }
       params[:location_ids] = location_ids if location_ids
       params[:staff_member_ids] = staff_member_ids if staff_member_ids

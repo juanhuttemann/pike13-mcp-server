@@ -1,4 +1,6 @@
-require_relative "../base_tool"
+# frozen_string_literal: true
+
+require_relative '../base_tool'
 
 class ReportingPays < Pike13BaseTool
   description <<~DESC
@@ -67,7 +69,7 @@ class ReportingPays < Pike13BaseTool
   )
 
   class << self
-    def call(fields:, filter: nil, group: nil, sort: nil, page: nil, total_count: false, server_context:)
+    def call(fields:, server_context:, filter: nil, group: nil, sort: nil, page: nil, total_count: false)
       query_params = { fields: fields }
       query_params[:filter] = filter if filter
       query_params[:group] = group if group
