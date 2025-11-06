@@ -3,14 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListStaffMembers < Pike13BaseTool
-  description <<~DESC
-    List all current staff members with administrative details.
-
-    Returns staff with name, phone, email, role (owner/staff_member), bio, profile_photo URLs,
-    and custom_fields (id/custom_field_id/name/value).
-
-    Use for staff management, contact lookup, or administrative tasks.
-  DESC
+  description "List staff members"
 
   class << self
     def call(server_context:)
@@ -20,20 +13,11 @@ class DeskListStaffMembers < Pike13BaseTool
 end
 
 class DeskGetStaffMember < Pike13BaseTool
-  description <<~DESC
-    Get staff member details by ID or 'me' for current user.
-
-    Returns complete staff member data: name, phone, email, role, bio, profile_photo URLs,
-    and custom_fields.
-
-    Use 'me' as staff_member_id to fetch the profile for the current access token.
-
-    Use for staff profile viewing or administrative management.
-  DESC
+  description "Get staff member"
 
   input_schema(
     properties: {
-      staff_member_id: { type: 'string', description: 'Staff member ID or "me" for current user' }
+      staff_member_id: { type: 'string', description: 'Staff member ID or "me"' }
     },
     required: ['staff_member_id']
   )

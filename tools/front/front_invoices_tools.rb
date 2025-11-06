@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListInvoices < Pike13BaseTool
-  description <<~DESC
-    List customer invoices.
-    Returns invoices for authenticated customer with line items, amounts, and payment status.
-    Use to show customer their billing history.
-  DESC
+  description "List customer invoices"
 
   class << self
     def call(server_context:)
@@ -17,12 +13,7 @@ class FrontListInvoices < Pike13BaseTool
 end
 
 class FrontGetInvoice < Pike13BaseTool
-  description <<~DESC
-    Get customer invoice by ID.
-    Returns invoice with line items, amounts, taxes, payment status, and due date.
-    Use to show customers their bills or payment history.
-    Only returns invoices for authenticated customer.
-  DESC
+  description "Get customer invoice"
 
   input_schema(
     properties: {
@@ -39,11 +30,7 @@ class FrontGetInvoice < Pike13BaseTool
 end
 
 class FrontGetInvoicePaymentMethods < Pike13BaseTool
-  description <<~DESC
-    Get available payment methods for an invoice.
-    Returns payment methods that can be used to pay this invoice.
-    Use when customer is ready to pay an invoice.
-  DESC
+  description "Get invoice payment methods"
 
   input_schema(
     properties: {
@@ -60,11 +47,7 @@ class FrontGetInvoicePaymentMethods < Pike13BaseTool
 end
 
 class FrontCreateInvoice < Pike13BaseTool
-  description <<~DESC
-    Create a new invoice.
-    Creates invoice for authenticated customer.
-    Returns created invoice with ID.
-  DESC
+  description "Create invoice"
 
   input_schema(
     properties: {
@@ -85,11 +68,7 @@ class FrontCreateInvoice < Pike13BaseTool
 end
 
 class FrontUpdateInvoice < Pike13BaseTool
-  description <<~DESC
-    Update an existing invoice.
-    Updates invoice details like due date or notes.
-    Returns updated invoice.
-  DESC
+  description "Update invoice"
 
   input_schema(
     properties: {
@@ -107,11 +86,7 @@ class FrontUpdateInvoice < Pike13BaseTool
 end
 
 class FrontCreateInvoiceItem < Pike13BaseTool
-  description <<~DESC
-    Add an item to an invoice.
-    Creates a new line item on the invoice.
-    Returns updated invoice with new item.
-  DESC
+  description "Add invoice item"
 
   input_schema(
     properties: {
@@ -137,11 +112,7 @@ class FrontCreateInvoiceItem < Pike13BaseTool
 end
 
 class FrontDeleteInvoiceItem < Pike13BaseTool
-  description <<~DESC
-    Remove an item from an invoice.
-    Deletes a line item from the invoice.
-    Returns updated invoice.
-  DESC
+  description "Remove invoice item"
 
   input_schema(
     properties: {
@@ -159,11 +130,7 @@ class FrontDeleteInvoiceItem < Pike13BaseTool
 end
 
 class FrontCreateInvoicePayment < Pike13BaseTool
-  description <<~DESC
-    Create a payment for an invoice.
-    Processes payment for the invoice using specified payment method.
-    Returns payment confirmation.
-  DESC
+  description "Pay invoice"
 
   input_schema(
     properties: {
@@ -181,11 +148,7 @@ class FrontCreateInvoicePayment < Pike13BaseTool
 end
 
 class FrontDeleteInvoicePayment < Pike13BaseTool
-  description <<~DESC
-    Delete a payment from an invoice.
-    Removes a payment from the invoice (if allowed).
-    Returns updated invoice.
-  DESC
+  description "Remove invoice payment"
 
   input_schema(
     properties: {

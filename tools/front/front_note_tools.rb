@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListNotes < Pike13BaseTool
-  description <<~DESC
-    List notes visible to customer for their account.
-    Returns array of client-visible note objects.
-    Use for customer self-service to view account notes or communications marked as customer-visible.
-  DESC
+  description "List customer notes"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class FrontListNotes < Pike13BaseTool
 end
 
 class FrontGetNote < Pike13BaseTool
-  description <<~DESC
-    Get specific note visible to customer.
-    Returns note object if customer has permission to view.
-    Use for customer self-service note access.
-  DESC
+  description "Get customer note"
 
   input_schema(
     properties: {

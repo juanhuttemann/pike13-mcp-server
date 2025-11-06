@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListEventOccurrenceNotes < Pike13BaseTool
-  description <<~DESC
-    List all notes for an event occurrence (class session).
-    Returns array of note objects with subject, content, author, timestamps.
-    Use to view class-specific notes, instructor comments, or session details.
-  DESC
+  description "List event occurrence notes"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class DeskListEventOccurrenceNotes < Pike13BaseTool
 end
 
 class DeskGetEventOccurrenceNote < Pike13BaseTool
-  description <<~DESC
-    Get specific event occurrence note details.
-    Returns note object with full content, subject, author, and timestamps.
-    Use when you need complete details of a specific class note.
-  DESC
+  description "Get event occurrence note details"
 
   input_schema(
     properties: {
@@ -46,13 +38,7 @@ class DeskGetEventOccurrenceNote < Pike13BaseTool
 end
 
 class DeskCreateEventOccurrenceNote < Pike13BaseTool
-  description <<~DESC
-    Create a new note for an event occurrence (class session).
-    Requires "note" field (not "body") for content. Subject is optional but recommended.
-    Returns created note object.
-    Use for documenting class events, instructor observations, or session-specific information.
-    WARNING: Use "note" parameter, not "body".
-  DESC
+  description "Create event occurrence note - use 'note' field"
 
   input_schema(
     properties: {
@@ -79,13 +65,7 @@ class DeskCreateEventOccurrenceNote < Pike13BaseTool
 end
 
 class DeskUpdateEventOccurrenceNote < Pike13BaseTool
-  description <<~DESC
-    Update an existing event occurrence note.
-    Updates only provided fields.
-    Returns updated note object.
-    Use for editing class notes or session documentation.
-    WARNING: Use "note" parameter for content, not "body".
-  DESC
+  description "Update event occurrence note"
 
   input_schema(
     properties: {
@@ -115,12 +95,7 @@ class DeskUpdateEventOccurrenceNote < Pike13BaseTool
 end
 
 class DeskDeleteEventOccurrenceNote < Pike13BaseTool
-  description <<~DESC
-    Delete an event occurrence note.
-    Permanently removes the class note.
-    Returns success status.
-    Use with caution - deletion is permanent.
-  DESC
+  description "Delete event occurrence note"
 
   input_schema(
     properties: {

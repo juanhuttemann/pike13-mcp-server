@@ -4,12 +4,7 @@ require_relative '../base_tool'
 
 # Account-level tools
 class AccountGetMe < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] Get account-level user info ONLY.
-    Returns account object with ID, email, name.
-    Use ONLY when user asks about their account, billing, or businesses they own.
-    NOT needed for regular business operations like booking, events, or services.
-  DESC
+  description "Get current user account info"
 
   class << self
     def call(server_context:)
@@ -19,11 +14,7 @@ class AccountGetMe < Pike13BaseTool
 end
 
 class AccountListPeople < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] List all people across all businesses in the account.
-    Returns paginated array of person objects from all associated businesses.
-    Use for account-wide user management or reporting across multiple businesses.
-  DESC
+  description "List all people across all businesses tied to the current account"
 
   class << self
     def call(server_context:)
@@ -33,15 +24,11 @@ class AccountListPeople < Pike13BaseTool
 end
 
 class AccountCreateConfirmation < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] Resend email confirmation.
-    Creates/resends confirmation email for account email verification.
-    Use when user needs to verify their email address.
-  DESC
+  description "Resend email confirmation for account verification"
 
   input_schema(
     properties: {
-      email: { type: 'string', description: 'Email address to send confirmation to' }
+      email: { type: 'string', description: 'Email address' }
     },
     required: ['email']
   )
@@ -54,15 +41,11 @@ class AccountCreateConfirmation < Pike13BaseTool
 end
 
 class AccountCreatePasswordReset < Pike13BaseTool
-  description <<~DESC
-    [ACCOUNT] Request password reset.
-    Creates password reset request and sends reset email.
-    Use when user forgot password or needs to reset it.
-  DESC
+  description "Request password reset email"
 
   input_schema(
     properties: {
-      email: { type: 'string', description: 'Email address for password reset' }
+      email: { type: 'string', description: 'Email address' }
     },
     required: ['email']
   )

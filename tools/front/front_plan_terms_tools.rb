@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPlanTerms < Pike13BaseTool
-  description <<~DESC
-    List terms and conditions for a membership plan.
-    Returns array of plan terms objects with version, effective date, terms text, and acceptance status.
-    Use to display plan terms before purchase or signup.
-  DESC
+  description "List plan terms"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class FrontListPlanTerms < Pike13BaseTool
 end
 
 class FrontGetPlanTerms < Pike13BaseTool
-  description <<~DESC
-    Get specific version of plan terms and conditions.
-    Returns plan terms object with full terms text, version, effective date, and acceptance requirements.
-    Use to display specific terms version to customer.
-  DESC
+  description "Get plan terms"
 
   input_schema(
     properties: {
@@ -46,12 +38,7 @@ class FrontGetPlanTerms < Pike13BaseTool
 end
 
 class FrontCompletePlanTerms < Pike13BaseTool
-  description <<~DESC
-    Mark plan terms as accepted by customer.
-    Records customer acceptance of terms and conditions.
-    Returns acceptance confirmation.
-    Use after customer reviews and accepts plan terms during signup or renewal.
-  DESC
+  description "Accept plan terms"
 
   input_schema(
     properties: {

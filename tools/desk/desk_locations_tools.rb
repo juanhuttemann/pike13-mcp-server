@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListLocations < Pike13BaseTool
-  description <<~DESC
-    List all business locations with admin details.
-    Returns locations with full address, contact info, timezone, capacity, amenities, visibility settings, and operational status.
-    Use for location management or staff scheduling.
-  DESC
+  description "List locations"
 
   class << self
     def call(server_context:)
@@ -17,15 +13,11 @@ class DeskListLocations < Pike13BaseTool
 end
 
 class DeskGetLocation < Pike13BaseTool
-  description <<~DESC
-    Get specific location by ID with full admin details.
-    Returns complete location data including capacity, amenities, visibility settings, operational status, and configuration.
-    Use for location management or administrative tasks.
-  DESC
+  description "Get location"
 
   input_schema(
     properties: {
-      location_id: { type: 'integer', description: 'Unique Pike13 location ID' }
+      location_id: { type: 'integer', description: 'Location ID' }
     },
     required: ['location_id']
   )

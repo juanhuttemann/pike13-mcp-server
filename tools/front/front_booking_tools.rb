@@ -3,16 +3,11 @@
 require_relative '../base_tool'
 
 class FrontGetBooking < Pike13BaseTool
-  description <<~DESC
-    Get event REGISTRATION details.
-    Returns: registration status, waitlist position, payment info.
-    Use for "my booking", "registration status", "waitlist position" questions.
-    Bookings = registrations reserved, Visits = actual attendance completed.
-  DESC
+  description "Get booking details"
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' }
+      booking_id: { type: 'integer', description: 'Booking ID' }
     },
     required: ['booking_id']
   )
@@ -25,12 +20,7 @@ class FrontGetBooking < Pike13BaseTool
 end
 
 class FrontCreateBooking < Pike13BaseTool
-  description <<~DESC
-    Create a new booking/registration for a course.
-    Books/registers authenticated customer for course or appointment.
-    Returns created booking with confirmation details.
-    Use for course enrollments or appointment bookings.
-  DESC
+  description "Create booking."
 
   input_schema(
     properties: {
@@ -47,15 +37,11 @@ class FrontCreateBooking < Pike13BaseTool
 end
 
 class FrontUpdateBooking < Pike13BaseTool
-  description <<~DESC
-    Update an existing booking.
-    Modifies booking details or preferences.
-    Returns updated booking.
-  DESC
+  description "Update booking."
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to update' },
+      booking_id: { type: 'integer', description: 'Booking ID' },
       attributes: { type: 'object', description: 'Booking attributes to update' }
     },
     required: %w[booking_id attributes]
@@ -69,16 +55,11 @@ class FrontUpdateBooking < Pike13BaseTool
 end
 
 class FrontDeleteBooking < Pike13BaseTool
-  description <<~DESC
-    Cancel/delete a booking.
-    Cancels the customer's course registration or appointment booking.
-    Returns cancellation confirmation.
-    Use when customer wants to cancel their booking.
-  DESC
+  description "Delete booking"
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID to cancel' }
+      booking_id: { type: 'integer', description: 'Booking ID' }
     },
     required: ['booking_id']
   )
@@ -91,12 +72,7 @@ class FrontDeleteBooking < Pike13BaseTool
 end
 
 class FrontCreateBookingLease < Pike13BaseTool
-  description <<~DESC
-    Create a booking lease.
-    Creates temporary hold/lease on booking slot.
-    Returns lease with expiration time.
-    Use for holding a spot during checkout process.
-  DESC
+  description "Create booking lease"
 
   input_schema(
     properties: {
@@ -114,11 +90,7 @@ class FrontCreateBookingLease < Pike13BaseTool
 end
 
 class FrontUpdateBookingLease < Pike13BaseTool
-  description <<~DESC
-    Update a booking lease.
-    Extends or modifies the booking hold/lease.
-    Returns updated lease.
-  DESC
+  description "Update booking lease"
 
   input_schema(
     properties: {
@@ -137,11 +109,7 @@ class FrontUpdateBookingLease < Pike13BaseTool
 end
 
 class FrontDeleteBookingLease < Pike13BaseTool
-  description <<~DESC
-    Delete a booking lease.
-    Releases the temporary hold on booking slot.
-    Returns confirmation.
-  DESC
+  description "Delete booking lease"
 
   input_schema(
     properties: {
@@ -159,16 +127,12 @@ class FrontDeleteBookingLease < Pike13BaseTool
 end
 
 class FrontGetBookingLease < Pike13BaseTool
-  description <<~DESC
-    Get booking lease details. A lease temporarily holds a spot during the booking process.
-    Returns lease object with expiration time, booking details, and hold status.
-    Use to verify lease status during multi-step booking checkout or to display countdown timer for held spots.
-  DESC
+  description "Get booking lease"
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' },
-      lease_id: { type: 'integer', description: 'Unique booking lease ID (integer)' }
+      booking_id: { type: 'integer', description: 'Booking ID' },
+      lease_id: { type: 'integer', description: 'Lease ID' }
     },
     required: %w[booking_id lease_id]
   )

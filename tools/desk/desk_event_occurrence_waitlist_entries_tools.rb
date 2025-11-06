@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListEventOccurrenceWaitlistEntries < Pike13BaseTool
-  description <<~DESC
-    List all waitlist entries for an event occurrence (class session).
-    Returns array of waitlist entry objects with person details, position, timestamp, and notification status.
-    Use for managing class waitlists, notifying customers when spots open, or capacity planning.
-  DESC
+  description "List event occurrence waitlist entries"
 
   input_schema(
     properties: {

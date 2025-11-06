@@ -3,12 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPeople < Pike13BaseTool
-  description <<~DESC
-    List ALL clients - AVOID for searches.
-    Returns huge dataset.
-    Use ONLY for "all clients", "export clients", "client report".
-    For finding specific people, use DeskSearchPeople instead.
-  DESC
+  description "List all clients for the business"
 
   class << self
     def call(server_context:)
@@ -18,16 +13,11 @@ class DeskListPeople < Pike13BaseTool
 end
 
 class DeskGetPerson < Pike13BaseTool
-  description <<~DESC
-    STEP 2: Get full client details after search.
-    Returns: contact, memberships, billing, history.
-    Use AFTER DeskSearchPeople to get complete profile.
-    Workflow: DeskSearchPeople → DeskGetPerson → manage client (update, book, etc.)
-  DESC
+  description "Get client details"
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+      person_id: { type: 'integer', description: 'Person ID' }
     },
     required: ['person_id']
   )
@@ -40,19 +30,12 @@ class DeskGetPerson < Pike13BaseTool
 end
 
 class DeskSearchPeople < Pike13BaseTool
-  description <<~DESC
-    STEP 1: Find client by name/email/phone.
-    Returns: [{person_id, name, email}].
-    Use FIRST when you need to find someone.
-    Workflow: DeskSearchPeople → DeskGetPerson for full details.
-    AVOID DeskListPeople for searches.
-  DESC
+  description "Search clients"
 
   input_schema(
     properties: {
-      query: { type: 'string', description: 'Search term: name, email, or phone number (digits only for phone)' },
-      fields: { type: 'string',
-                description: 'Optional: comma-delimited fields to search (name, email, phone, barcodes). If not specified, all fields are searched.' }
+      query: { type: 'string', description: 'Search term (name, email, or phone)' },
+      fields: { type: 'string', description: 'Optional: Fields to search (name, email, phone, barcodes)' }
     },
     required: ['query']
   )
@@ -93,8 +76,7 @@ class DeskCreatePerson < Pike13BaseTool
       last_name: { type: 'string', description: 'Person last name' },
       email: { type: 'string', description: 'Person email address' },
       phone: { type: 'string', description: 'Optional: Phone number' },
-      additional_attributes: { type: 'object',
-                               description: 'Optional: Additional person attributes as a hash (e.g., address, emergency contacts, custom fields)' }
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes' }
     },
     required: %w[first_name last_name email]
   )
@@ -124,7 +106,7 @@ class DeskUpdatePerson < Pike13BaseTool
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID to update' },
+      person_id: { type: 'integer', description: 'Person ID' },
       first_name: { type: 'string', description: 'Optional: Update first name' },
       last_name: { type: 'string', description: 'Optional: Update last name' },
       email: { type: 'string', description: 'Optional: Update email address' },
@@ -159,7 +141,7 @@ class DeskDeletePerson < Pike13BaseTool
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID to delete' }
+      person_id: { type: 'integer', description: 'Person ID' }
     },
     required: ['person_id']
   )

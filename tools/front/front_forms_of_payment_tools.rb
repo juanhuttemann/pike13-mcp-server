@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListFormsOfPayment < Pike13BaseTool
-  description <<~DESC
-    List customer own saved payment methods.
-    Returns array of customer-visible payment method objects with masked card numbers and expiration dates.
-    Use for customer self-service payment management.
-  DESC
+  description "List customer payments"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class FrontListFormsOfPayment < Pike13BaseTool
 end
 
 class FrontGetFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Get specific customer payment method details.
-    Returns customer-visible form of payment object.
-    Use for customer payment method viewing.
-  DESC
+  description "Get customer payment"
 
   input_schema(
     properties: {
@@ -46,11 +38,7 @@ class FrontGetFormOfPayment < Pike13BaseTool
 end
 
 class FrontGetFormOfPaymentMe < Pike13BaseTool
-  description <<~DESC
-    Get authenticated customer own payment method by ID.
-    Returns payment method for the currently authenticated customer.
-    Use for customer self-service payment viewing without requiring person_id.
-  DESC
+  description "Get my payment"
 
   input_schema(
     properties: {
@@ -67,13 +55,7 @@ class FrontGetFormOfPaymentMe < Pike13BaseTool
 end
 
 class FrontCreateFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Add new payment method for customer.
-    Requires "type" parameter ("creditcard" or "ach") and payment token.
-    Returns created form of payment object.
-    Use for customer self-service payment method addition.
-    WARNING: Must include "type" field ("creditcard" or "ach").
-  DESC
+  description "Add customer payment"
 
   input_schema(
     properties: {
@@ -100,12 +82,7 @@ class FrontCreateFormOfPayment < Pike13BaseTool
 end
 
 class FrontUpdateFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Update customer own payment method.
-    Updates only provided fields.
-    Returns updated form of payment object.
-    Use for customer self-service payment method updates.
-  DESC
+  description "Update customer payment"
 
   input_schema(
     properties: {
@@ -128,13 +105,7 @@ class FrontUpdateFormOfPayment < Pike13BaseTool
 end
 
 class FrontDeleteFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Delete customer own payment method.
-    Removes the saved payment method.
-    Returns success status.
-    Use for customer self-service payment method removal.
-    WARNING: Cannot delete if it is the default payment method for active subscriptions.
-  DESC
+  description "Delete customer payment"
 
   input_schema(
     properties: {

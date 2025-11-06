@@ -3,15 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListVisits < Pike13BaseTool
-  description <<~DESC
-    List authenticated customer attendance records.
-
-    Returns visits (attendance at events or appointments) with person, event_occurrence details,
-    state (reserved/registered/completed/noshowed/late_canceled), timestamps (registered_at/completed_at/
-    noshow_at/cancelled_at), payment status (paid/paid_for_by), and punch_id if applicable.
-
-    Use to show customer their attendance history.
-  DESC
+  description "List visits"
 
   class << self
     def call(server_context:)
@@ -21,18 +13,11 @@ class FrontListVisits < Pike13BaseTool
 end
 
 class FrontGetVisit < Pike13BaseTool
-  description <<~DESC
-    Get customer visit (attendance record) by ID.
-
-    Returns visit details: person, event_occurrence (name/start_at/end_at/service/location),
-    state, timestamps, payment status, and associated punch.
-
-    Use to show specific attendance details to customer.
-  DESC
+  description "Get visit"
 
   input_schema(
     properties: {
-      visit_id: { type: 'integer', description: 'Unique Pike13 visit ID' }
+      visit_id: { type: 'integer', description: 'Visit ID' }
     },
     required: ['visit_id']
   )
@@ -45,15 +30,7 @@ class FrontGetVisit < Pike13BaseTool
 end
 
 class FrontCreateVisit < Pike13BaseTool
-  description <<~DESC
-    STEP 2 for booking: Complete appointment/class booking.
-
-    Creates visit (attendance record) after finding available slots with FrontFindAvailableAppointmentSlots. Use event_occurrence_id from availability check or event listing.
-
-    Returns: visit_id, status, event details. Next: Use FrontGetVisit to check booking details.
-
-    Workflow: FrontFindAvailableAppointmentSlots → FrontCreateVisit → FrontGetVisit
-  DESC
+  description "Create visit"
 
   input_schema(
     properties: {
@@ -73,14 +50,7 @@ class FrontCreateVisit < Pike13BaseTool
 end
 
 class FrontDeleteVisit < Pike13BaseTool
-  description <<~DESC
-    Cancel a visit if free to cancel.
-
-    Removes visit from roster. Can optionally remove all future recurring visits.
-    Only works if visit is within free cancellation window.
-
-    Use to allow customers to cancel their enrollment.
-  DESC
+  description "Cancel visit"
 
   input_schema(
     properties: {

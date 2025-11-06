@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListEventOccurrenceVisits < Pike13BaseTool
-  description <<~DESC
-    List all visits (attendance records) for an event occurrence (class session).
-    Returns array of visit objects with person details, check-in time, check-out time, visit status, and payment info.
-    Use for attendance tracking, roster viewing, or session reporting.
-  DESC
+  description "List event occurrence visits"
 
   input_schema(
     properties: {

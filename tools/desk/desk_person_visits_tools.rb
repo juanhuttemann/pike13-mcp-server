@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPersonVisits < Pike13BaseTool
-  description <<~DESC
-    List all visits (attendance records) for a person.
-    Returns array of visit objects with event details, check-in/out times, visit status, payment info, and credits used.
-    Use for attendance history, billing verification, or customer activity tracking.
-  DESC
+  description "List person visits"
 
   input_schema(
     properties: {

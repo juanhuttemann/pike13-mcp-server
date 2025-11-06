@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPersonPlans < Pike13BaseTool
-  description <<~DESC
-    List customer own membership plans.
-    Returns array of customer-visible plan objects with status, benefits, billing dates, and renewal information.
-    Use for customer self-service membership viewing.
-  DESC
+  description "List my plans" # customer-visible
 
   input_schema(
     properties: {

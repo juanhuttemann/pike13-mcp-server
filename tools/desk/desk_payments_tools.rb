@@ -3,15 +3,11 @@
 require_relative '../base_tool'
 
 class DeskGetPayment < Pike13BaseTool
-  description <<~DESC
-    Get payment details by ID.
-    Returns payment object with amount, payment method, transaction ID, invoice items, status, timestamps, and processing details.
-    Use for payment verification, reconciliation, or refund processing.
-  DESC
+  description "Get payment"
 
   input_schema(
     properties: {
-      payment_id: { type: 'integer', description: 'Unique Pike13 payment ID (integer)' }
+      payment_id: { type: 'integer', description: 'Payment ID' }
     },
     required: ['payment_id']
   )
@@ -24,11 +20,7 @@ class DeskGetPayment < Pike13BaseTool
 end
 
 class DeskGetPaymentConfiguration < Pike13BaseTool
-  description <<~DESC
-    Get payment processor configuration.
-    Returns payment gateway settings, accepted payment methods, currency, and processing options.
-    Use to verify payment setup or troubleshoot payment issues.
-  DESC
+  description "Get payment configuration"
 
   class << self
     def call(server_context:)
@@ -38,19 +30,12 @@ class DeskGetPaymentConfiguration < Pike13BaseTool
 end
 
 class DeskVoidPayment < Pike13BaseTool
-  description <<~DESC
-    Void a payment and optionally cancel specific invoice items.
-    Voids the payment transaction and can cancel associated invoice items.
-    Returns voided payment object.
-    Use to reverse incorrect payments or cancel paid items.
-    WARNING: This action cannot be undone.
-  DESC
+  description "Void payment"
 
   input_schema(
     properties: {
-      payment_id: { type: 'integer', description: 'Unique Pike13 payment ID to void (integer)' },
-      invoice_item_ids_to_cancel: { type: 'array',
-                                    description: 'Optional: Array of invoice item IDs to cancel with this void' }
+      payment_id: { type: 'integer', description: 'Payment ID' },
+      invoice_item_ids_to_cancel: { type: 'array', description: 'Invoice item IDs to cancel' }
     },
     required: ['payment_id']
   )

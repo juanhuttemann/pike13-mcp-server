@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPersonPlans < Pike13BaseTool
-  description <<~DESC
-    List all membership plans for a person.
-    Returns array of plan objects with plan details, status (active/cancelled/expired), start/end dates, billing info, remaining credits, and auto-renewal settings.
-    Use for membership management, billing inquiries, or plan verification.
-  DESC
+  description "List person plans"
 
   input_schema(
     properties: {

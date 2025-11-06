@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListEventOccurrenceWaitlistEligibilities < Pike13BaseTool
-  description <<~DESC
-    Check customer waitlist eligibility for an event occurrence (class session).
-    Returns eligibility information including whether customer can join waitlist, eligibility reasons, and restrictions.
-    Use before allowing customer to join waitlist.
-  DESC
+  description "Check waitlist eligibility"
 
   input_schema(
     properties: {

@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPersonWaitlistEntries < Pike13BaseTool
-  description <<~DESC
-    List all waitlist entries for a person.
-    Returns array of waitlist entry objects with event occurrence details, position, timestamp, notification status, and expiration.
-    Use for managing customer waitlists, checking waitlist status, or customer service inquiries.
-  DESC
+  description "List person waitlist entries"
 
   input_schema(
     properties: {

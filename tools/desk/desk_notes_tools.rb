@@ -3,15 +3,11 @@
 require_relative '../base_tool'
 
 class DeskListNotes < Pike13BaseTool
-  description <<~DESC
-    List all notes for a person.
-    Returns array of note objects with subject, note content, author, timestamps, and visibility settings.
-    Use to view communication history, customer service notes, or account annotations.
-  DESC
+  description "List person notes."
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' }
+      person_id: { type: 'integer', description: 'Person ID' }
     },
     required: ['person_id']
   )
@@ -24,16 +20,12 @@ class DeskListNotes < Pike13BaseTool
 end
 
 class DeskGetNote < Pike13BaseTool
-  description <<~DESC
-    Get specific note details.
-    Returns note object with full content, subject, author, timestamps, and visibility.
-    Use when you need complete details of a specific note.
-  DESC
+  description "Get note details."
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
-      note_id: { type: 'integer', description: 'Unique note ID (integer)' }
+      person_id: { type: 'integer', description: 'Person ID' },
+      note_id: { type: 'integer', description: 'Note ID' }
     },
     required: %w[person_id note_id]
   )
@@ -46,17 +38,11 @@ class DeskGetNote < Pike13BaseTool
 end
 
 class DeskCreateNote < Pike13BaseTool
-  description <<~DESC
-    Create a new note for a person.
-    Requires "note" field (not "body") for content. Subject is optional but recommended.
-    Returns created note object.
-    Use for documenting customer interactions, service notes, or account annotations.
-    WARNING: Use "note" parameter, not "body".
-  DESC
+  description "Create note."
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      person_id: { type: 'integer', description: 'Person ID' },
       note: { type: 'string', description: 'Note content text (use "note" not "body")' },
       subject: { type: 'string', description: 'Optional: Note subject/title' },
       additional_attributes: { type: 'object',
@@ -87,7 +73,7 @@ class DeskUpdateNote < Pike13BaseTool
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      person_id: { type: 'integer', description: 'Person ID' },
       note_id: { type: 'integer', description: 'Unique note ID to update (integer)' },
       note: { type: 'string', description: 'Optional: Updated note content (use "note" not "body")' },
       subject: { type: 'string', description: 'Optional: Updated note subject/title' },
@@ -118,7 +104,7 @@ class DeskDeleteNote < Pike13BaseTool
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Unique Pike13 person ID (integer)' },
+      person_id: { type: 'integer', description: 'Person ID' },
       note_id: { type: 'integer', description: 'Unique note ID to delete (integer)' }
     },
     required: %w[person_id note_id]

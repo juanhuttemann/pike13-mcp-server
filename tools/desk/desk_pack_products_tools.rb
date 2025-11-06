@@ -3,12 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPackProducts < Pike13BaseTool
-  description <<~DESC
-    List purchasable class pack products.
-    Returns pack products (multi-visit bundles) with punch count, pricing, expiration rules, service restrictions, and visibility.
-    Use for pack configuration, sales operations, or understanding available pack offerings.
-    Packs are purchased by clients to use for multiple visits.
-  DESC
+  description "List pack products"
 
   class << self
     def call(server_context:)
@@ -18,11 +13,7 @@ class DeskListPackProducts < Pike13BaseTool
 end
 
 class DeskGetPackProduct < Pike13BaseTool
-  description <<~DESC
-    Get specific pack product by ID.
-    Returns complete pack product details including punch count, pricing, expiration settings, service restrictions, and purchase limits.
-    Use for reviewing pack configuration or customer inquiries.
-  DESC
+  description "Get pack product"
 
   input_schema(
     properties: {
@@ -39,12 +30,7 @@ class DeskGetPackProduct < Pike13BaseTool
 end
 
 class DeskCreatePackProduct < Pike13BaseTool
-  description <<~DESC
-    Create a new pack product.
-    Creates a new multi-visit pack product with specified punch count, pricing, and expiration rules.
-    Returns created pack product with ID.
-    Use for setting up new pack offerings.
-  DESC
+  description "Create pack product"
 
   input_schema(
     properties: {
@@ -72,12 +58,7 @@ class DeskCreatePackProduct < Pike13BaseTool
 end
 
 class DeskUpdatePackProduct < Pike13BaseTool
-  description <<~DESC
-    Update an existing pack product.
-    Modifies pack product details like name, pricing, or expiration settings.
-    Returns updated pack product.
-    Use for updating pack configurations.
-  DESC
+  description "Update pack product"
 
   input_schema(
     properties: {
@@ -95,12 +76,7 @@ class DeskUpdatePackProduct < Pike13BaseTool
 end
 
 class DeskDeletePackProduct < Pike13BaseTool
-  description <<~DESC
-    Delete (archive) a pack product.
-    Archives the pack product so it's no longer available for purchase.
-    Existing purchased packs are not affected.
-    Returns confirmation.
-  DESC
+  description "Delete pack product"
 
   input_schema(
     properties: {
@@ -117,12 +93,7 @@ class DeskDeletePackProduct < Pike13BaseTool
 end
 
 class DeskCreatePackFromProduct < Pike13BaseTool
-  description <<~DESC
-    Create a pack instance for a person from a pack product.
-    Issues/sells a pack to a specific person based on the pack product template.
-    Returns created pack with remaining punches.
-    Use for selling packs to customers or issuing complimentary packs.
-  DESC
+  description "Create pack for person"
 
   input_schema(
     properties: {

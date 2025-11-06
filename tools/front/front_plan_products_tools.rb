@@ -3,17 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPlanProducts < Pike13BaseTool
-  description <<~DESC
-    List purchasable membership products visible to the user.
-
-    Returns available membership plans for purchase with pricing, billing frequency
-    (interval_unit/interval_count/days), visit limits (count/limit_period), commitment terms
-    (commitment_length/commitment_unit), rollover settings, signup fees, and associated services.
-
-    Supports filtering by location and service.
-
-    Use to display membership options to customers for enrollment or pricing comparison.
-  DESC
+  description "List plan products"
 
   input_schema(
     properties: {
@@ -34,14 +24,7 @@ class FrontListPlanProducts < Pike13BaseTool
 end
 
 class FrontGetPlanProduct < Pike13BaseTool
-  description <<~DESC
-    Get specific plan product details by ID.
-
-    Returns complete plan product information including pricing, billing schedule,
-    commitment terms, rollover count, signup fees, associated services, and terms & conditions.
-
-    Use to show detailed membership information before purchase.
-  DESC
+  description "Get plan product"
 
   input_schema(
     properties: {

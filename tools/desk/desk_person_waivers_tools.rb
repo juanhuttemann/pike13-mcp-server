@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPersonWaivers < Pike13BaseTool
-  description <<~DESC
-    List all signed waivers for a person.
-    Returns array of waiver objects with waiver name, signed date, IP address, status (active/expired), expiration date, and document reference.
-    Use for liability verification, compliance checking, or customer service.
-  DESC
+  description "List person waivers"
 
   input_schema(
     properties: {

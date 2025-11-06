@@ -3,19 +3,15 @@
 require_relative '../base_tool'
 
 class DeskFindAvailableAppointmentSlots < Pike13BaseTool
-  description <<~DESC
-    Find available appointment time slots for a service.
-    Returns array of available times with start times, duration, staff member, and pricing.
-    Use for staff to check appointment availability when booking for clients.
-  DESC
+  description "Find available appointment slots"
 
   input_schema(
     properties: {
       service_id: { type: 'integer', description: 'Service ID for the appointment type' },
-      date: { type: 'string', description: 'Date to check availability in YYYY-MM-DD format (e.g., "2025-01-15")' },
-      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter (e.g., "1,2")' },
+      date: { type: 'string', description: 'Date to check availability (YYYY-MM-DD)' },
+      location_ids: { type: 'string', description: 'Optional: Location IDs (comma-separated)' },
       staff_member_ids: { type: 'string',
-                          description: 'Optional: comma-separated staff member IDs to filter (e.g., "1,2")' }
+                          description: 'Optional: Staff member IDs (comma-separated)' }
     },
     required: %w[service_id date]
   )
@@ -32,21 +28,15 @@ class DeskFindAvailableAppointmentSlots < Pike13BaseTool
 end
 
 class DeskGetAppointmentAvailabilitySummary < Pike13BaseTool
-  description <<~DESC
-    Get appointment availability heat map for date range.
-    Returns availability scores (0-1) for each day showing relative availability with admin details.
-    Use for staff scheduling analysis or capacity planning.
-    Limited to 90-day range.
-  DESC
+  description "Get appointment availability summary"
 
   input_schema(
     properties: {
       service_id: { type: 'integer', description: 'Service ID for the appointment type' },
-      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15")' },
-      to: { type: 'string',
-            description: 'End date in YYYY-MM-DD format (e.g., "2025-02-15"). Max 90 days from start.' },
-      location_ids: { type: 'string', description: 'Optional: comma-separated location IDs to filter' },
-      staff_member_ids: { type: 'string', description: 'Optional: comma-separated staff member IDs to filter' }
+      from: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+      to: { type: 'string', description: 'End date (YYYY-MM-DD, max 90 days)' },
+      location_ids: { type: 'string', description: 'Optional: Location IDs (comma-separated)' },
+      staff_member_ids: { type: 'string', description: 'Optional: Staff member IDs (comma-separated)' }
     },
     required: %w[service_id from to]
   )

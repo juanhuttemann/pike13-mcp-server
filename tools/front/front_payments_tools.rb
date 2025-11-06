@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontGetPayment < Pike13BaseTool
-  description <<~DESC
-    Get customer payment details by ID.
-    Returns customer-visible payment object with amount, date, payment method last 4 digits, and receipt info.
-    Use for customer payment history or receipt display.
-  DESC
+  description "Get customer payment"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class FrontGetPayment < Pike13BaseTool
 end
 
 class FrontGetPaymentConfiguration < Pike13BaseTool
-  description <<~DESC
-    Get customer-facing payment configuration.
-    Returns accepted payment methods, currency, and public payment settings.
-    Use for customer payment form setup or displaying payment options.
-  DESC
+  description "Get payment config"
 
   class << self
     def call(server_context:)

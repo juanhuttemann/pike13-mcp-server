@@ -3,19 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListPlanProducts < Pike13BaseTool
-  description <<~DESC
-    List all membership plan products for the business.
-
-    Returns plan products with complete administrative details: pricing, billing settings
-    (interval_unit/interval_count/days/days_of_month/months_of_year), visit limits,
-    commitment terms, hold policies, signup/cancellation fees, tax exemption settings,
-    rollover counts, member benefits, notification settings, terms acceptance requirements,
-    and associated services.
-
-    Supports filtering by location and service.
-
-    Use for plan configuration, sales reporting, membership management, or administrative tasks.
-  DESC
+  description "List plan products"
 
   input_schema(
     properties: {
@@ -36,17 +24,7 @@ class DeskListPlanProducts < Pike13BaseTool
 end
 
 class DeskGetPlanProduct < Pike13BaseTool
-  description <<~DESC
-    Get complete plan product details by ID.
-
-    Returns full administrative data: pricing, billing configuration, commitment settings,
-    hold policies (holds_allowed/hold_limit_unit/hold_limit_length/hold_fee_cents),
-    signup/cancellation fees with tax exemption flags, rollover settings, member consideration flags,
-    expiration notifications, terms acceptance settings, visibility, suspension status,
-    timestamps, and all associated services.
-
-    Use for detailed plan review, configuration verification, or customer service inquiries.
-  DESC
+  description "Get plan product"
 
   input_schema(
     properties: {

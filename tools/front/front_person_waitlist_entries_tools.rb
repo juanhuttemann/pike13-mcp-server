@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPersonWaitlistEntries < Pike13BaseTool
-  description <<~DESC
-    List customer own waitlist entries.
-    Returns array of customer-visible waitlist entries with class details, position, and estimated availability.
-    Use for customer self-service waitlist viewing.
-  DESC
+  description "List my waitlist" # customer-visible
 
   input_schema(
     properties: {

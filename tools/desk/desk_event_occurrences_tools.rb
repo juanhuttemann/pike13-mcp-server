@@ -3,17 +3,12 @@
 require_relative '../base_tool'
 
 class DeskListEventOccurrences < Pike13BaseTool
-  description <<~DESC
-    List scheduled class instances with admin data for date range.
-    Returns occurrences with attendance, registrations, revenue, instructor assignments, and status.
-    Use for staff schedule view, attendance tracking, or reporting.
-    Required for most schedule operations.
-  DESC
+  description "List event occurrences"
 
   input_schema(
     properties: {
-      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15' },
-      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-01-22' }
+      from: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+      to: { type: 'string', description: 'End date (YYYY-MM-DD)' }
     },
     required: %w[from to]
   )
@@ -26,15 +21,11 @@ class DeskListEventOccurrences < Pike13BaseTool
 end
 
 class DeskGetEventOccurrence < Pike13BaseTool
-  description <<~DESC
-    Get complete scheduled class instance by ID.
-    Returns full occurrence data: roster, attendance, revenue, notes, instructor, location, and all admin details.
-    Use for attendance management, roster viewing, or occurrence-specific reporting.
-  DESC
+  description "Get event occurrence"
 
   input_schema(
     properties: {
-      occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+      occurrence_id: { type: 'integer', description: 'Event occurrence ID' }
     },
     required: ['occurrence_id']
   )
@@ -47,11 +38,7 @@ class DeskGetEventOccurrence < Pike13BaseTool
 end
 
 class DeskGetEventOccurrencesSummary < Pike13BaseTool
-  description <<~DESC
-    Get event occurrences summary for date range with admin data.
-    Returns aggregated summary of scheduled classes by day with attendance and revenue stats.
-    Use for reporting, dashboard views, or schedule analysis.
-  DESC
+  description "Get event occurrences summary"
 
   input_schema(
     properties: {
@@ -73,11 +60,7 @@ class DeskGetEventOccurrencesSummary < Pike13BaseTool
 end
 
 class DeskGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
-  description <<~DESC
-    Check enrollment eligibility for specific people in an event occurrence.
-    Returns eligibility status and restrictions for specified person IDs.
-    Use before enrolling people to verify they can join the class.
-  DESC
+  description "Check enrollment eligibility"
 
   input_schema(
     properties: {

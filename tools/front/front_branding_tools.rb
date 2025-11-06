@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontGetBranding < Pike13BaseTool
-  description <<~DESC
-    Get business branding assets (no auth required).
-    Returns logo URLs, brand colors, custom CSS, and theme settings.
-    Use to customize UI to match business brand identity or display branded content in customer apps.
-  DESC
+  description "Get branding assets"
 
   class << self
     def call(server_context:)

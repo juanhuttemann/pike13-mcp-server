@@ -3,12 +3,7 @@
 require_relative '../base_tool'
 
 class DeskGetBusinessFranchisees < Pike13BaseTool
-  description <<~DESC
-    Get franchisee businesses.
-    Returns list of franchisee businesses associated with this franchisor account.
-    Use for multi-location franchise management or reporting.
-    Only works for franchisor accounts.
-  DESC
+  description "Get franchisee businesses"
 
   class << self
     def call(server_context:)

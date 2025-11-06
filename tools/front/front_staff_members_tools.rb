@@ -3,16 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListStaffMembers < Pike13BaseTool
-  description <<~DESC
-    List staff members visible to clients.
-
-    Returns staff with name (first_name/middle_name/last_name), bio, and profile_photo URLs
-    (x50/x100/x200/x400 sizes).
-
-    Does not return staff members hidden from clients.
-
-    Use to display instructor profiles to customers or show available practitioners for appointment booking.
-  DESC
+  description "List staff members"
 
   class << self
     def call(server_context:)
@@ -22,19 +13,11 @@ class FrontListStaffMembers < Pike13BaseTool
 end
 
 class FrontGetStaffMember < Pike13BaseTool
-  description <<~DESC
-    Get staff member details by ID.
-
-    Returns staff member: name, bio, and profile_photo URLs.
-
-    Returns HTTP 404 if staff member is hidden from clients.
-
-    Use to show detailed staff profile information.
-  DESC
+  description "Get staff member"
 
   input_schema(
     properties: {
-      staff_member_id: { type: 'integer', description: 'Unique Pike13 staff member ID' }
+      staff_member_id: { type: 'integer', description: 'Staff member ID' }
     },
     required: ['staff_member_id']
   )

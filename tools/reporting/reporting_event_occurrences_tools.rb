@@ -3,33 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingEventOccurrences < Pike13BaseTool
-  description <<~DESC
-    Query scheduled event occurrence data for capacity analysis and scheduling optimization.
-
-    Provides comprehensive event occurrence information including:
-    - Event details (occurrence ID, event name, service dates and times)
-    - Capacity and enrollment metrics (capacity, enrollment count, waitlist)
-    - Attendance tracking (completed, registered, no-showed enrollments)
-    - Service information (name, type, category, location)
-    - Instructor assignments and staff information
-    - Payment status and billing details
-    - Duration and timing information
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for capacity planning, attendance analysis, and scheduling optimization.
-
-    Common detail fields: event_occurrence_id, event_name, service_date, service_time,
-    enrollment_count, capacity, completed_enrollment_count, instructor_names, service_location_name
-
-    Common summary fields (when grouping): event_occurrence_count, event_count, service_count,
-    total_capacity, total_enrollment_count, total_completed_enrollment_count, total_noshowed_enrollment_count
-
-    Available groupings: event_id, event_name, event_occurrence_id, instructor_names,
-    service_id, service_name, service_type, service_category, service_location_name,
-    service_state, service_date, service_day, service_time, service_month_start_date,
-    service_quarter_start_date, service_year_start_date, service_week_mon_start_date,
-    service_week_sun_start_date, attendance_completed, business_id, business_name
-  DESC
+  description "Query event data"
 
   input_schema(
     properties: {

@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListFormsOfPayment < Pike13BaseTool
-  description <<~DESC
-    List all saved payment methods for a person.
-    Returns array of form of payment objects with type (credit card/ACH), last 4 digits, expiration, billing address, and default status.
-    Use for billing management, payment troubleshooting, or customer service.
-  DESC
+  description "List person payment methods"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class DeskListFormsOfPayment < Pike13BaseTool
 end
 
 class DeskGetFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Get specific payment method details.
-    Returns form of payment object with type, last 4 digits, expiration, billing address, and metadata.
-    Use for payment verification or billing inquiries.
-  DESC
+  description "Get payment method details"
 
   input_schema(
     properties: {
@@ -46,13 +38,7 @@ class DeskGetFormOfPayment < Pike13BaseTool
 end
 
 class DeskCreateFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Add new payment method for a person.
-    Requires "type" parameter ("creditcard" or "ach") and payment token from payment processor.
-    Returns created form of payment object.
-    Use for adding customer payment methods.
-    WARNING: Must include "type" field ("creditcard" or "ach").
-  DESC
+  description "Create payment method - requires type and token"
 
   input_schema(
     properties: {
@@ -79,12 +65,7 @@ class DeskCreateFormOfPayment < Pike13BaseTool
 end
 
 class DeskUpdateFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Update existing payment method.
-    Updates only provided fields.
-    Returns updated form of payment object.
-    Use for updating billing address, setting default payment method, or updating expiration.
-  DESC
+  description "Update payment method"
 
   input_schema(
     properties: {
@@ -107,13 +88,7 @@ class DeskUpdateFormOfPayment < Pike13BaseTool
 end
 
 class DeskDeleteFormOfPayment < Pike13BaseTool
-  description <<~DESC
-    Delete a payment method.
-    Removes the saved payment method.
-    Returns success status.
-    Use to remove expired cards or at customer request.
-    WARNING: Cannot delete if it is the default payment method for active subscriptions.
-  DESC
+  description "Delete payment method"
 
   input_schema(
     properties: {

@@ -3,12 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListInvoices < Pike13BaseTool
-  description <<~DESC
-    List ALL invoices - AVOID for searches.
-    Returns huge dataset.
-    Use ONLY for "all invoices", "financial report", "accounts receivable".
-    For specific customer invoices, search person first then get their invoices.
-  DESC
+  description "List invoices"
 
   class << self
     def call(server_context:)
@@ -18,15 +13,11 @@ class DeskListInvoices < Pike13BaseTool
 end
 
 class DeskGetInvoice < Pike13BaseTool
-  description <<~DESC
-    Get invoice by ID with full admin details.
-    Returns invoice with line items, amounts, taxes, payment status, and full audit trail.
-    Use for customer service or billing inquiries.
-  DESC
+  description "Get invoice"
 
   input_schema(
     properties: {
-      invoice_id: { type: 'integer', description: 'Unique Pike13 invoice ID' }
+      invoice_id: { type: 'integer', description: 'Invoice ID' }
     },
     required: ['invoice_id']
   )
@@ -39,15 +30,11 @@ class DeskGetInvoice < Pike13BaseTool
 end
 
 class DeskGetInvoicePaymentMethods < Pike13BaseTool
-  description <<~DESC
-    Get available payment methods for an invoice.
-    Returns all payment methods that can be used to pay this invoice.
-    Use when processing payment for a customer.
-  DESC
+  description "Get invoice payment methods"
 
   input_schema(
     properties: {
-      invoice_id: { type: 'integer', description: 'Unique Pike13 invoice ID' }
+      invoice_id: { type: 'integer', description: 'Invoice ID' }
     },
     required: ['invoice_id']
   )
@@ -60,18 +47,12 @@ class DeskGetInvoicePaymentMethods < Pike13BaseTool
 end
 
 class DeskCreateInvoice < Pike13BaseTool
-  description <<~DESC
-    Create a new invoice.
-    Creates invoice for specified person with optional line items.
-    Returns created invoice with ID.
-    Use for manual billing or custom charges.
-  DESC
+  description "Create invoice"
 
   input_schema(
     properties: {
       person_id: { type: 'integer', description: 'Person ID for the invoice' },
-      additional_attributes: { type: 'object',
-                               description: 'Optional: Additional invoice attributes as a hash (e.g., due_on, notes)' }
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes' }
     },
     required: ['person_id']
   )
@@ -87,16 +68,11 @@ class DeskCreateInvoice < Pike13BaseTool
 end
 
 class DeskUpdateInvoice < Pike13BaseTool
-  description <<~DESC
-    Update an existing invoice.
-    Updates invoice details like due date, notes, or status.
-    Returns updated invoice.
-    Use for corrections or administrative changes.
-  DESC
+  description "Update invoice"
 
   input_schema(
     properties: {
-      invoice_id: { type: 'integer', description: 'Unique Pike13 invoice ID to update' },
+      invoice_id: { type: 'integer', description: 'Invoice ID' },
       attributes: { type: 'object', description: 'Invoice attributes to update as a hash' }
     },
     required: %w[invoice_id attributes]
@@ -110,20 +86,14 @@ class DeskUpdateInvoice < Pike13BaseTool
 end
 
 class DeskCreateInvoiceItem < Pike13BaseTool
-  description <<~DESC
-    Add an item to an invoice.
-    Creates a new line item on the invoice with description and amount.
-    Returns updated invoice with new item.
-    Use for adding charges, services, or products to invoice.
-  DESC
+  description "Create invoice item"
 
   input_schema(
     properties: {
       invoice_id: { type: 'integer', description: 'Invoice ID to add item to' },
       description: { type: 'string', description: 'Item description' },
       amount_cents: { type: 'integer', description: 'Item amount in cents' },
-      additional_attributes: { type: 'object',
-                               description: 'Optional: Additional item attributes (revenue_category_id, sales_tax_id, etc.)' }
+      additional_attributes: { type: 'object', description: 'Optional: Additional attributes' }
     },
     required: %w[invoice_id description amount_cents]
   )
@@ -142,12 +112,7 @@ class DeskCreateInvoiceItem < Pike13BaseTool
 end
 
 class DeskDeleteInvoiceItem < Pike13BaseTool
-  description <<~DESC
-    Remove an item from an invoice.
-    Deletes a line item from the invoice.
-    Returns updated invoice.
-    Use for removing incorrect charges or cancelled items.
-  DESC
+  description "Delete invoice item"
 
   input_schema(
     properties: {
@@ -165,12 +130,7 @@ class DeskDeleteInvoiceItem < Pike13BaseTool
 end
 
 class DeskCreateInvoiceItemDiscount < Pike13BaseTool
-  description <<~DESC
-    Add a discount to an invoice item.
-    Creates discount on specific line item.
-    Returns updated invoice with discount applied.
-    Use for promotional discounts or adjustments.
-  DESC
+  description "Create invoice item discount"
 
   input_schema(
     properties: {
@@ -189,11 +149,7 @@ class DeskCreateInvoiceItemDiscount < Pike13BaseTool
 end
 
 class DeskGetInvoiceItemDiscounts < Pike13BaseTool
-  description <<~DESC
-    Get discounts for an invoice item.
-    Returns all discounts applied to the invoice item.
-    Use to review discount details.
-  DESC
+  description "Get invoice item discounts"
 
   input_schema(
     properties: {
@@ -211,12 +167,7 @@ class DeskGetInvoiceItemDiscounts < Pike13BaseTool
 end
 
 class DeskDeleteInvoiceItemDiscounts < Pike13BaseTool
-  description <<~DESC
-    Remove all discounts from an invoice item.
-    Deletes all discounts on the specified line item.
-    Returns updated invoice.
-    Use for removing promotional discounts.
-  DESC
+  description "Delete invoice item discounts"
 
   input_schema(
     properties: {
@@ -234,12 +185,7 @@ class DeskDeleteInvoiceItemDiscounts < Pike13BaseTool
 end
 
 class DeskCreateInvoiceItemProrate < Pike13BaseTool
-  description <<~DESC
-    Create a prorate adjustment for an invoice item.
-    Adds prorated amount to invoice item (for partial periods).
-    Returns updated invoice with prorate.
-    Use for membership prorations or partial month billing.
-  DESC
+  description "Create invoice item prorate"
 
   input_schema(
     properties: {
@@ -258,11 +204,7 @@ class DeskCreateInvoiceItemProrate < Pike13BaseTool
 end
 
 class DeskDeleteInvoiceItemProrate < Pike13BaseTool
-  description <<~DESC
-    Remove prorate from an invoice item.
-    Deletes prorate adjustment from the line item.
-    Returns updated invoice.
-  DESC
+  description "Delete invoice item prorate"
 
   input_schema(
     properties: {
@@ -280,18 +222,12 @@ class DeskDeleteInvoiceItemProrate < Pike13BaseTool
 end
 
 class DeskCreateInvoicePayment < Pike13BaseTool
-  description <<~DESC
-    Create a payment for an invoice.
-    Processes payment for the invoice using specified payment method.
-    Returns payment confirmation with transaction details.
-    Use for processing customer payments at desk.
-  DESC
+  description "Create invoice payment"
 
   input_schema(
     properties: {
       invoice_id: { type: 'integer', description: 'Invoice ID to pay' },
-      attributes: { type: 'object',
-                    description: 'Payment attributes (amount_cents, form_of_payment_id, payment_type, etc.)' }
+      attributes: { type: 'object', description: 'Payment attributes' }
     },
     required: %w[invoice_id attributes]
   )
@@ -304,18 +240,13 @@ class DeskCreateInvoicePayment < Pike13BaseTool
 end
 
 class DeskCreateInvoiceRefund < Pike13BaseTool
-  description <<~DESC
-    Create a refund for an invoice payment.
-    Issues refund on a specific payment.
-    Returns refund confirmation.
-    Use for processing customer refunds.
-  DESC
+  description "Create invoice refund"
 
   input_schema(
     properties: {
       invoice_id: { type: 'integer', description: 'Invoice ID' },
       payment_id: { type: 'integer', description: 'Payment ID to refund' },
-      attributes: { type: 'object', description: 'Refund attributes (amount_cents, reason, etc.)' }
+      attributes: { type: 'object', description: 'Refund attributes' }
     },
     required: %w[invoice_id payment_id attributes]
   )

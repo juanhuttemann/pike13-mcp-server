@@ -3,30 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingTransactions < Pike13BaseTool
-  description <<~DESC
-    Query payment transaction data for financial analysis and payment tracking.
-
-    Provides comprehensive transaction information including:
-    - Transaction details (ID, date, state, type)
-    - Payment amounts and methods (credit card, cash, check, etc.)
-    - Payment processing information (processor details, card types)
-    - Invoice and payer information
-    - Failed transaction details and error messages
-    - Refund and settlement tracking
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for payment reconciliation, financial reporting, and transaction analysis.
-
-    Common detail fields: transaction_id, transaction_date, net_paid_amount,
-    payment_method, payment_method_detail, invoice_payer_name, transaction_state
-
-    Common summary fields (when grouping): transaction_count, total_net_paid_amount,
-    total_payments_amount, invoice_count, failed_count, settled_count
-
-    Available groupings: payment_method, credit_card_name, processing_method,
-    transaction_date, transaction_month_start_date, invoice_state, transaction_state,
-    invoice_payer_id, invoice_payer_name, business_id, business_name
-  DESC
+  description "Query transaction data"
 
   input_schema(
     properties: {

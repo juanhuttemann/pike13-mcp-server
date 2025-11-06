@@ -3,20 +3,11 @@
 require_relative '../base_tool'
 
 class DeskListVisits < Pike13BaseTool
-  description <<~DESC
-    List attendance records with optional person filter.
-
-    Returns visits with person, event_occurrence details, state, timestamps,
-    payment status, and punch usage.
-
-    Visits are attendance records (not bookings).
-
-    Use for attendance tracking, reporting, or viewing person history.
-  DESC
+  description "List visits"
 
   input_schema(
     properties: {
-      person_id: { type: 'integer', description: 'Optional: filter visits for specific person' }
+      person_id: { type: 'integer', description: 'Person ID filter' }
     },
     required: []
   )
@@ -30,18 +21,11 @@ class DeskListVisits < Pike13BaseTool
 end
 
 class DeskGetVisit < Pike13BaseTool
-  description <<~DESC
-    Get complete visit (attendance) record by ID.
-
-    Returns full visit data: person, event_occurrence, state, all timestamps,
-    payment details, punch used, and status history.
-
-    Use for attendance verification or dispute resolution.
-  DESC
+  description "Get visit"
 
   input_schema(
     properties: {
-      visit_id: { type: 'integer', description: 'Unique Pike13 visit ID' }
+      visit_id: { type: 'integer', description: 'Visit ID' }
     },
     required: ['visit_id']
   )
@@ -54,29 +38,15 @@ class DeskGetVisit < Pike13BaseTool
 end
 
 class DeskCreateVisit < Pike13BaseTool
-  description <<~DESC
-    Create a visit (enroll person in event/class).
-
-    Enrolls person in event occurrence with specified initial state.
-    Can override restrictions and control client notifications.
-
-    States: reserved (holds spot without person), registered (default, person enrolled),
-    completed (marked attended), noshowed (marked no-show), late_canceled (canceled outside window).
-
-    Restrictions can validate: inside_blackout_window, full, in_the_past.
-
-    Use for manual enrollment, walk-ins, or administrative corrections.
-  DESC
+  description "Create visit"
 
   input_schema(
     properties: {
-      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID to enroll in' },
-      person_id: { type: 'integer', description: 'Optional: person ID (required unless state=reserved)' },
-      state: { type: 'string',
-               description: 'Optional: initial state (reserved/registered/completed/noshowed/late_canceled, default: registered)' },
-      notify_client: { type: 'boolean', description: 'Optional: send notification to client (boolean, default true)' },
-      restrictions: { type: 'array',
-                      description: 'Optional: array of restrictions to validate ([inside_blackout_window, full, in_the_past])' }
+      event_occurrence_id: { type: 'integer', description: 'Event occurrence ID' },
+      person_id: { type: 'integer', description: 'Person ID (required unless reserved)' },
+      state: { type: 'string', description: 'State: reserved/registered/completed/noshowed/late_canceled' },
+      notify_client: { type: 'boolean', description: 'Notify client' },
+      restrictions: { type: 'array', description: 'Restrictions: inside_blackout_window/full/in_the_past' }
     },
     required: ['event_occurrence_id']
   )
@@ -94,28 +64,13 @@ class DeskCreateVisit < Pike13BaseTool
 end
 
 class DeskUpdateVisit < Pike13BaseTool
-  description <<~DESC
-    Update visit state (mark attendance/no-show/late cancel).
-
-    Transitions visit between states using state_event parameter.
-    Valid state_events:
-    - register: reserved -> registered (requires person_id)
-    - complete: registered -> completed
-    - noshow: registered -> noshowed
-    - late_cancel: registered -> late_canceled
-    - reset: (completed/noshowed/late_canceled) -> registered
-
-    Person_id can be set but not changed once set.
-
-    Use for marking attendance, handling no-shows, or administrative corrections.
-  DESC
+  description "Update visit"
 
   input_schema(
     properties: {
-      visit_id: { type: 'integer', description: 'Visit ID to update' },
-      state_event: { type: 'string',
-                     description: 'Optional: state transition (register/complete/noshow/late_cancel/reset)' },
-      person_id: { type: 'integer', description: 'Optional: person ID (only when registering reserved visit)' }
+      visit_id: { type: 'integer', description: 'Visit ID' },
+      state_event: { type: 'string', description: 'State transition: register/complete/noshow/late_cancel/reset' },
+      person_id: { type: 'integer', description: 'Person ID (for register only)' }
     },
     required: ['visit_id']
   )
@@ -131,21 +86,13 @@ class DeskUpdateVisit < Pike13BaseTool
 end
 
 class DeskDeleteVisit < Pike13BaseTool
-  description <<~DESC
-    Delete visit and optionally future recurring visits.
-
-    Removes visit from roster. Can control client notifications and remove all future
-    recurring enrollments in the same event series.
-
-    Use for cancellations, schedule changes, or administrative corrections.
-  DESC
+  description "Delete visit"
 
   input_schema(
     properties: {
-      visit_id: { type: 'integer', description: 'Visit ID to delete' },
-      notify_client: { type: 'boolean', description: 'Optional: send notification to client (boolean, default true)' },
-      remove_recurring_enrollment: { type: 'boolean',
-                                     description: 'Optional: remove future recurring visits (boolean, default false)' }
+      visit_id: { type: 'integer', description: 'Visit ID' },
+      notify_client: { type: 'boolean', description: 'Notify client' },
+      remove_recurring_enrollment: { type: 'boolean', description: 'Remove future recurring visits' }
     },
     required: ['visit_id']
   )

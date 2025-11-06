@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListEventOccurrenceNotes < Pike13BaseTool
-  description <<~DESC
-    List customer-visible notes for an event occurrence (class session).
-    Returns array of client-visible note objects.
-    Use for customer self-service to view class announcements or session information.
-  DESC
+  description "List event notes"
 
   input_schema(
     properties: {
@@ -24,11 +20,7 @@ class FrontListEventOccurrenceNotes < Pike13BaseTool
 end
 
 class FrontGetEventOccurrenceNote < Pike13BaseTool
-  description <<~DESC
-    Get specific customer-visible event occurrence note.
-    Returns note object if customer has permission to view.
-    Use for customer access to class notes or announcements.
-  DESC
+  description "Get event note"
 
   input_schema(
     properties: {

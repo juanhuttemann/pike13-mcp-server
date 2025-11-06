@@ -3,13 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListWaitlistEntries < Pike13BaseTool
-  description <<~DESC
-    List all waitlist entries.
-
-    Returns waitlist entries with person, event_occurrence, state, and timestamps (created_at/updated_at).
-
-    Use for waitlist management, filling open spots, or understanding demand for full classes.
-  DESC
+  description "List waitlist entries"
 
   class << self
     def call(server_context:)
@@ -19,20 +13,11 @@ class DeskListWaitlistEntries < Pike13BaseTool
 end
 
 class DeskGetWaitlistEntry < Pike13BaseTool
-  description <<~DESC
-    Get waitlist entry details by ID.
-
-    Returns complete waitlist entry: person, event_occurrence, state, created_at, and updated_at.
-
-    States: pending (spot reserved), waiting (default), enrolled (moved to roster),
-    removed (removed from waitlist), expired (class completed).
-
-    Use for waitlist management or customer service inquiries.
-  DESC
+  description "Get waitlist entry"
 
   input_schema(
     properties: {
-      entry_id: { type: 'integer', description: 'Unique Pike13 waitlist entry ID' }
+      entry_id: { type: 'integer', description: 'Waitlist entry ID' }
     },
     required: ['entry_id']
   )
@@ -45,16 +30,7 @@ class DeskGetWaitlistEntry < Pike13BaseTool
 end
 
 class DeskCreateWaitlistEntry < Pike13BaseTool
-  description <<~DESC
-    Add person to waitlist for full event.
-
-    Creates waitlist entry for specified person.
-    Person defaults to current staff member if not specified.
-
-    Returns created entry with person, event_occurrence, state, and timestamps.
-
-    Use to manually add people to waitlist.
-  DESC
+  description "Create waitlist entry"
 
   input_schema(
     properties: {

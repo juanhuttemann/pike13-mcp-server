@@ -3,15 +3,7 @@
 require_relative '../base_tool'
 
 class DeskGetPunch < Pike13BaseTool
-  description <<~DESC
-    Get individual punch (class credit) by ID.
-
-    Returns punch with visit_id, plan_id, and created_at timestamp.
-
-    A punch pays for a visit with a plan (membership or pack).
-
-    Use to verify punch usage, resolve billing disputes, or track plan consumption.
-  DESC
+  description "Get punch"
 
   input_schema(
     properties: {
@@ -28,16 +20,7 @@ class DeskGetPunch < Pike13BaseTool
 end
 
 class DeskCreatePunch < Pike13BaseTool
-  description <<~DESC
-    Create a punch to pay for a visit with a plan.
-
-    Creates a punch linking a visit to a plan (membership or pack).
-    If plan_id is omitted, the system attempts to automatically find a suitable plan.
-
-    Returns created punch with visit_id, plan_id, and created_at.
-
-    Use to manually apply plan credits to visits or resolve payment issues.
-  DESC
+  description "Create punch"
 
   input_schema(
     properties: {
@@ -57,13 +40,7 @@ class DeskCreatePunch < Pike13BaseTool
 end
 
 class DeskDeletePunch < Pike13BaseTool
-  description <<~DESC
-    Delete a punch.
-
-    Destroys the punch. The associated visit will become unpaid.
-
-    Use to reverse incorrect punch usage or correct billing errors.
-  DESC
+  description "Delete punch"
 
   input_schema(
     properties: {

@@ -3,14 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListRevenueCategories < Pike13BaseTool
-  description <<~DESC
-    List revenue classification categories.
-
-    Returns accounting categories for income tracking with id and name.
-    Revenue categories are never deleted but names can be edited and may change over time.
-
-    Use for financial reporting, revenue analysis, or understanding how income is categorized.
-  DESC
+  description "List revenue categories"
 
   class << self
     def call(server_context:)
@@ -20,13 +13,7 @@ class DeskListRevenueCategories < Pike13BaseTool
 end
 
 class DeskGetRevenueCategory < Pike13BaseTool
-  description <<~DESC
-    Get revenue category details by ID.
-
-    Returns revenue category with id and name.
-
-    Use for viewing specific category details or validation.
-  DESC
+  description "Get revenue category"
 
   input_schema(
     properties: {

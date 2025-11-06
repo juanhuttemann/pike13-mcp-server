@@ -3,13 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListSalesTaxes < Pike13BaseTool
-  description <<~DESC
-    List available sales tax configurations.
-
-    Returns sales taxes with id, name, and tax_rate (percentage).
-
-    Use for understanding tax calculations, financial reporting, or pricing configuration.
-  DESC
+  description "List sales taxes"
 
   class << self
     def call(server_context:)
@@ -19,13 +13,7 @@ class DeskListSalesTaxes < Pike13BaseTool
 end
 
 class DeskGetSalesTax < Pike13BaseTool
-  description <<~DESC
-    Get sales tax details by ID.
-
-    Returns sales tax with id, name, tax_rate, and locations (with location-specific tax rates if applicable).
-
-    Use for viewing detailed tax configuration or location-specific rates.
-  DESC
+  description "Get sales tax"
 
   input_schema(
     properties: {

@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPersonVisits < Pike13BaseTool
-  description <<~DESC
-    List customer own visit history.
-    Returns array of customer-visible visit objects with class details, dates, and attendance status.
-    Use for customer self-service attendance viewing.
-  DESC
+  description "List my visits" # customer-visible
 
   input_schema(
     properties: {

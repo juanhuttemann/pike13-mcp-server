@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class DeskGetBusiness < Pike13BaseTool
-  description <<~DESC
-    Get admin business details: settings, billing, features, configs.
-    Use for admin dashboards, business configuration, staff management.
-    Contains sensitive info - NOT for customer display.
-  DESC
+  description "Get business"
 
   class << self
     def call(server_context:)

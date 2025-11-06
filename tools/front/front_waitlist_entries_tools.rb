@@ -3,19 +3,7 @@
 require_relative '../base_tool'
 
 class FrontGetWaitlistEntry < Pike13BaseTool
-  description <<~DESC
-    Get customer waitlist entry by ID.
-
-    Returns waitlist entry details: person, event_occurrence (name/start_at/end_at/service/location),
-    and state (pending/waiting/enrolled/removed/expired).
-
-    States: pending (spot reserved during signup), waiting (default, waiting for spot),
-    enrolled (enrolled from waitlist), removed (removed from waitlist), expired (class completed while waiting).
-
-    Only returns entries for authenticated customer or dependents.
-
-    Use to show customers their waitlist status.
-  DESC
+  description "Get waitlist entry"
 
   input_schema(
     properties: {
@@ -32,16 +20,7 @@ class FrontGetWaitlistEntry < Pike13BaseTool
 end
 
 class FrontCreateWaitlistEntry < Pike13BaseTool
-  description <<~DESC
-    Add person to waitlist for full event.
-
-    Creates waitlist entry for authenticated person or dependent.
-    Person defaults to authenticated user if not specified.
-
-    Returns created entry with person, event_occurrence, and state.
-
-    Use to allow customers to join waitlist for full classes.
-  DESC
+  description "Join waitlist"
 
   input_schema(
     properties: {
@@ -61,13 +40,7 @@ class FrontCreateWaitlistEntry < Pike13BaseTool
 end
 
 class FrontDeleteWaitlistEntry < Pike13BaseTool
-  description <<~DESC
-    Remove person from waitlist.
-
-    Deletes the waitlist entry, removing person from waitlist.
-
-    Use to allow customers to cancel their waitlist position.
-  DESC
+  description "Leave waitlist"
 
   input_schema(
     properties: {

@@ -3,19 +3,11 @@
 require_relative '../base_tool'
 
 class DeskVoidRefund < Pike13BaseTool
-  description <<~DESC
-    Void a refund transaction.
-
-    Voids (cancels) the refund. Returns updated refund with voided_at timestamp and is_voidable=false.
-
-    Use to correct erroneous refunds or handle refund processing errors.
-
-    WARNING: This action cannot be undone and affects financial records.
-  DESC
+  description "Void refund"
 
   input_schema(
     properties: {
-      refund_id: { type: 'integer', description: 'Unique Pike13 refund ID to void' }
+      refund_id: { type: 'integer', description: 'Refund ID' }
     },
     required: ['refund_id']
   )

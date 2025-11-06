@@ -3,35 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingEventOccurrenceStaffMembers < Pike13BaseTool
-  description <<~DESC
-    Query event occurrence data by staff member for workload analysis and instructor performance.
-
-    Provides detailed staff assignment information including:
-    - Staff member details (ID, name, email, phone, role, location)
-    - Event occurrence information (event name, service dates and times)
-    - Capacity and enrollment metrics for each staff member
-    - Attendance tracking by instructor (completed, registered, no-showed)
-    - Service details (name, type, category, location)
-    - Duration and workload metrics
-    - Contact information and addresses
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for instructor scheduling, workload distribution, and performance analysis.
-
-    Common detail fields: person_id, full_name, email, role, event_occurrence_id,
-    event_name, service_date, service_time, enrollment_count, completed_enrollment_count,
-    instructor_names, service_location_name
-
-    Common summary fields (when grouping): person_count, event_occurrence_count,
-    event_count, service_count, total_enrollment_count, total_completed_enrollment_count,
-    total_duration_in_hours
-
-    Available groupings: person_id, full_name, role, service_id, service_name,
-    service_type, service_category, service_date, service_month_start_date,
-    service_location_name, event_id, event_name, event_occurrence_id,
-    service_week_mon_start_date, service_week_sun_start_date, attendance_completed,
-    business_id, business_name
-  DESC
+  description "Query staff event data"
 
   input_schema(
     properties: {

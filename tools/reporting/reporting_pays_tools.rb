@@ -3,34 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingPays < Pike13BaseTool
-  description <<~DESC
-    Query staff pay data for compensation analysis and payroll management.
-
-    Provides comprehensive pay information including:
-    - Pay details (ID, type, state, descriptions, periods)
-    - Pay amounts (final, base, per-head, tiered)
-    - Staff information (ID, name, home location)
-    - Service details (name, type, category, date, location, hours)
-    - Pay recording and review information
-    - Revenue category associations
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for payroll analysis, compensation tracking, and staff cost management.
-
-    Common detail fields: pay_id, pay_type, pay_state, final_pay_amount,
-    base_pay_amount, staff_name, service_name, service_date, service_hours,
-    pay_period_start_date, pay_period_end_date
-
-    Common summary fields (when grouping): pay_count, service_count, total_count,
-    total_final_pay_amount, total_base_pay_amount, total_per_head_pay_amount,
-    total_tiered_pay_amount, total_service_hours
-
-    Available groupings: pay_type, pay_state, pay_period, pay_reviewed_date,
-    pay_reviewed_by_id, pay_reviewed_by_name, staff_id, staff_name,
-    staff_home_location_name, service_id, service_name, service_type,
-    service_category, service_date, service_location_name, revenue_category,
-    business_id, business_name, business_subdomain
-  DESC
+  description "Query staff pay data"
 
   input_schema(
     properties: {

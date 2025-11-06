@@ -3,16 +3,11 @@
 require_relative '../base_tool'
 
 class DeskGetBooking < Pike13BaseTool
-  description <<~DESC
-    Get event registration details by ID.
-    Returns complete booking with customer, event occurrence, registration time, payment status, cancellation status, and modifications.
-    Use for registration management or resolving booking issues.
-    Bookings are reservations for events.
-  DESC
+  description "Get booking"
 
   input_schema(
     properties: {
-      booking_id: { type: 'integer', description: 'Unique Pike13 booking ID (integer)' }
+      booking_id: { type: 'integer', description: 'Booking ID' }
     },
     required: ['booking_id']
   )
@@ -25,12 +20,7 @@ class DeskGetBooking < Pike13BaseTool
 end
 
 class DeskCreateBooking < Pike13BaseTool
-  description <<~DESC
-    Create a new booking/registration for a course.
-    Books/registers specified person for course or appointment.
-    Returns created booking with confirmation details.
-    Use for manual course enrollments or appointment bookings.
-  DESC
+  description "Create booking"
 
   input_schema(
     properties: {
@@ -47,12 +37,7 @@ class DeskCreateBooking < Pike13BaseTool
 end
 
 class DeskUpdateBooking < Pike13BaseTool
-  description <<~DESC
-    Update an existing booking.
-    Modifies booking details, status, or preferences.
-    Returns updated booking.
-    Use for administrative corrections or status changes.
-  DESC
+  description "Update booking"
 
   input_schema(
     properties: {
@@ -70,12 +55,7 @@ class DeskUpdateBooking < Pike13BaseTool
 end
 
 class DeskDeleteBooking < Pike13BaseTool
-  description <<~DESC
-    Cancel/delete a booking.
-    Cancels the person's course registration or appointment booking.
-    Returns cancellation confirmation.
-    Use for administrative cancellations or customer service.
-  DESC
+  description "Delete booking"
 
   input_schema(
     properties: {
@@ -92,12 +72,7 @@ class DeskDeleteBooking < Pike13BaseTool
 end
 
 class DeskCreateBookingLease < Pike13BaseTool
-  description <<~DESC
-    Create a booking lease.
-    Creates temporary hold/lease on booking slot.
-    Returns lease with expiration time.
-    Use for reserving spots during registration process.
-  DESC
+  description "Create booking lease"
 
   input_schema(
     properties: {
@@ -115,11 +90,7 @@ class DeskCreateBookingLease < Pike13BaseTool
 end
 
 class DeskUpdateBookingLease < Pike13BaseTool
-  description <<~DESC
-    Update a booking lease.
-    Extends or modifies the booking hold/lease.
-    Returns updated lease.
-  DESC
+  description "Update booking lease"
 
   input_schema(
     properties: {

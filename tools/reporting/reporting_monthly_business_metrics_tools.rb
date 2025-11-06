@@ -3,27 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingMonthlyBusinessMetrics < Pike13BaseTool
-  description <<~DESC
-    Query monthly business metrics for financial analysis and reporting.
-
-    Provides comprehensive monthly business data including:
-    - Revenue metrics (net paid amounts, payments, refunds)
-    - Client metrics (new clients, member counts, client retention)
-    - Enrollment metrics (completed enrollments, attendance patterns)
-    - Event metrics (class counts, appointment counts)
-    - Plan metrics (membership counts, plan starts/ends)
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for financial reporting, business analytics, and performance tracking.
-
-    Common detail fields: month_start_date, net_paid_amount, net_paid_revenue_amount,
-    new_client_count, member_count, completed_enrollment_count, event_occurrence_count
-
-    Common summary fields (when grouping): total_net_paid_amount, total_new_client_count,
-    avg_member_count, total_completed_enrollment_count
-
-    Available groupings: business_id, business_name, currency_code, quarter_start_date, year_start_date
-  DESC
+  description "Query monthly metrics"
 
   input_schema(
     properties: {

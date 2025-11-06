@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontGetBusiness < Pike13BaseTool
-  description <<~DESC
-    Get business info for customers: name, hours, contact, timezone.
-    Use for "business hours", "contact info", "location" questions.
-    Returns basic info.
-  DESC
+  description "Get business info"
 
   class << self
     def call(server_context:)

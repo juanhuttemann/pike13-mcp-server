@@ -3,11 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListPersonWaivers < Pike13BaseTool
-  description <<~DESC
-    List customer own signed waivers.
-    Returns array of customer-visible waiver objects with waiver name, signed date, and expiration.
-    Use for customer self-service waiver viewing.
-  DESC
+  description "List my waivers" # customer-visible
 
   input_schema(
     properties: {

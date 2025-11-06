@@ -3,29 +3,7 @@
 require_relative '../base_tool'
 
 class ReportingClients < Pike13BaseTool
-  description <<~DESC
-    Query comprehensive client data for business analytics and customer insights.
-
-    Provides detailed client information including:
-    - Identity data (name, email, phone, address)
-    - Membership status and plan details
-    - Activity metrics (visits, attendance patterns)
-    - Financial data (payments, account credit)
-    - Client tenure and retention metrics
-    - Demographics and status information
-
-    Supports advanced querying with filtering, grouping, sorting, and pagination.
-    Perfect for customer analysis, retention tracking, and targeted marketing.
-
-    Common detail fields: person_id, full_name, email, phone, client_since_date,
-    has_membership, completed_visits, net_paid_amount, tenure, person_state
-
-    Common summary fields (when grouping): person_count, has_membership_count,
-    total_completed_visits, total_net_paid_amount, avg_tenure
-
-    Available groupings: tenure_group, person_state, source_name, age, home_location_name,
-    client_since_date, has_membership, has_payment_on_file, is_schedulable, also_staff
-  DESC
+  description "Query client data"
 
   input_schema(
     properties: {

@@ -3,9 +3,7 @@
 require_relative '../base_tool'
 
 class FrontListServices < Pike13BaseTool
-  description <<~DESC
-    STEP 1: List available services (yoga, personal training, etc). Returns: name, type, price, duration. Use FIRST to show what services are available, then use FrontFindAvailableAppointmentSlots to check times for appointment services, or FrontListEventOccurrences for class services.
-  DESC
+  description "List available services"
 
   class << self
     def call(server_context:)
@@ -15,13 +13,11 @@ class FrontListServices < Pike13BaseTool
 end
 
 class FrontGetService < Pike13BaseTool
-  description <<~DESC
-    Get detailed service info by ID. Returns: full description, policies, requirements. Use when customer asks "tell me about [service]" or needs details before booking. Workflow: FrontListServices → FrontGetService → FrontFindAvailableAppointmentSlots/FrontListEventOccurrences
-  DESC
+  description "Get service details"
 
   input_schema(
     properties: {
-      service_id: { type: 'integer', description: 'Unique Pike13 service ID' }
+      service_id: { type: 'integer', description: 'Service ID' }
     },
     required: ['service_id']
   )
@@ -34,20 +30,11 @@ class FrontGetService < Pike13BaseTool
 end
 
 class FrontGetServiceEnrollmentEligibilities < Pike13BaseTool
-  description <<~DESC
-    Check enrollment eligibility for a service for the logged-in person and dependents.
-
-    Returns enrollment warnings and restrictions based on service configuration and person status.
-    Warnings include: credit_card_required, client_purchase_disabled.
-    Restrictions include: already_enrolled, full, in_the_past, inside_blackout_window,
-    too_far_in_advance, plan_required, clients_not_allowed, members_not_allowed.
-
-    Use before attempting enrollment to check eligibility and display appropriate messages.
-  DESC
+  description "Check service enrollment eligibility"
 
   input_schema(
     properties: {
-      service_id: { type: 'integer', description: 'Unique Pike13 service ID' },
+      service_id: { type: 'integer', description: 'Service ID' },
       event_id: { type: 'integer', description: 'Optional: event ID for course enrollment checks' },
       location_id: { type: 'integer', description: 'Optional: location ID to differentiate services' },
       staff_member_ids: { type: 'string', description: 'Optional: comma-delimited staff member IDs' },

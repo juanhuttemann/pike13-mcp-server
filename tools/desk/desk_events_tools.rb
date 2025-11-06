@@ -3,12 +3,7 @@
 require_relative '../base_tool'
 
 class DeskListEvents < Pike13BaseTool
-  description <<~DESC
-    List all recurring events with admin details.
-    Returns event templates including pricing, capacity, staff assignments, visibility settings, and booking rules.
-    Use for schedule management and event configuration.
-    Note: Events are recurring templates, not specific instances.
-  DESC
+  description "List events"
 
   class << self
     def call(server_context:)
@@ -18,11 +13,7 @@ class DeskListEvents < Pike13BaseTool
 end
 
 class DeskGetEvent < Pike13BaseTool
-  description <<~DESC
-    Get complete event details by ID.
-    Returns full event template with pricing, capacity, prerequisites, staff, location, recurrence rules, and all admin settings.
-    Use when managing event configuration or analyzing event setup.
-  DESC
+  description "Get event"
 
   input_schema(
     properties: {

@@ -3,17 +3,12 @@
 require_relative '../base_tool'
 
 class FrontListEventOccurrences < Pike13BaseTool
-  description <<~DESC
-    STEP 2: List ACTUAL scheduled classes/times (not templates).
-    Returns: Monday 9am Yoga, Tuesday 6pm Pilates, etc.
-    Use AFTER FrontListEvents to get specific times for booking.
-    Workflow: FrontListEvents → FrontListEventOccurrences → FrontCreateVisit to book.
-  DESC
+  description "List event occurrences"
 
   input_schema(
     properties: {
-      from: { type: 'string', description: 'Start date in YYYY-MM-DD format (e.g., "2025-01-15' },
-      to: { type: 'string', description: 'End date in YYYY-MM-DD format (e.g., "2025-01-22' }
+      from: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+      to: { type: 'string', description: 'End date (YYYY-MM-DD)' }
     },
     required: %w[from to]
   )
@@ -26,15 +21,11 @@ class FrontListEventOccurrences < Pike13BaseTool
 end
 
 class FrontGetEventOccurrence < Pike13BaseTool
-  description <<~DESC
-    Get specific scheduled class instance by ID.
-    Returns occurrence with exact time, instructor, location, capacity, spots remaining, and current registrations.
-    Use to show class details before booking or to check availability.
-  DESC
+  description "Get event occurrence"
 
   input_schema(
     properties: {
-      occurrence_id: { type: 'integer', description: 'Unique Pike13 event occurrence ID (integer)' }
+      occurrence_id: { type: 'integer', description: 'Event occurrence ID' }
     },
     required: ['occurrence_id']
   )
@@ -47,17 +38,13 @@ class FrontGetEventOccurrence < Pike13BaseTool
 end
 
 class FrontGetEventOccurrencesSummary < Pike13BaseTool
-  description <<~DESC
-    Get event occurrences summary for date range.
-    Returns aggregated summary of scheduled classes by day.
-    Use for calendar views or availability overviews for customers.
-  DESC
+  description "Get event occurrences summary"
 
   input_schema(
     properties: {
-      from: { type: 'string', description: 'Start date in YYYY-MM-DD format' },
-      to: { type: 'string', description: 'End date in YYYY-MM-DD format' },
-      additional_params: { type: 'object', description: 'Optional: Additional filter parameters' }
+      from: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+      to: { type: 'string', description: 'End date (YYYY-MM-DD)' },
+      additional_params: { type: 'object', description: 'Optional: Filters (location_ids, service_ids, staff_member_ids, group_by, state)' }
     },
     required: %w[from to]
   )
@@ -73,15 +60,11 @@ class FrontGetEventOccurrencesSummary < Pike13BaseTool
 end
 
 class FrontGetEventOccurrenceEnrollmentEligibilities < Pike13BaseTool
-  description <<~DESC
-    Check enrollment eligibility for an event occurrence.
-    Returns eligibility status and restrictions for authenticated customer and dependents.
-    Use before booking to check if customer can enroll and display appropriate warnings.
-  DESC
+  description "Get enrollment eligibilities"
 
   input_schema(
     properties: {
-      occurrence_id: { type: 'integer', description: 'Event occurrence ID to check eligibility for' },
+      occurrence_id: { type: 'integer', description: 'Event occurrence ID' },
       additional_params: { type: 'object', description: 'Optional: Additional parameters' }
     },
     required: ['occurrence_id']
